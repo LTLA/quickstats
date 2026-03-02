@@ -68,4 +68,10 @@
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
   </compound>
+  <compound kind="page">
+    <name>index</name>
+    <title>Quickly compute simple statistics</title>
+    <filename>index.html</filename>
+    <docanchor file="index.html" title="Quickly compute simple statistics">md__2github_2workspace_2README</docanchor>
+  </compound>
 </tagfile>
