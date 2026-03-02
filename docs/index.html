@@ -105,20 +105,20 @@ $(function(){ initResizable(false); });
 <div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, double, int&gt; qfixed(10, 0.2);</div>
 <div class="line"> </div>
 <div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
-<div class="line"><span class="keyword">auto</span> q20 = qfixed(x.data());</div>
+<div class="line"><span class="keyword">auto</span> fq20 = qfixed(x.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> q20_sparse = qfixed(3, x_nonzero.data());</div>
+<div class="line"><span class="keyword">auto</span> fq20_sparse = qfixed(3, x_nonzero.data());</div>
 </div><!-- fragment --><p>The <code>SingleQuantileVariableNumber</code> class will compute a pre-specified quantile from a variable number of elements, up to a maximum:</p>
-<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, double, int&gt; qfixed(10, 0.2);</div>
+<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, double, int&gt; qvar(10, 0.2);</div>
 <div class="line"> </div>
-<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6. };</div>
-<div class="line"><span class="keyword">auto</span> q20 = qfixed(x.size(), x.data());</div>
+<div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
+<div class="line"><span class="keyword">auto</span> vq20 = qvar(y.size(), y.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
-<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> q20_sparse = qfixed(6, 3, x_nonzero.data());</div>
+<div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> vq20_sparse = qvar(6, 3, y_nonzero.data());</div>
 </div><!-- fragment --><h1>Building projects</h1>
 <h2>CMake with <code>FetchContent</code></h2>
 <p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
