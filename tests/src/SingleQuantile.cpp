@@ -18,56 +18,56 @@ TEST(SingleQuantile, Dense) {
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0)(values.data());
         EXPECT_FLOAT_EQ(val, 0.5);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0.1)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0.1)(values.data());
         EXPECT_FLOAT_EQ(val, 0.6);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0.25)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0.25)(values.data());
         EXPECT_FLOAT_EQ(val, 0.9);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0.5)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0.5)(values.data());
         EXPECT_FLOAT_EQ(val, 1.9);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0.75)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0.75)(values.data());
         EXPECT_FLOAT_EQ(val, 6.725);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0.8)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 0.8)(values.data());
         EXPECT_FLOAT_EQ(val, 8.2);
     }
 
     {
         auto values = original;
-        double val = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 1)(values.data());
+        double val = quickstats::SingleQuantileFixedNumber<double, int>(n, 1)(values.data());
         EXPECT_FLOAT_EQ(val, 8.8);
     }
 
     // Works with some lower precisions too.
     {
         auto values = original;
-        auto fval = quickstats::SingleQuantileFixedNumber<float, double, int>(n, 1)(values.data());
+        auto fval = quickstats::SingleQuantileFixedNumber<float, int>(n, 1)(values.data());
         EXPECT_FLOAT_EQ(static_cast<double>(fval), 8.8);
     }
 
     {
         std::vector<float> fvalues(original.begin(), original.end());
-        auto val = quickstats::SingleQuantileFixedNumber<double, float, int>(n, 1)(fvalues.data());
+        auto val = quickstats::SingleQuantileFixedNumber<double, int>(n, 1)(fvalues.data());
         EXPECT_FLOAT_EQ(val, 8.8);
     }
 }
@@ -82,7 +82,7 @@ TEST_P(SingleQuantileSparseTest, Mixed) {
     std::vector<double> original { 0.70, -0.87, 0.55, 1.77, -0.76, -0.98, 0.58, -0.34, -1.00, -1.29, 0.13 };
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
-    quickstats::SingleQuantileFixedNumber<double, double, int> qcalcs(original.size(), GetParam());
+    quickstats::SingleQuantileFixedNumber<double, int> qcalcs(original.size(), GetParam());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -100,7 +100,7 @@ TEST_P(SingleQuantileSparseTest, Positive) {
     std::vector<double> original { 1.5, 7.7, 8.3, 3.9, 2.3, 8.6, 9.4, 9.2, 0.1, 4.1, 5.4 };
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
-    quickstats::SingleQuantileFixedNumber<double, double, int> qcalcs(original.size(), GetParam());
+    quickstats::SingleQuantileFixedNumber<double, int> qcalcs(original.size(), GetParam());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -117,7 +117,7 @@ TEST_P(SingleQuantileSparseTest, Negative) {
     std::vector<double> original { -6.1, -6.5, -5.9, -2.2, -2.2, -7.1, -5.2, -9.8, -2.1, -2.2, -7.8 };
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
-    quickstats::SingleQuantileFixedNumber<double, double, int> qcalcs(original.size(), GetParam());
+    quickstats::SingleQuantileFixedNumber<double, int> qcalcs(original.size(), GetParam());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -145,7 +145,7 @@ TEST(SingleQuantile, ComplexDense) {
     for (int val = 1; val < 100; ++val) {
         const double prop = static_cast<double>(val)/100.0;
         auto values = original;
-        const double Q = quickstats::SingleQuantileFixedNumber<double, double, int>(n, prop)(values.data());
+        const double Q = quickstats::SingleQuantileFixedNumber<double, int>(n, prop)(values.data());
 
         double sum = 0;
         for (auto x : original) {
@@ -158,13 +158,13 @@ TEST(SingleQuantile, ComplexDense) {
 
     {
         auto values = original;
-        const double Q = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 0)(values.data());
+        const double Q = quickstats::SingleQuantileFixedNumber<double, int>(n, 0)(values.data());
         EXPECT_EQ(Q, *std::min_element(original.begin(), original.end()));
     }
 
     {
         auto values = original;
-        const double Q = quickstats::SingleQuantileFixedNumber<double, double, int>(n, 1)(values.data());
+        const double Q = quickstats::SingleQuantileFixedNumber<double, int>(n, 1)(values.data());
         EXPECT_EQ(Q, *std::max_element(original.begin(), original.end()));
     }
 }
@@ -175,7 +175,7 @@ TEST(SingleQuantile, ComplexSparse) {
 
     for (int val = 0; val < 100; ++val) {
         const double prop = static_cast<double>(val)/100.0;
-        quickstats::SingleQuantileFixedNumber<double, double, int> Q(n, prop);
+        quickstats::SingleQuantileFixedNumber<double, int> Q(n, prop);
 
         std::vector<double> copy(n), expected(n); 
         for (std::size_t i = 0; i < n; ++i) {
@@ -189,10 +189,10 @@ TEST(SingleQuantile, ComplexSparse) {
 
 /****************************************/
 
-TEST(SingleQuantile, InvalidQuantile) {
+TEST(SingleQuantile, InvalidArguments) {
     std::string msg;
     try {
-        quickstats::SingleQuantileFixedNumber<double, double, int>(3, -1);
+        quickstats::SingleQuantileFixedNumber<double, int>(3, -1);
     } catch (std::exception& e) {
         msg = e.what();
     }
@@ -200,11 +200,19 @@ TEST(SingleQuantile, InvalidQuantile) {
 
     msg.clear();
     try {
-        quickstats::SingleQuantileFixedNumber<double, double, int>(3, 10);
+        quickstats::SingleQuantileFixedNumber<double, int>(3, 10);
     } catch (std::exception& e) {
         msg = e.what();
     }
     EXPECT_TRUE(msg.find("[0, 1]") != std::string::npos);
+
+    msg.clear();
+    try {
+        quickstats::SingleQuantileFixedNumber<double, int>(0, 1);
+    } catch (std::exception& e) {
+        msg = e.what();
+    }
+    EXPECT_TRUE(msg.find("positive") != std::string::npos);
 }
 
 TEST(SingleQuantile, FloatConversion) {
@@ -222,7 +230,7 @@ TEST(SingleQuantile, FloatConversion) {
         std::int32_t x_back = y;
         inaccurate += (x_m1 < x_back);
 
-        quickstats::SingleQuantileFixedNumber<float, float, std::int32_t> test(x, 1);
+        quickstats::SingleQuantileFixedNumber<float, std::int32_t> test(x, 1);
 
         // We want to check that we hard-cap the upper_index correctly to avoid out-of-bounds access.
         EXPECT_EQ(test(non_zero_values.size(), non_zero_values.data()), 123);
@@ -233,7 +241,7 @@ TEST(SingleQuantile, FloatConversion) {
 
 TEST(SingleQuantileVariable, Dense) {
     std::vector<double> original { 0, 1, 2, 3, 4, 5 };
-    quickstats::SingleQuantileVariableNumber<double, double, int> calc(original.size(), 0.5);
+    quickstats::SingleQuantileVariableNumber<double, int> calc(original.size(), 0.5);
 
     {
         auto values = original;
@@ -269,7 +277,7 @@ TEST(SingleQuantileVariable, Dense) {
 
 TEST(SingleQuantileVariable, Sparse) {
     std::vector<double> original { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    quickstats::SingleQuantileVariableNumber<double, double, int> calc(11, 0.5);
+    quickstats::SingleQuantileVariableNumber<double, int> calc(11, 0.5);
 
     {
         auto values = original;
