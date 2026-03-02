@@ -49,12 +49,7 @@ TEST_F(ComputeMediansTest, DenseTies) {
 
 TEST_F(ComputeMediansTest, DenseRealistic) {
     for (size_t n = 10; n < 100; n += 10) {
-        std::mt19937_64 rng(n);
-        std::vector<double> contents;
-        std::normal_distribution dist;
-        for (size_t i = 0; i < n; ++i) {
-            contents.push_back(dist(rng));
-        }
+        auto contents = simulate_vector<double>(n, -10, 10, /* seed = */ n + 1);
 
         // Even
         {
@@ -162,12 +157,7 @@ TEST_F(ComputeMediansTest, SparseInf) {
 
 TEST_F(ComputeMediansTest, SparseRealistic) {
     for (int n = 10; n < 100; n += 5) {
-        std::mt19937_64 rng(n);
-        std::vector<double> contents;
-        std::normal_distribution dist;
-        for (int i = 0; i < n; ++i) {
-            contents.push_back(dist(rng));
-        }
+        auto contents = simulate_vector<double>(n, -10, 10, /* seed = */ n + 1);
 
         {
             auto ref = direct_medians(contents.data(), n, n);
