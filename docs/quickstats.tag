@@ -10,27 +10,26 @@
     <name>quickstats::SingleQuantileFixedNumber</name>
     <filename>classquickstats_1_1SingleQuantileFixedNumber.html</filename>
     <templarg>typename Output_</templarg>
-    <templarg>typename Input_</templarg>
     <templarg>typename Number_</templarg>
     <member kind="function">
       <type></type>
       <name>SingleQuantileFixedNumber</name>
       <anchorfile>classquickstats_1_1SingleQuantileFixedNumber.html</anchorfile>
-      <anchor>a39357d2e1077c6a5bd242b81e9c73c07</anchor>
+      <anchor>a618b718231dcec8c9d7aa91018a2449c</anchor>
       <arglist>(const Number_ num, const Output_ quantile)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1SingleQuantileFixedNumber.html</anchorfile>
-      <anchor>ae160372437bc267b96f6c4e7731eef00</anchor>
+      <anchor>aeca16d5d48b528ec4131038ef3099875</anchor>
       <arglist>(Input_ *ptr) const</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1SingleQuantileFixedNumber.html</anchorfile>
-      <anchor>a4c5d776dccdd4d0549234984013a77c0</anchor>
+      <anchor>aed209822c087f3471c66dbc5bb3ec5ca</anchor>
       <arglist>(const Number_ nnz, Input_ *ptr) const</arglist>
     </member>
   </compound>
@@ -38,27 +37,26 @@
     <name>quickstats::SingleQuantileVariableNumber</name>
     <filename>classquickstats_1_1SingleQuantileVariableNumber.html</filename>
     <templarg>typename Output_</templarg>
-    <templarg>typename Input_</templarg>
     <templarg>typename Number_</templarg>
     <member kind="function">
       <type></type>
       <name>SingleQuantileVariableNumber</name>
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
-      <anchor>a9ce978839c7af3096b3b9280bb1e6973</anchor>
+      <anchor>a74f9c583d75973e4dd9ebd7df39c32a6</anchor>
       <arglist>(Number_ max_num, const double quantile)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
-      <anchor>ad46f63ab315a0e6e9b612f2f1ddc4ac7</anchor>
+      <anchor>af44e3ce8db366b828cae2b07e6bee510</anchor>
       <arglist>(const Number_ num, Input_ *ptr)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
-      <anchor>aeb3fd42f764381f72f3c16fb38e84317</anchor>
+      <anchor>a13af43abca3637a7d9f80b624322bc9b</anchor>
       <arglist>(const Number_ num, const Number_ nnz, Input_ *ptr)</arglist>
     </member>
   </compound>

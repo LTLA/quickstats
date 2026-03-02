@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>quickstats: quickstats::SingleQuantileVariableNumber&lt; Output_, Input_, Number_ &gt; Class Template Reference</title>
+<title>quickstats: quickstats::SingleQuantileVariableNumber&lt; Output_, Number_ &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,7 +100,7 @@ $(function(){ initResizable(false); });
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classquickstats_1_1SingleQuantileVariableNumber-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">quickstats::SingleQuantileVariableNumber&lt; Output_, Input_, Number_ &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">quickstats::SingleQuantileVariableNumber&lt; Output_, Number_ &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -111,39 +111,40 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9ce978839c7af3096b3b9280bb1e6973" id="r_a9ce978839c7af3096b3b9280bb1e6973"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ce978839c7af3096b3b9280bb1e6973">SingleQuantileVariableNumber</a> (Number_ max_num, const double quantile)</td></tr>
-<tr class="separator:a9ce978839c7af3096b3b9280bb1e6973"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad46f63ab315a0e6e9b612f2f1ddc4ac7" id="r_ad46f63ab315a0e6e9b612f2f1ddc4ac7"><td class="memItemLeft" align="right" valign="top">Output_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad46f63ab315a0e6e9b612f2f1ddc4ac7">operator()</a> (const Number_ num, Input_ *ptr)</td></tr>
-<tr class="separator:ad46f63ab315a0e6e9b612f2f1ddc4ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb3fd42f764381f72f3c16fb38e84317" id="r_aeb3fd42f764381f72f3c16fb38e84317"><td class="memItemLeft" align="right" valign="top">Output_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb3fd42f764381f72f3c16fb38e84317">operator()</a> (const Number_ num, const Number_ nnz, Input_ *ptr)</td></tr>
-<tr class="separator:aeb3fd42f764381f72f3c16fb38e84317"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f9c583d75973e4dd9ebd7df39c32a6" id="r_a74f9c583d75973e4dd9ebd7df39c32a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74f9c583d75973e4dd9ebd7df39c32a6">SingleQuantileVariableNumber</a> (Number_ max_num, const double quantile)</td></tr>
+<tr class="separator:a74f9c583d75973e4dd9ebd7df39c32a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af44e3ce8db366b828cae2b07e6bee510" id="r_af44e3ce8db366b828cae2b07e6bee510"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
+<tr class="memitem:af44e3ce8db366b828cae2b07e6bee510"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af44e3ce8db366b828cae2b07e6bee510">operator()</a> (const Number_ num, Input_ *ptr)</td></tr>
+<tr class="separator:af44e3ce8db366b828cae2b07e6bee510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13af43abca3637a7d9f80b624322bc9b" id="r_a13af43abca3637a7d9f80b624322bc9b"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
+<tr class="memitem:a13af43abca3637a7d9f80b624322bc9b"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a13af43abca3637a7d9f80b624322bc9b">operator()</a> (const Number_ num, const Number_ nnz, Input_ *ptr)</td></tr>
+<tr class="separator:a13af43abca3637a7d9f80b624322bc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_, typename Input_, typename Number_&gt;<br />
-class quickstats::SingleQuantileVariableNumber&lt; Output_, Input_, Number_ &gt;</div><p>Calculate a quantile from a variable number of elements. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_, typename Number_&gt;<br />
+class quickstats::SingleQuantileVariableNumber&lt; Output_, Number_ &gt;</div><p>Calculate a quantile from a variable number of elements. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile. </td></tr>
-    <tr><td class="paramname">Input_</td><td>Numeric type of the input values. </td></tr>
-    <tr><td class="paramname">Number_</td><td>Integer type of the objective vector's size.</td></tr>
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile. This should be capable of representing NaNs. </td></tr>
+    <tr><td class="paramname">Number_</td><td>Integer type of the number of elements.</td></tr>
   </table>
   </dd>
 </dl>
 <p>This uses the same logic as the <code>SingleQuantile</code> class but supports any number of elements, from zero up to a specified maximum. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a9ce978839c7af3096b3b9280bb1e6973" name="a9ce978839c7af3096b3b9280bb1e6973"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ce978839c7af3096b3b9280bb1e6973">&#9670;&#160;</a></span>SingleQuantileVariableNumber()</h2>
+<a id="a74f9c583d75973e4dd9ebd7df39c32a6" name="a74f9c583d75973e4dd9ebd7df39c32a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74f9c583d75973e4dd9ebd7df39c32a6">&#9670;&#160;</a></span>SingleQuantileVariableNumber()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
+template&lt;typename Output_ , typename Number_ &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Input_, Number_ &gt;::SingleQuantileVariableNumber </td>
+          <td class="memname"><a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Number_ &gt;::SingleQuantileVariableNumber </td>
           <td>(</td>
           <td class="paramtype">Number_</td>          <td class="paramname"><span class="paramname"><em>max_num</em></span>, </td>
         </tr>
@@ -162,7 +163,7 @@ template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">max_num</td><td>Maximum number of elements. Unlike <code>SingleQuantile</code>, this may be zero. </td></tr>
-    <tr><td class="paramname">quantile</td><td>Quantile to compute, in \([0, 1]\). </td></tr>
+    <tr><td class="paramname">quantile</td><td>Probability of the quantile to compute, in \([0, 1]\). </td></tr>
   </table>
   </dd>
 </dl>
@@ -170,19 +171,21 @@ template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad46f63ab315a0e6e9b612f2f1ddc4ac7" name="ad46f63ab315a0e6e9b612f2f1ddc4ac7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad46f63ab315a0e6e9b612f2f1ddc4ac7">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<a id="af44e3ce8db366b828cae2b07e6bee510" name="af44e3ce8db366b828cae2b07e6bee510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af44e3ce8db366b828cae2b07e6bee510">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
+template&lt;typename Output_ , typename Number_ &gt; </div>
+<div class="memtemplate">
+template&lt;typename Input_ &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Input_, Number_ &gt;::operator() </td>
+          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Number_ &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
         </tr>
@@ -198,10 +201,16 @@ template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num</td><td>Number of the elements from which to compute the quantile. This should be no greater than <code>max_num</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num</code>. This should not contain NaN values. On output, the order of elements in <code>[ptr, ptr + num)</code> may be rearranged.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num</code>. This should not contain NaN values. On output, the elements may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
@@ -209,19 +218,21 @@ template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
 
 </div>
 </div>
-<a id="aeb3fd42f764381f72f3c16fb38e84317" name="aeb3fd42f764381f72f3c16fb38e84317"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb3fd42f764381f72f3c16fb38e84317">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<a id="a13af43abca3637a7d9f80b624322bc9b" name="a13af43abca3637a7d9f80b624322bc9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13af43abca3637a7d9f80b624322bc9b">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
+template&lt;typename Output_ , typename Number_ &gt; </div>
+<div class="memtemplate">
+template&lt;typename Input_ &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Input_, Number_ &gt;::operator() </td>
+          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileVariableNumber.html">quickstats::SingleQuantileVariableNumber</a>&lt; Output_, Number_ &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
         </tr>
@@ -244,11 +255,17 @@ template&lt;typename Output_ , typename Input_ , typename Number_ &gt; </div>
 </div><div class="memdoc">
 <p>Overload to compute the desired quantile from a sparse vector of length <code>num</code>. This vector is assumed to have <code>nnz</code> structural non-zeros and <code>num - nnz</code> zeros.</p>
 <p>This method is not thread-safe.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num</td><td>Number of elements from which to compute the quantile. This should be no greater than <code>max_num</code>. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">nnz</td><td>Number of elements that are structural non-zero elements. This should be no greater than <code>num</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>num</code>. This is expected to contain the values of the structural non-zero elements of the sparse vector. It should not contain any NaN values. On output, the order of elements in <code>[ptr, ptr + num)</code> may be rearranged.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>num</code>. This is expected to contain the values of the structural non-zero elements of the sparse vector. It should not contain any NaN values. On output, the elements may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
