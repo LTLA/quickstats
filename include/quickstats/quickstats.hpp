@@ -2,6 +2,7 @@
 #define QUICKSTATS_QUICKSTATS_HPP
 
 #include "SingleQuantile.hpp"
+#include "median.hpp"
 
 /**
  * @file quickstats.hpp

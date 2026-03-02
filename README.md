@@ -41,6 +41,19 @@ std::vector<double> y_nonzero{ 1., 2., 3. };
 auto vq20_sparse = qvar(6, 3, y_nonzero.data());
 ```
 
+## Medians
+
+Pretty much as it says - works for dense and sparse vectors:
+
+```cpp
+std::vector<double> x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };
+auto med = quickstats::median<double>(x.size(), x.data());
+
+// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
+std::vector<double> x_nonzero{ 1., 2., 3. };
+auto med_sparse = quickstats::median<double>(10, 3, x.data());
+```
+
 ## Building projects 
 
 ### CMake with `FetchContent`
