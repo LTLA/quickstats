@@ -67,6 +67,20 @@
     <filename>namespacequickstats.html</filename>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
+    <member kind="function">
+      <type>Output_</type>
+      <name>median</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a739d1e42f6a0d27ad2e70b3464e54f81</anchor>
+      <arglist>(const Number_ num, Input_ *const ptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>median</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a31b88fd01011c1ea144c2cabe83e496b</anchor>
+      <arglist>(const Number_ num, const Number_ nnz, Input_ *const value)</arglist>
+    </member>
   </compound>
   <compound kind="page">
     <name>index</name>
