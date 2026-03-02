@@ -97,7 +97,56 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a></p>
-<p><img src="https://github.com/LTLA/quickstats/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/LTLA/quickstats/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/ltla/quickstats"><img src="https://codecov.io/gh/LTLA/quickstats/branch/master/graph/badge.svg?token=U5W91W4X5W" alt="Codecov" style="pointer-events: none;" class="inline"/></a> </p>
+<p><img src="https://github.com/LTLA/quickstats/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/LTLA/quickstats/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/ltla/quickstats"><img src="https://codecov.io/gh/LTLA/quickstats/branch/master/graph/badge.svg?token=U5W91W4X5W" alt="Codecov" style="pointer-events: none;" class="inline"/></a></p>
+<h1>Overview</h1>
+<p>Pretty much as it says in the title. This library implements some utilities to compute simple statistics like quantiles and variances. Nothing too exotic or difficult, just annoying to re-implement for each application. Most of the code here was migrated from <a href="https://github.com/tatami-inc/tatami_stats"><b>tatami_stats</b></a> or <a href="https://github.com/libscran"><b>libscran</b></a>. Check out the <a href="https://ltla.github.io/quickstats">reference documentation</a> for more details.</p>
+<h1>Quantiles</h1>
+<p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
+<div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, double, int&gt; qfixed(10, 0.2);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line"><span class="keyword">auto</span> q20 = qfixed(x.data());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> q20_sparse = qfixed(3, x_nonzero.data());</div>
+</div><!-- fragment --><p>The <code>SingleQuantileVariableNumber</code> class will compute a pre-specified quantile from a variable number of elements, up to a maximum:</p>
+<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, double, int&gt; qfixed(10, 0.2);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6. };</div>
+<div class="line"><span class="keyword">auto</span> q20 = qfixed(x.size(), x.data());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> q20_sparse = qfixed(6, 3, x_nonzero.data());</div>
+</div><!-- fragment --><h1>Building projects</h1>
+<h2>CMake with <code>FetchContent</code></h2>
+<p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
+<div class="fragment"><div class="line">include(FetchContent)</div>
+<div class="line"> </div>
+<div class="line">FetchContent_Declare(</div>
+<div class="line">  quickstats</div>
+<div class="line">  GIT_REPOSITORY https://github.com/LTLA/quickstats</div>
+<div class="line">  GIT_TAG master # replace with a pinned version</div>
+<div class="line">)</div>
+<div class="line"> </div>
+<div class="line">FetchContent_MakeAvailable(quickstats)</div>
+</div><!-- fragment --><p>Then you can link to <b>quickstats</b> to make the headers available during compilation:</p>
+<div class="fragment"><div class="line"># For executables:</div>
+<div class="line">target_link_libraries(myexe quickstats)</div>
+<div class="line"> </div>
+<div class="line"># For libaries</div>
+<div class="line">target_link_libraries(mylib INTERFACE quickstats)</div>
+</div><!-- fragment --><h2>CMake with <code>find_package()</code></h2>
+<p>You can install the library by cloning a suitable version of this repository and running the following commands:</p>
+<div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
+<div class="line">cmake .. -DQUICKSTATS_TESTS=OFF</div>
+<div class="line">cmake --build . --target install</div>
+</div><!-- fragment --><p>Then you can use <code>find_package()</code> as usual:</p>
+<div class="fragment"><div class="line">find_package(ltla_quickstats CONFIG REQUIRED)</div>
+<div class="line">target_link_libraries(mylib INTERFACE ltla::quickstats)</div>
+</div><!-- fragment --><h2>Manual</h2>
+<p>If you're not using CMake, the simple approach is to just copy the files in the <code>include/</code> subdirectory - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
