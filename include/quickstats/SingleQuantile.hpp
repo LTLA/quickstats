@@ -186,7 +186,7 @@ public:
      * Unlike `SingleQuantile`, this may be zero.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
-    SingleQuantileVariableNumber(Number_ max_num, const double quantile) : my_quantile(quantile) {
+    SingleQuantileVariableNumber(Number_ max_num, const Output_ quantile) : my_quantile(quantile) {
         if (max_num >= 2) {
             sanisizer::resize(my_choices, max_num - 1);
         }
@@ -194,7 +194,7 @@ public:
 
 private:
     std::vector<std::optional<SingleQuantileFixedNumber<Output_, Number_> > > my_choices;
-    double my_quantile;
+    Output_ my_quantile;
 
 public:
     /**

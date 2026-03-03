@@ -80,14 +80,14 @@ Output_ median(const Number_ num, Input_* const ptr) {
  * @return Median of the sparse vector.
  */
 template<typename Output_ = double, typename Number_, typename Input_>
-Output_ median(const Number_ num, const Number_ nnz, Input_* const value) {
+Output_ median(const Number_ num, const Number_ nnz, Input_* const ptr) {
     assert(num >= nnz);
 
     // Fallback to the dense code if there are no structural zeros. This is not
     // just for efficiency as the downstream averaging code assumes that there
     // is at least one structural zero when considering its scenarios.
     if (nnz == num) {
-        return median<Output_>(num, value);
+        return median<Output_>(num, ptr);
     }
 
     // Is the number of non-zeros less than the number of zeros?
@@ -103,18 +103,18 @@ Output_ median(const Number_ num, const Number_ nnz, Input_* const value) {
     const Number_ num_zero = num - nnz;
     Number_ num_negative = 0;
     for (Number_ i = 0; i < nnz; ++i) {
-        num_negative += (value[i] < 0);
+        num_negative += (ptr[i] < 0);
     }
 
     if (!is_even) {
         if (num_negative > halfway) {
-            std::nth_element(value, value + halfway, value + nnz);
-            return value[halfway];
+            std::nth_element(ptr, ptr + halfway, ptr + nnz);
+            return ptr[halfway];
 
         } else if (halfway >= num_negative + num_zero) {
             const Number_ skip_zeros = halfway - num_zero;
-            std::nth_element(value, value + skip_zeros, value + nnz);
-            return value[skip_zeros];
+            std::nth_element(ptr, ptr + skip_zeros, ptr + nnz);
+            return ptr[skip_zeros];
 
         } else {
             return 0;
@@ -123,28 +123,28 @@ Output_ median(const Number_ num, const Number_ nnz, Input_* const value) {
 
     Output_ baseline = 0, other = 0;
     if (num_negative > halfway) { // both halves of the median are negative.
-        std::nth_element(value, value + halfway, value + nnz);
-        baseline = value[halfway];
-        other = *(std::max_element(value, value + halfway)); // max_element gets the sorted value at halfway - 1, see explanation for the dense case.
+        std::nth_element(ptr, ptr + halfway, ptr + nnz);
+        baseline = ptr[halfway];
+        other = *(std::max_element(ptr, ptr + halfway)); // max_element gets the sorted value at halfway - 1, see explanation for the dense case.
 
     } else if (num_negative == halfway) { // the upper half is guaranteed to be zero.
         const Number_ below_halfway = halfway - 1;
-        std::nth_element(value, value + below_halfway, value + nnz);
-        other = value[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+        std::nth_element(ptr, ptr + below_halfway, ptr + nnz);
+        other = ptr[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
 
     } else if (num_negative < halfway && num_negative + num_zero > halfway) { // both halves are zero, so zero is the median.
         ;
 
     } else if (num_negative + num_zero == halfway) { // the lower half is guaranteed to be zero.
         const Number_ skip_zeros = halfway - num_zero;
-        std::nth_element(value, value + skip_zeros, value + nnz);
-        other = value[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+        std::nth_element(ptr, ptr + skip_zeros, ptr + nnz);
+        other = ptr[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
 
     } else { // both halves of the median are non-negative.
         const Number_ skip_zeros = halfway - num_zero;
-        std::nth_element(value, value + skip_zeros, value + nnz);
-        baseline = value[skip_zeros];
-        other = *(std::max_element(value, value + skip_zeros)); // max_element gets the sorted value at skip_zeros - 1, see explanation for the dense case.
+        std::nth_element(ptr, ptr + skip_zeros, ptr + nnz);
+        baseline = ptr[skip_zeros];
+        other = *(std::max_element(ptr, ptr + skip_zeros)); // max_element gets the sorted value at skip_zeros - 1, see explanation for the dense case.
     }
 
     if (baseline == other) {
