@@ -47,17 +47,17 @@
       <arglist>(const Number_ max_num, QuantilesPointer_ quantiles_ptr)</arglist>
     </member>
     <member kind="function">
-      <type>Output_</type>
+      <type>void</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
-      <anchor>af32a7331d8fae97df9817cadf9b12695</anchor>
+      <anchor>a9520cbaf454851a6444030faac22a7aa</anchor>
       <arglist>(const Number_ num, Input_ *ptr, OutputFun_ output)</arglist>
     </member>
     <member kind="function">
-      <type>Output_</type>
+      <type>void</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
-      <anchor>ac7297daafb512e7326e8481956185897</anchor>
+      <anchor>a8a77170c0a56f591be8271863c3a1e3e</anchor>
       <arglist>(const Number_ num, const Number_ nnz, Input_ *ptr, OutputFun_ output)</arglist>
     </member>
   </compound>

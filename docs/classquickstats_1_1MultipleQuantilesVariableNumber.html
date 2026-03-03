@@ -113,12 +113,12 @@ $(function(){ initResizable(false); });
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ab3e814a9df33cbc4e199ac149328bc" id="r_a9ab3e814a9df33cbc4e199ac149328bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ab3e814a9df33cbc4e199ac149328bc">MultipleQuantilesVariableNumber</a> (const Number_ max_num, QuantilesPointer_ quantiles_ptr)</td></tr>
 <tr class="separator:a9ab3e814a9df33cbc4e199ac149328bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af32a7331d8fae97df9817cadf9b12695" id="r_af32a7331d8fae97df9817cadf9b12695"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class OutputFun_ &gt; </td></tr>
-<tr class="memitem:af32a7331d8fae97df9817cadf9b12695"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af32a7331d8fae97df9817cadf9b12695">operator()</a> (const Number_ num, Input_ *ptr, OutputFun_ output)</td></tr>
-<tr class="separator:af32a7331d8fae97df9817cadf9b12695"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7297daafb512e7326e8481956185897" id="r_ac7297daafb512e7326e8481956185897"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class OutputFun_ &gt; </td></tr>
-<tr class="memitem:ac7297daafb512e7326e8481956185897"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac7297daafb512e7326e8481956185897">operator()</a> (const Number_ num, const Number_ nnz, Input_ *ptr, OutputFun_ output)</td></tr>
-<tr class="separator:ac7297daafb512e7326e8481956185897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9520cbaf454851a6444030faac22a7aa" id="r_a9520cbaf454851a6444030faac22a7aa"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class OutputFun_ &gt; </td></tr>
+<tr class="memitem:a9520cbaf454851a6444030faac22a7aa"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9520cbaf454851a6444030faac22a7aa">operator()</a> (const Number_ num, Input_ *ptr, OutputFun_ output)</td></tr>
+<tr class="separator:a9520cbaf454851a6444030faac22a7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a77170c0a56f591be8271863c3a1e3e" id="r_a8a77170c0a56f591be8271863c3a1e3e"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class OutputFun_ &gt; </td></tr>
+<tr class="memitem:a8a77170c0a56f591be8271863c3a1e3e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8a77170c0a56f591be8271863c3a1e3e">operator()</a> (const Number_ num, const Number_ nnz, Input_ *ptr, OutputFun_ output)</td></tr>
+<tr class="separator:a8a77170c0a56f591be8271863c3a1e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_, typename Number_, class QuantilesPointer_&gt;<br />
@@ -172,8 +172,8 @@ template&lt;typename Output_ , typename Number_ , class QuantilesPointer_ &gt; <
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af32a7331d8fae97df9817cadf9b12695" name="af32a7331d8fae97df9817cadf9b12695"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af32a7331d8fae97df9817cadf9b12695">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<a id="a9520cbaf454851a6444030faac22a7aa" name="a9520cbaf454851a6444030faac22a7aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9520cbaf454851a6444030faac22a7aa">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +186,7 @@ template&lt;typename Input_ , class OutputFun_ &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt; Output_, Number_, QuantilesPointer_ &gt;::operator() </td>
+          <td class="memname">void <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt; Output_, Number_, QuantilesPointer_ &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
         </tr>
@@ -226,8 +226,8 @@ template&lt;typename Input_ , class OutputFun_ &gt; </div>
 
 </div>
 </div>
-<a id="ac7297daafb512e7326e8481956185897" name="ac7297daafb512e7326e8481956185897"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7297daafb512e7326e8481956185897">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<a id="a8a77170c0a56f591be8271863c3a1e3e" name="a8a77170c0a56f591be8271863c3a1e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a77170c0a56f591be8271863c3a1e3e">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ template&lt;typename Input_ , class OutputFun_ &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt; Output_, Number_, QuantilesPointer_ &gt;::operator() </td>
+          <td class="memname">void <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt; Output_, Number_, QuantilesPointer_ &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
         </tr>
