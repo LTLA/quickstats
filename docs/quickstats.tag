@@ -42,8 +42,8 @@
       <type></type>
       <name>SingleQuantileVariableNumber</name>
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
-      <anchor>a74f9c583d75973e4dd9ebd7df39c32a6</anchor>
-      <arglist>(Number_ max_num, const double quantile)</arglist>
+      <anchor>ad16e2a3f21d410979a77c0edfb204ea1</anchor>
+      <arglist>(Number_ max_num, const Output_ quantile)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
@@ -76,8 +76,8 @@
       <type>Output_</type>
       <name>median</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a31b88fd01011c1ea144c2cabe83e496b</anchor>
-      <arglist>(const Number_ num, const Number_ nnz, Input_ *const value)</arglist>
+      <anchor>ab09b274d0b6be96d50c4a7dac2ff56c8</anchor>
+      <arglist>(const Number_ num, const Number_ nnz, Input_ *const ptr)</arglist>
     </member>
   </compound>
   <compound kind="page">
