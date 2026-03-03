@@ -130,7 +130,7 @@ class quickstats::SingleQuantileVariableNumber&lt; Output_, Number_ &gt;</div><p
   </table>
   </dd>
 </dl>
-<p>This uses the same logic as the <code>SingleQuantile</code> class but supports any number of elements, from zero up to a specified maximum. </p>
+<p>This uses the same logic as the <code><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html" title="Calculate a single quantile from a fixed number of elements.">SingleQuantileFixedNumber</a></code> class but supports any number of elements, from zero up to a specified maximum. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad16e2a3f21d410979a77c0edfb204ea1" name="ad16e2a3f21d410979a77c0edfb204ea1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad16e2a3f21d410979a77c0edfb204ea1">&#9670;&#160;</a></span>SingleQuantileVariableNumber()</h2>
@@ -162,7 +162,7 @@ template&lt;typename Output_ , typename Number_ &gt; </div>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">max_num</td><td>Maximum number of elements. Unlike <code>SingleQuantile</code>, this may be zero. </td></tr>
+    <tr><td class="paramname">max_num</td><td>Maximum number of elements. Unlike <code><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html" title="Calculate a single quantile from a fixed number of elements.">SingleQuantileFixedNumber</a></code>, this may be zero. </td></tr>
     <tr><td class="paramname">quantile</td><td>Probability of the quantile to compute, in \([0, 1]\). </td></tr>
   </table>
   </dd>
@@ -201,6 +201,7 @@ template&lt;typename Input_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>This method is not thread-safe.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>

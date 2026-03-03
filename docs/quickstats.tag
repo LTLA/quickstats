@@ -7,6 +7,61 @@
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="class">
+    <name>quickstats::MultipleQuantilesFixedNumber</name>
+    <filename>classquickstats_1_1MultipleQuantilesFixedNumber.html</filename>
+    <templarg>class Output_</templarg>
+    <templarg>typename Number_</templarg>
+    <member kind="function">
+      <type></type>
+      <name>MultipleQuantilesFixedNumber</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesFixedNumber.html</anchorfile>
+      <anchor>a0362f8453eacfa548269f2e0a319179e</anchor>
+      <arglist>(const Number_ num_obs, const Quantiles_ &amp;quantiles)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>operator()</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesFixedNumber.html</anchorfile>
+      <anchor>aee940341006d12c6f5b8ca9c832e5121</anchor>
+      <arglist>(Input_ *const ptr, OutputFun_ output) const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>operator()</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesFixedNumber.html</anchorfile>
+      <anchor>a797ac599a2728f39b7ef4bbb8f63475c</anchor>
+      <arglist>(const Number_ nnz, Input_ *const ptr, OutputFun_ output) const</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>quickstats::MultipleQuantilesVariableNumber</name>
+    <filename>classquickstats_1_1MultipleQuantilesVariableNumber.html</filename>
+    <templarg>typename Output_</templarg>
+    <templarg>typename Number_</templarg>
+    <templarg>class QuantilesPointer_</templarg>
+    <member kind="function">
+      <type></type>
+      <name>MultipleQuantilesVariableNumber</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
+      <anchor>a9ab3e814a9df33cbc4e199ac149328bc</anchor>
+      <arglist>(const Number_ max_num, QuantilesPointer_ quantiles_ptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>operator()</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
+      <anchor>af32a7331d8fae97df9817cadf9b12695</anchor>
+      <arglist>(const Number_ num, Input_ *ptr, OutputFun_ output)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>operator()</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
+      <anchor>ac7297daafb512e7326e8481956185897</anchor>
+      <arglist>(const Number_ num, const Number_ nnz, Input_ *ptr, OutputFun_ output)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>quickstats::SingleQuantileFixedNumber</name>
     <filename>classquickstats_1_1SingleQuantileFixedNumber.html</filename>
     <templarg>typename Output_</templarg>
@@ -63,6 +118,8 @@
   <compound kind="namespace">
     <name>quickstats</name>
     <filename>namespacequickstats.html</filename>
+    <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
+    <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
     <member kind="function">

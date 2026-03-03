@@ -1,7 +1,7 @@
 var indexSectionsWithContent =
 {
   0: "cmoqs",
-  1: "s",
+  1: "ms",
   2: "q",
   3: "q",
   4: "mos",

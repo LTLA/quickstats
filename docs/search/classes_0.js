@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['singlequantilefixednumber_0',['SingleQuantileFixedNumber',['../classquickstats_1_1SingleQuantileFixedNumber.html',1,'quickstats']]],
-  ['singlequantilevariablenumber_1',['SingleQuantileVariableNumber',['../classquickstats_1_1SingleQuantileVariableNumber.html',1,'quickstats']]]
+  ['multiplequantilesfixednumber_0',['MultipleQuantilesFixedNumber',['../classquickstats_1_1MultipleQuantilesFixedNumber.html',1,'quickstats']]],
+  ['multiplequantilesvariablenumber_1',['MultipleQuantilesVariableNumber',['../classquickstats_1_1MultipleQuantilesVariableNumber.html',1,'quickstats']]]
 ];
