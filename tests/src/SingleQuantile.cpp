@@ -138,9 +138,13 @@ INSTANTIATE_TEST_SUITE_P(
 
 /****************************************/
 
-TEST(SingleQuantile, ComplexDense) {
+class ComplexSingleQuantileTest : public ::testing::TestWithParam<std::pair<int, int> > {};
+
+TEST_P(ComplexSingleQuantileTest, Dense) {
     const std::size_t n = 54; // n - 1 should be prime so that we can use EXPECT_LT, GT, without worrying about float equality.
-    auto original = simulate_vector<double>(n, -10, 10, /* seed = */ 69);
+    auto param = GetParam();
+    std::mt19937_64 rng(69 + param.first * 2 + param.second);
+    auto original = simulate_vector<double>(n, param.first, param.second, rng);
 
     for (int val = 1; val < 100; ++val) {
         const double prop = static_cast<double>(val)/100.0;
@@ -169,9 +173,11 @@ TEST(SingleQuantile, ComplexDense) {
     }
 }
 
-TEST(SingleQuantile, ComplexSparse) {
+TEST_P(ComplexSingleQuantileTest, Sparse) {
     const std::size_t n = 62; // n - 1 should be prime so that we can use EXPECT_LT, GT, without worrying about float equality.
-    auto original = simulate_vector<double>(n, -10, 10, /* seed = */ 42);
+    auto param = GetParam();
+    std::mt19937_64 rng(42 + param.first + param.second * 2);
+    auto original = simulate_vector<double>(n, param.first, param.second, rng);
 
     for (int val = 0; val < 100; ++val) {
         const double prop = static_cast<double>(val)/100.0;
@@ -186,6 +192,16 @@ TEST(SingleQuantile, ComplexSparse) {
         }
     }
 }
+
+INSTANTIATE_TEST_SUITE_P(
+    SingleQuantile,
+    ComplexSingleQuantileTest,
+    ::testing::Values(
+        std::pair<double, double>(-10, 10),
+        std::pair<double, double>(1, 10),
+        std::pair<double, double>(-10, -1)
+    )
+);
 
 /****************************************/
 
