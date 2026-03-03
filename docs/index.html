@@ -101,26 +101,7 @@ $(function(){ initResizable(false); });
 <h1>Overview</h1>
 <p>Pretty much as it says in the title. This library implements some utilities to compute simple statistics like quantiles and variances. Nothing too exotic or difficult, just annoying to re-implement for each application. Most of this code was migrated from <a href="https://github.com/tatami-inc/tatami_stats"><b>tatami_stats</b></a> or <a href="https://github.com/libscran"><b>libscran</b></a> for more general use.</p>
 <p>Check out the <a href="https://ltla.github.io/quickstats">reference documentation</a> for more details.</p>
-<h1>Quantiles</h1>
-<p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
-<div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, double, int&gt; qfixed(10, 0.2);</div>
-<div class="line"> </div>
-<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
-<div class="line"><span class="keyword">auto</span> fq20 = qfixed(x.data());</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
-<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> fq20_sparse = qfixed(3, x_nonzero.data());</div>
-</div><!-- fragment --><p>The <code>SingleQuantileVariableNumber</code> class will compute a pre-specified quantile from a variable number of elements, up to a maximum:</p>
-<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, double, int&gt; qvar(10, 0.2);</div>
-<div class="line"> </div>
-<div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
-<div class="line"><span class="keyword">auto</span> vq20 = qvar(y.size(), y.data());</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
-<div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> vq20_sparse = qvar(6, 3, y_nonzero.data());</div>
-</div><!-- fragment --><h1>Medians</h1>
+<h1>Medians</h1>
 <p>Pretty much as it says - works for dense and sparse vectors:</p>
 <div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
 <div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median&lt;double&gt;</a>(x.size(), x.data());</div>
@@ -129,6 +110,55 @@ $(function(){ initResizable(false); });
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
 <div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median&lt;double&gt;</a>(10, 3, x.data());</div>
 <div class="ttc" id="anamespacequickstats_html_a739d1e42f6a0d27ad2e70b3464e54f81"><div class="ttname"><a href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median</a></div><div class="ttdeci">Output_ median(const Number_ num, Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> median.hpp:32</div></div>
+</div><!-- fragment --><h1>Single quantiles</h1>
+<p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
+<div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, 0.2);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line"><span class="keyword">auto</span> fq20 = qfixed(x.data());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> fq20_sparse = qfixed(3, x_nonzero.data());</div>
+</div><!-- fragment --><p>The <code>SingleQuantileVariableNumber</code> class will compute a pre-specified quantile from a variable number of elements, up to a maximum:</p>
+<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, int&gt; qvar(10, 0.2);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
+<div class="line"><span class="keyword">auto</span> vq20 = qvar(y.size(), y.data());</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> vq20_sparse = qvar(6, 3, y_nonzero.data());</div>
+</div><!-- fragment --><h1>Multiple quantiles</h1>
+<p>To compute multiple quantiles at once, we can construct a <code>MultipleQuantilesFixedNumber</code> instance. This is more efficient than creating and invoking multiple <code>SingleQuantileFixedNumber</code> instances.</p>
+<div class="fragment"><div class="line">std::vector&lt;double&gt; quantiles{ 0.1, 0.2, 0.4, 0.8 }; <span class="comment">// probabilities should be sorted.</span></div>
+<div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, quantiles);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line">std::vector&lt;double&gt; res(quantiles.size());</div>
+<div class="line">qfixed(x.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">    res[q] = val;</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
+<div class="line">qfixed(3, x_nonzero.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">    res[q] = val;</div>
+<div class="line">});</div>
+</div><!-- fragment --><p>Similarly, the <code>MultipleQuantilesVariableNumber</code> class computes multiple quantiles from a variable number of elements, up to a maximum:</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt;double, int&gt;</a> qvar(10, &amp;quantiles);</div>
+<div class="line"> </div>
+<div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
+<div class="line">qvar(y.size(), y.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">    res[q] = val;</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
+<div class="line">qvar(6, 3, y_nonzero.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">    res[q] = val;</div>
+<div class="line">});</div>
+<div class="ttc" id="aclassquickstats_1_1MultipleQuantilesVariableNumber_html"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a></div><div class="ttdoc">Calculate multiple quantiles from a variable number of elements.</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:286</div></div>
 </div><!-- fragment --><h1>Building projects</h1>
 <h2>CMake with <code>FetchContent</code></h2>
 <p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
