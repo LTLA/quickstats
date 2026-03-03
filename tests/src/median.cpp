@@ -187,3 +187,47 @@ INSTANTIATE_TEST_SUITE_P(
         std::pair<double, double>(-10, -1)
     )
 );
+
+/****************************************/
+
+// Check that we behave correctly with integers.
+TEST(Median, IntegerInput) {
+    {
+        std::vector<int> test{ 1, 2, 3, 4, 5, 6 };
+        auto q = quickstats::median<double>(test.size(), test.data()); // even
+        EXPECT_EQ(q, 3.5);
+
+        q = quickstats::median<double>(test.size() - 1, test.data()); // odd
+        EXPECT_EQ(q, 3);
+
+        test = std::vector<int>{ 1, 2, 4, 4, 5, 6 }; // ties.
+        q = quickstats::median<double>(test.size(), test.data());
+        EXPECT_EQ(q, 4);
+    }
+
+    {
+        std::vector<int> test{ 1, 2, 3, 4, 5, 6 };
+        std::vector<double> dtest(test.size() * 2 + 1);
+        for (int i = 6; i < 13; ++i) {
+            dtest.clear();
+            dtest.insert(dtest.end(), test.begin(), test.end());
+            dtest.resize(i);
+            auto q = quickstats::median<double, int>(i, test.size(), test.data());
+            auto ref = quickstats::median<double, int>(dtest.size(), dtest.data());
+            EXPECT_EQ(q, ref);
+        }
+    }
+
+    {
+        std::vector<int> test{ -1, -2, -3, -4, -5, -6 };
+        std::vector<double> dtest(test.size() * 2 + 1);
+        for (int i = 6; i < 13; ++i) {
+            dtest.clear();
+            dtest.insert(dtest.end(), test.begin(), test.end());
+            dtest.resize(i);
+            auto q = quickstats::median<double, int>(i, test.size(), test.data());
+            auto ref = quickstats::median<double, int>(dtest.size(), dtest.data());
+            EXPECT_EQ(q, ref);
+        }
+    }
+}

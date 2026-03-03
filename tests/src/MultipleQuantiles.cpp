@@ -118,6 +118,49 @@ TEST(MultipleQuantiles, EdgeCases) {
     }
 }
 
+TEST(MultipleQuantiles, IntegerInput) {
+    std::vector<double> quantiles{ 0.5, 0.5, 0.5 };
+    quickstats::MultipleQuantilesFixedNumber<double, int> test(10, quantiles);
+    std::vector<int> original{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    {
+        auto foo = original;
+        test(foo.data(), [&](int, double quan) -> void {
+            EXPECT_EQ(quan, 5.5);
+        });
+    }
+
+    {
+        auto foo = original;
+        test(10, foo.data(), [&](int, double quan) -> void {
+            EXPECT_EQ(quan, 5.5);
+        });
+    }
+
+    {
+        auto foo = original;
+        test(9, foo.data(), [&](int, double quan) -> void {
+            EXPECT_EQ(quan, 4.5);
+        });
+    }
+
+    {
+        auto foo = original;
+        test(5, foo.data(), [&](int, double quan) -> void {
+            EXPECT_EQ(quan, 0.5);
+        });
+    }
+
+    {
+        auto foo = original;
+        test(0, foo.data(), [&](int, double quan) -> void {
+            EXPECT_EQ(quan, 0);
+        });
+    }
+}
+
+/****************************************/
+
 TEST(MultipleQuantilesVariable, Dense) {
     std::vector<double> original { 5, 4, 3, 2, 1 };
     std::vector<double> probs { 0., 0.5, 1. };

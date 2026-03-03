@@ -255,6 +255,38 @@ TEST(SingleQuantile, FloatConversion) {
     EXPECT_GT(inaccurate, 0);
 }
 
+TEST(SingleQuantile, IntegerInput) {
+    quickstats::SingleQuantileFixedNumber<double, int> test(10, 0.5);
+    std::vector<int> original{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    {
+        auto foo = original;
+        EXPECT_EQ(test(foo.data()), 5.5);
+    }
+
+    {
+        auto foo = original;
+        EXPECT_EQ(test(10, foo.data()), 5.5);
+    }
+
+    {
+        auto foo = original;
+        EXPECT_EQ(test(9, foo.data()), 4.5);
+    }
+
+    {
+        auto foo = original;
+        EXPECT_EQ(test(5, foo.data()), 0.5);
+    }
+
+    {
+        auto foo = original;
+        EXPECT_EQ(test(0, foo.data()), 0);
+    }
+}
+
+/****************************************/
+
 TEST(SingleQuantileVariable, Dense) {
     std::vector<double> original { 0, 1, 2, 3, 4, 5 };
     quickstats::SingleQuantileVariableNumber<double, int> calc(original.size(), 0.5);
