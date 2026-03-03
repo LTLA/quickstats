@@ -87,7 +87,7 @@ TEST_P(SingleQuantileSparseTest, Mixed) {
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
 
-    for (std::size_t num_nonzero = 0; num_nonzero < original.size(); ++num_nonzero) {
+    for (std::size_t num_nonzero = 0; num_nonzero <= original.size(); ++num_nonzero) {
         // In general, we make a copy to preserve the original unordered state, otherwise the vector ends up sorted and the test is too easy. 
         std::copy_n(original.data(), num_nonzero, copy.data());
         std::copy_n(original.data(), num_nonzero, expected.data());
@@ -104,7 +104,7 @@ TEST_P(SingleQuantileSparseTest, Positive) {
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
-    for (std::size_t num_nonzero = 0; num_nonzero < original.size(); ++num_nonzero) {
+    for (std::size_t num_nonzero = 0; num_nonzero <= original.size(); ++num_nonzero) {
         // In general, we make a copy to preserve the original unordered state, otherwise the vector ends up sorted and the test is too easy. 
         std::copy_n(original.data(), num_nonzero, copy.data());
         std::copy_n(original.data(), num_nonzero, expected.data());
@@ -121,7 +121,7 @@ TEST_P(SingleQuantileSparseTest, Negative) {
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
-    for (std::size_t num_nonzero = 0; num_nonzero < original.size(); ++num_nonzero) {
+    for (std::size_t num_nonzero = 0; num_nonzero <= original.size(); ++num_nonzero) {
         // In general, we make a copy to preserve the original unordered state, otherwise the vector ends up sorted and the test is too easy. 
         std::copy_n(original.data(), num_nonzero, copy.data());
         std::copy_n(original.data(), num_nonzero, expected.data());
@@ -184,7 +184,7 @@ TEST_P(ComplexSingleQuantileTest, Sparse) {
         quickstats::SingleQuantileFixedNumber<double, int> Q(n, prop);
 
         std::vector<double> copy(n), expected(n); 
-        for (std::size_t i = 0; i < n; ++i) {
+        for (std::size_t i = 0; i <= n; ++i) {
             std::copy_n(original.data(), i, copy.data());
             std::copy_n(original.data(), i, expected.data());
             std::fill(expected.begin() + i, expected.end(), 0);
@@ -277,13 +277,13 @@ TEST(SingleQuantileVariable, Dense) {
         EXPECT_FLOAT_EQ(Q, 0.5);
     }
 
-    // Re-using the cached calculator.
     {
         auto values = original;
         auto Q = calc(values.size(), values.data());
         EXPECT_FLOAT_EQ(Q, 2.5);
     }
 
+    // Re-using the cached calculator.
     {
         auto values = original;
         auto Q = calc(2, values.data() + 2);

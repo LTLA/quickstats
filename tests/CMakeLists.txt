@@ -14,6 +14,7 @@ include(GoogleTest)
 add_executable(
     libtest
     src/SingleQuantile.cpp
+    src/MultipleQuantiles.cpp
     src/median.cpp
 )
 

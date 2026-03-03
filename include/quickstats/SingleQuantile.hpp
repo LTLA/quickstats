@@ -18,6 +18,43 @@
 namespace quickstats {
 
 /**
+ * @cond
+ */
+template<typename Output_, typename Number_>
+void configure_single_quantile(
+    const Output_ quantile,
+    const Number_ num_m1,
+    Number_& upper_index,
+    Output_& upper_fraction,
+    bool& skip_lower
+) {
+    if (quantile < 0 || quantile > 1) {
+        throw std::out_of_range("'quantile' should lie in [0, 1]");
+    }
+
+    const Output_ raw_index = static_cast<Output_>(num_m1) * quantile;
+    const Output_ raw_upper_index = std::ceil(raw_index);
+    const Output_ raw_lower_index = std::floor(raw_index);
+
+    // Protect the cast from conversion imprecision between size_t and Float_,
+    // e.g., if it rounds up or if it converts it to an Inf.
+    const auto converted_upper_index = sanisizer::from_float<Number_>(raw_upper_index);
+    if (converted_upper_index <= num_m1) {
+        upper_index = converted_upper_index;
+        upper_fraction = raw_index - raw_lower_index;
+        skip_lower = (raw_upper_index == raw_lower_index);
+    } else {
+        // Just gently cap it at the maximum value.
+        upper_index = num_m1;
+        upper_fraction = 0;
+        skip_lower = true;
+    }
+}
+/**
+ * @endcond
+ */
+
+/**
  * @brief Calculate a single quantile from a fixed number of elements.
  *
  * @tparam Output_ Floating-point type of the output quantile.
@@ -40,28 +77,9 @@ public:
         if (num <= 0) {
             throw std::out_of_range("'num' should be positive");
         }
-        if (quantile < 0 || quantile > 1) {
-            throw std::out_of_range("'quantile' should lie in [0, 1]");
-        }
-
         const Number_ num_m1 = num - 1;
-        const Output_ raw = static_cast<Output_>(num_m1) * quantile;
-        const Output_ upper_index = std::ceil(raw);
-        const Output_ lower_index = std::floor(raw);
 
-        // Protect the cast from conversion imprecision between size_t and Float_,
-        // e.g., if it rounds up or if it converts it to an Inf.
-        const auto upper_san = sanisizer::from_float<Number_>(upper_index);
-        if (upper_san <= num_m1) {
-            my_upper_index = upper_san;
-            my_upper_fraction = raw - lower_index;
-            my_skip_lower = (upper_index == lower_index);
-        } else {
-            // Just gently cap it at the maximum value.
-            my_upper_index = num_m1;
-            my_upper_fraction = 0;
-            my_skip_lower = true;
-        }
+        configure_single_quantile(quantile, num_m1, my_upper_index, my_upper_fraction, my_skip_lower);
     }
 
 private:
@@ -117,12 +135,12 @@ public:
             return 0;
         }
 
-        Number_ nnz_negative = 0;
+        Number_ num_negative = 0;
         for (Number_ i = 0; i < nnz; ++i) {
-            nnz_negative += (ptr[i] < 0);
+            num_negative += (ptr[i] < 0);
         }
 
-        if (my_upper_index < nnz_negative) {
+        if (my_upper_index < num_negative) {
             const auto target = ptr + my_upper_index;
             std::nth_element(ptr, target, ptr + nnz);
 
@@ -135,7 +153,7 @@ public:
             return lower + (upper - lower) * my_upper_fraction;
         }
 
-        if (nnz_negative && my_upper_index == nnz_negative) {
+        if (num_negative && my_upper_index == num_negative) {
             // The upper value is zero. It can't be positive, as that would
             // imply that there are no structural zeros and nnz == my_num.
             if (my_skip_lower) {
@@ -147,20 +165,20 @@ public:
             return static_cast<Output_>(*target) * (1 - my_upper_fraction);
         }
 
-        const Number_ nnz_zeros = my_num - nnz;
-        const Number_ nnz_not_positive = nnz_zeros + nnz_negative;
-        if (my_upper_index < nnz_not_positive) {
+        const Number_ num_zeros = my_num - nnz;
+        const Number_ num_not_positive = num_zeros + num_negative;
+        if (my_upper_index < num_not_positive) {
             return 0;
         }
 
-        const auto target = ptr + (my_upper_index - nnz_zeros);
+        const auto target = ptr + (my_upper_index - num_zeros);
         std::nth_element(ptr, target, ptr + nnz);
         const Output_ upper = *target;
         if (my_skip_lower) {
             return upper;
         }
 
-        if (sanisizer::is_equal(my_upper_index, nnz_not_positive)) {
+        if (my_upper_index == num_not_positive) {
             return upper * my_upper_fraction;
         }
 
@@ -176,14 +194,14 @@ public:
  * This should be capable of representing NaNs.
  * @tparam Number_ Integer type of the number of elements.
  *
- * This uses the same logic as the `SingleQuantile` class but supports any number of elements, from zero up to a specified maximum.
+ * This uses the same logic as the `SingleQuantileFixedNumber` class but supports any number of elements, from zero up to a specified maximum.
  */
 template<typename Output_, typename Number_>
 class SingleQuantileVariableNumber {
 public:
     /**
      * @param max_num Maximum number of elements. 
-     * Unlike `SingleQuantile`, this may be zero.
+     * Unlike `SingleQuantileFixedNumber`, this may be zero.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
     SingleQuantileVariableNumber(Number_ max_num, const Output_ quantile) : my_quantile(quantile) {
@@ -198,6 +216,8 @@ private:
 
 public:
     /**
+     * This method is not thread-safe.
+     *
      * @tparam Input_ Numeric type of the input values.
      *
      * @param num Number of the elements from which to compute the quantile.
