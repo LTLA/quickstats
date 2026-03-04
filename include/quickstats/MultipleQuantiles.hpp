@@ -49,14 +49,17 @@ public:
         const Number_ num_m1 = num_obs - 1;
 
         const auto num_quantiles = quantiles.size();
+        Output_ last_quantile = -1;
+
         for (I<decltype(num_quantiles)> q = 0; q < num_quantiles; ++q) {
-            const auto quantile = quantiles[q];
-            if (q && quantile < quantiles[q - 1]) {
+            const Output_ quantile = quantiles[q];
+            auto& current = my_stacks[q]; 
+            configure_single_quantile(quantile, num_m1, current.upper_index, current.upper_fraction, current.skip_lower);
+
+            if (quantile < last_quantile) {
                 throw std::runtime_error("elements of 'quantiles' should be sorted");
             }
-
-            auto& current = my_stacks[q]; 
-            configure_single_quantile<Output_, Number_>(quantile, num_m1, current.upper_index, current.upper_fraction, current.skip_lower);
+            last_quantile = quantile;
         }
     }
 
@@ -88,35 +91,46 @@ public:
         const auto end = ptr + my_len;
         const auto num_quantiles = my_stacks.size();
 
-        Number_ last_index;
-        Output_ lower_val;
+        Number_ last_index = 0;
+        Number_ last_index_p1 = 0; // yes, this is a deliberate starting value for 'last_index + 1'.
+        Output_ lower_val, upper_val;
 
         for (I<decltype(num_quantiles)> q = 0; q < num_quantiles; ++q) {
             const auto& curstack = my_stacks[q];
             const auto curindex = curstack.upper_index;
 
-            const auto target = ptr + curindex;
-            if (q == 0) {
-                std::nth_element(ptr, target, end);
-            } else if (curindex > last_index) {
-                // +1, as we only need to search after the last_index; everything before or at last_index is known to be too small.
-                std::nth_element(ptr + last_index + 1, target, end);
-            }
+            // Only need to search if 'cur_index > last_index' (i.e., 'cur_index >= last_index_p1'),
+            // otherwise 'cur_index == last_index' and we can re-use existing lower/upper_val. 
+            // The exception is if at the first iteration of this loop where 'last_index_p1 == 0 <= curindex',
+            // where this condition is always true to force a search to initialize 'upper_val'.
+            if (curindex >= last_index_p1) {
+                const auto target = ptr + curindex;
 
-            const Output_ upper_val = *target;
-            if (curstack.skip_lower) {
-                output(q, upper_val);
-            } else {
-                if (q == 0) {
-                    lower_val = *std::max_element(ptr, target);
-                } else if (curindex > last_index) { 
-                    // No + 1, as ptr[last_index] might be the maximum.
+                // +1, as we only need to search after the 'last_index'; everything before or at 'last_index' is known to be too small.
+                // Again, the exception is at the first iteration of this loop, where we need to search from the start of the array to initialize 'upper_val'.
+                std::nth_element(ptr + last_index_p1, target, end);
+                upper_val = *target;
+
+                if (curstack.skip_lower) {
+                    output(q, upper_val);
+                } else {
+                    // No + 1, as 'ptr[last_index]' might be the maximum.
                     lower_val = *std::max_element(ptr + last_index, target);
+                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
                 }
-                output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
-            }
 
-            last_index = curindex;
+                last_index = curindex;
+                last_index_p1 = curindex + 1;
+
+            } else {
+                if (curstack.skip_lower) {
+                    output(q, upper_val);
+                } else {
+                    // It is implicitly guaranteed that 'lower_val' is initialized at this point.
+                    // It's impossible for an earlier quantile to have 'skip_lower = true' while a later quantile has 'skip_lower = false'.
+                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                }
+            }
         }
     }
 
@@ -156,44 +170,49 @@ public:
             num_negative += (ptr[i] < 0);
         }
 
-        // We need to use an optional here, as last_index may not be initialized for q > 0, e.g., if many quantiles are zero.
-        std::optional<Number_> last_index;
-        Output_ lower_val;
+        Number_ last_index = 0;
+        Number_ last_index_p1 = 0; // see comments for the dense case for an explanation.
         I<decltype(num_quantiles)> q = 0;
 
-        // Grind through all of the quantiles corresponding to negative values.
-        for (; q < num_quantiles; ++q) {
-            const auto& curstack = my_stacks[q];
-            const auto curindex = curstack.upper_index;
-            if (curindex >= num_negative) {
-                break;
-            }
-
-            const auto target = ptr + curindex;
-            if (!last_index.has_value()) {
-                std::nth_element(ptr, target, ptr + nnz);
-            } else if (curindex > *last_index) {
-                std::nth_element(ptr + *last_index + 1, target, ptr + nnz);
-            }
-
-            const Output_ upper_val = *target;
-            if (curstack.skip_lower) {
-                output(q, upper_val);
-            } else {
-                if (!last_index.has_value()) {
-                    lower_val = *std::max_element(ptr, target); 
-                } else if (curindex > *last_index) {
-                    lower_val = *std::max_element(ptr + *last_index, target); 
+        // Processing all quantiles where both upper and lower values are negative.
+        { 
+            Output_ lower_val, upper_val;
+            for (; q < num_quantiles; ++q) {
+                const auto& curstack = my_stacks[q];
+                const auto curindex = curstack.upper_index;
+                if (curindex >= num_negative) {
+                    break;
                 }
-                output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
-            }
 
-            last_index = curindex;
+                if (curindex >= last_index_p1) {
+                    const auto target = ptr + curindex;
+                    std::nth_element(ptr + last_index_p1, target, ptr + nnz);
+                    upper_val = *target;
+
+                    if (curstack.skip_lower) {
+                        output(q, upper_val);
+                    } else {
+                        lower_val = *std::max_element(ptr + last_index, target); 
+                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    }
+
+                    last_index = curindex;
+                    last_index_p1 = curindex + 1;
+
+                } else {
+                    if (curstack.skip_lower) {
+                        output(q, upper_val);
+                    } else {
+                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    }
+                }
+            }
         }
 
+        // Processing all quantiles where lower value is negative and upper value is zero.
         if (num_negative) {
-            std::optional<Output_> upper_val;
-
+            bool computed = false;
+            Output_ lower_val;
             for (; q < num_quantiles; ++q) {
                 const auto& curstack = my_stacks[q];
                 const auto curindex = curstack.upper_index;
@@ -203,32 +222,35 @@ public:
 
                 if (curstack.skip_lower) {
                     // Upper value must be zero.
-                    // It can't be positive, as that would imply that there are no structural zeros and nnz == my_len.
+                    // It can't be positive, as that would imply that there are no structural zeros and 'nnz == my_len'.
                     output(q, 0);
-
-                } else {
-                    if (!upper_val.has_value()) { // Only need to find it once given that everyone in this loop has 'upper_index == num_negative'.
-                        const auto num_negative_m1 = num_negative - 1;
-                        const auto target = ptr + num_negative_m1;
-
-                        if (!last_index.has_value()) {
-                            std::nth_element(ptr, target, ptr + nnz);
-                        } else if (num_negative_m1 > *last_index) {
-                            // Don't add 1, as we only know that last_index < num_negative from the break condition in the previous loop.
-                            // It could be possible that last_index == num_negative - 1, in which case adding 1 would cause the start to go past 'target'.
-                            std::nth_element(ptr + *last_index, target, ptr + nnz);
-                        }
-
-                        last_index = num_negative_m1;
-                        upper_val = *target;
-                    }
-
-                    output(q, *upper_val * (1 - curstack.upper_fraction));
+                    continue;
                 }
+
+                if (!computed) { // Only need to search this once given that everyone in this loop has 'upper_index == num_negative'.
+                    const auto num_negative_m1 = num_negative - 1;
+                    const auto target = ptr + num_negative_m1;
+
+                    // We know that 'curindex >= num_negative' from the exit condition in the previous loop.
+                    // This implies that any previous loop iterations would have 'curindex < num_negative' such that 'last_index + 1 <= num_negative'.
+                    // If 'last_index + 1 == num_negative', then 'last_index == num_negative - 1', and no search is required.
+                    // So, we only search if 'last_index + 1 < num_negative', i.e., 'last_index + 1 <= num_negative - 1'.
+                    // (If there were no runs of the previous loop, then 'last_index + 1 == 0' and we force a search anyway.)
+                    if (num_negative_m1 >= last_index_p1) {
+                        std::nth_element(ptr + last_index_p1, target, ptr + nnz);
+                    }
+                    lower_val = *target;
+
+                    last_index = num_negative_m1;
+                    last_index_p1 = num_negative;
+                    computed = true;
+                }
+
+                output(q, lower_val * (1 - curstack.upper_fraction));
             }
         }
 
-        // Now we grind through all of the quantiles corresponding to zero values.
+        // Processing all quantiles where both the lower and upper values are zero.
         const Number_ num_zeros = my_len - nnz;
         const Number_ num_not_positive = num_zeros + num_negative;
         for (; q < num_quantiles; ++q) {
@@ -238,35 +260,74 @@ public:
             output(q, 0);
         }
 
-        // Finally, we grind through the quantiles corresponding to positive values.
-        for (; q < num_quantiles; ++q) {
-            const auto& curstack = my_stacks[q];
-            const Number_ curindex = curstack.upper_index - num_zeros;
-
-            const auto target = ptr + curindex;
-            if (!last_index.has_value()) {
-                std::nth_element(ptr, target, ptr + nnz);
-            } else if (curindex > *last_index) {
-                // Even with subtraction of num_zeros, we can be sure that curindex > last_index at the start of this loop.
-                // This is because last_index must be pointing to a negative value if q > 0 at the start of this loop.
-                std::nth_element(ptr + *last_index + 1, target, ptr + nnz);
-            }
-
-            const Output_ upper_val = *target;
-            if (curstack.skip_lower) {
-                output(q, upper_val);
-            } else if (curindex == num_negative) {
-                output(q, upper_val * curstack.upper_fraction);
-            } else {
-                if (!last_index.has_value()) {
-                    lower_val = *std::max_element(ptr, target); 
-                } else if (curindex > *last_index) {
-                    lower_val = *std::max_element(ptr + *last_index, target); 
+        // Processing all quantiles where the lower value is zero and the upper value is positive.
+        {
+            bool computed = false;
+            Output_ upper_val; 
+            for (; q < num_quantiles; ++q) {
+                const auto& curstack = my_stacks[q];
+                if (curstack.upper_index > num_not_positive) {
+                    break;
                 }
-                output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
-            }
 
-            last_index = curindex;
+                if (!computed) { // Only need to search this once given that everyone in this loop has 'upper_index == num_not_positive'.
+                    // The actual target is the first positive value at 'ptr[num_not_positive - num_zeros]', i.e., 'ptr[num_negative]'.
+                    const auto target = ptr + num_negative;
+
+                    // No point wrapping this in 'num_negative >= last_index + 1', as this will always be true from the exit conditions above.
+                    // Or if none of the loops above were iterated over, we would still have 'last_index_p1 == 0', in which case this will also be true.
+                    std::nth_element(ptr + last_index_p1, target, ptr + nnz);
+
+                    last_index = num_negative;
+                    last_index_p1 = num_negative + 1;
+                    upper_val = *target;
+                    computed = true;
+                }
+
+                if (curstack.skip_lower) {
+                    output(q, upper_val);
+                } else {
+                    output(q, upper_val * curstack.upper_fraction);
+                }
+            }
+        }
+
+        // Processing all quantiles where the upper and lower values are positive.
+        {
+            Output_ upper_val, lower_val;
+            for (; q < num_quantiles; ++q) {
+                const auto& curstack = my_stacks[q];
+
+                // This should always be positive as we know that 'upper_index > num_not_positive' and thus 'upper_index - num_zeros > num_negative >= 0'.
+                const Number_ curindex = curstack.upper_index - num_zeros;
+
+                // Even with subtraction of num_zeros, we can be sure that 'curindex >= last_index + 1' in the first iteration of this loop.
+                // From the clauses above, we know that 'last_index <= num_negative' and 'upper_index > num_not_positive'.
+                // So, subtracting 'num_zeros' gives us 'curindex > last_index' and thus 'curindex >= last_index + 1'.
+                // This ensures that this condition will always be true, and the code will be run, and 'upper_val' will always be set before use.
+                if (curindex >= last_index_p1) {
+                    const auto target = ptr + curindex;
+                    std::nth_element(ptr + last_index_p1, target, ptr + nnz);
+                    upper_val = *target;
+
+                    if (curstack.skip_lower) {
+                        output(q, upper_val);
+                    } else {
+                        lower_val = *std::max_element(ptr + last_index, target); 
+                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    }
+
+                    last_index = curindex;
+                    last_index_p1 = curindex + 1;
+
+                } else {
+                    if (curstack.skip_lower) {
+                        output(q, upper_val);
+                    } else {
+                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    }
+                }
+            }
         }
     }
 };
