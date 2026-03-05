@@ -51,6 +51,12 @@ TEST(Median, DenseInf) {
     EXPECT_EQ(direct_medians(vec.data() + 2, 2), -inf);
     EXPECT_EQ(direct_medians(vec.data(), 3), inf);
     EXPECT_TRUE(std::isnan(direct_medians(vec.data(), 4)));
+
+    vec = std::vector<double>{ inf, 0, -inf, -inf };
+    EXPECT_EQ(direct_medians(vec.data(), 4), -inf);
+
+    vec = std::vector<double>{ -inf, 0, inf, inf };
+    EXPECT_EQ(direct_medians(vec.data(), 4), inf);
 }
 
 TEST(Median, SparseAllPositive) {
@@ -122,10 +128,10 @@ TEST(Median, SparseMixed) {
 TEST(Median, SparseInf) {
     auto inf = std::numeric_limits<double>::infinity();
     std::vector<double> vec { inf, inf, inf, -inf, -inf, -inf };
-    EXPECT_EQ(direct_medians(vec.data(), 3, 3), inf);
     EXPECT_EQ(direct_medians(vec.data(), 3, 4), inf);
-    EXPECT_EQ(direct_medians(vec.data() + 3, 3), -inf);
-    EXPECT_EQ(direct_medians(vec.data() + 3, 4), -inf);
+    EXPECT_EQ(direct_medians(vec.data(), 3, 6), inf);
+    EXPECT_EQ(direct_medians(vec.data() + 3, 3, 4), -inf);
+    EXPECT_EQ(direct_medians(vec.data() + 3, 3, 6), -inf);
     EXPECT_EQ(direct_medians(vec.data(), 4, 5), inf);
     EXPECT_TRUE(std::isnan(direct_medians(vec.data(), 6, 6)));
     EXPECT_EQ(direct_medians(vec.data(), 6, 8), 0);

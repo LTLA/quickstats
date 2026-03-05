@@ -116,7 +116,7 @@ public:
                 } else {
                     // No + 1, as 'ptr[last_index]' might be the maximum.
                     lower_val = *std::max_element(ptr + last_index, target);
-                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                 }
 
                 last_index = curindex;
@@ -128,7 +128,7 @@ public:
                 } else {
                     // It is implicitly guaranteed that 'lower_val' is initialized at this point.
                     // It's impossible for an earlier quantile to have 'skip_lower = true' while a later quantile has 'skip_lower = false'.
-                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                    output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                 }
             }
         }
@@ -193,7 +193,7 @@ public:
                         output(q, upper_val);
                     } else {
                         lower_val = *std::max_element(ptr + last_index, target); 
-                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                     }
 
                     last_index = curindex;
@@ -203,7 +203,7 @@ public:
                     if (curstack.skip_lower) {
                         output(q, upper_val);
                     } else {
-                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                     }
                 }
             }
@@ -314,7 +314,7 @@ public:
                         output(q, upper_val);
                     } else {
                         lower_val = *std::max_element(ptr + last_index, target); 
-                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                     }
 
                     last_index = curindex;
@@ -324,7 +324,7 @@ public:
                     if (curstack.skip_lower) {
                         output(q, upper_val);
                     } else {
-                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);
+                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));
                     }
                 }
             }

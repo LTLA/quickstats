@@ -159,6 +159,23 @@ TEST(MultipleQuantiles, IntegerInput) {
     }
 }
 
+TEST(MultipleQuantiles, Infinities) {
+    std::vector<double> quantiles{ 0.1, 0.4, 0.6, 0.8};
+    const auto inf = std::numeric_limits<double>::infinity();
+    std::vector<double> original{ -inf, -inf, 0, inf, inf };
+    quickstats::MultipleQuantilesFixedNumber<double, int> test(original.size(), quantiles);
+
+    std::vector<double> res(quantiles.size());
+    test(original.data(), [&](int i, double q) -> void {
+        res[i] = q;
+    });
+
+    EXPECT_EQ(res[0], -inf);
+    EXPECT_EQ(res[1], -inf);
+    EXPECT_EQ(res[2], inf);
+    EXPECT_EQ(res[3], inf);
+}
+
 /****************************************/
 
 TEST(MultipleQuantilesVariable, Dense) {

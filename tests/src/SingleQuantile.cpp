@@ -285,6 +285,25 @@ TEST(SingleQuantile, IntegerInput) {
     }
 }
 
+TEST(SingleQuantile, Infinities) {
+    const auto inf = std::numeric_limits<double>::infinity();
+    quickstats::SingleQuantileFixedNumber<double, int> test(2, 0.5);
+
+    std::vector<double> original{ -inf, -inf };
+    EXPECT_EQ(test(original.data()), -inf);
+
+    original[0] = 0;
+    EXPECT_EQ(test(original.data()), -inf);
+
+    original[0] = 0;
+    original[1] = inf;
+    EXPECT_EQ(test(original.data()), inf);
+
+    original[0] = inf;
+    original[1] = inf;
+    EXPECT_EQ(test(original.data()), inf);
+}
+
 /****************************************/
 
 TEST(SingleQuantileVariable, Dense) {

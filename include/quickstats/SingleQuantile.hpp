@@ -10,6 +10,8 @@
 
 #include "sanisizer/sanisizer.hpp"
 
+#include "utils.hpp"
+
 /**
  * @brief SingleQuantile.hpp
  * @param Compute a single quantile.
@@ -109,7 +111,7 @@ public:
         }
 
         const Output_ lower = *std::max_element(ptr, target); 
-        return lower + (upper - lower) * my_upper_fraction;
+        return interpolate(lower, upper, my_upper_fraction);
     }
 
     /**
@@ -150,7 +152,7 @@ public:
             }
 
             const Output_ lower = *std::max_element(ptr, target); 
-            return lower + (upper - lower) * my_upper_fraction;
+            return interpolate(lower, upper, my_upper_fraction);
         }
 
         if (num_negative && my_upper_index == num_negative) {
@@ -183,7 +185,7 @@ public:
         }
 
         const Output_ lower = *std::max_element(ptr, target); 
-        return lower + (upper - lower) * my_upper_fraction;
+        return interpolate(lower, upper, my_upper_fraction);
     }
 };
 
