@@ -194,7 +194,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    <span class="comment">// No + 1, as &#39;ptr[last_index]&#39; might be the maximum.</span></div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                    lower_val = *std::max_element(ptr + last_index, target);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                    output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                }</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                last_index = curindex;</div>
@@ -206,7 +206,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                    <span class="comment">// It is implicitly guaranteed that &#39;lower_val&#39; is initialized at this point.</span></div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                    <span class="comment">// It&#39;s impossible for an earlier quantile to have &#39;skip_lower = true&#39; while a later quantile has &#39;skip_lower = false&#39;.</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                    output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                    output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                }</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            }</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
@@ -257,7 +257,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                        output(q, upper_val);</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                        lower_val = *std::max_element(ptr + last_index, target); </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                    }</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                    last_index = curindex;</div>
@@ -267,7 +267,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                    <span class="keywordflow">if</span> (curstack.skip_lower) {</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                        output(q, upper_val);</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>                    }</div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                }</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            }</div>
@@ -378,7 +378,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>                        output(q, upper_val);</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>                    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                        lower_val = *std::max_element(ptr + last_index, target); </div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>                    }</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
 <div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                    last_index = curindex;</div>
@@ -388,7 +388,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                    <span class="keywordflow">if</span> (curstack.skip_lower) {</div>
 <div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                        output(q, upper_val);</div>
 <div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                        output(q, lower_val + (upper_val - lower_val) * curstack.upper_fraction);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>                        output(q, interpolate(lower_val, upper_val, curstack.upper_fraction));</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                    }</div>
 <div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                }</div>
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            }</div>
@@ -470,7 +470,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclassquickstats_1_1MultipleQuantilesVariableNumber_html_a8a77170c0a56f591be8271863c3a1e3e"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesVariableNumber.html#a8a77170c0a56f591be8271863c3a1e3e">quickstats::MultipleQuantilesVariableNumber::operator()</a></div><div class="ttdeci">void operator()(const Number_ num, const Number_ nnz, Input_ *ptr, OutputFun_ output)</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:426</div></div>
 <div class="ttc" id="aclassquickstats_1_1MultipleQuantilesVariableNumber_html_a9520cbaf454851a6444030faac22a7aa"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesVariableNumber.html#a9520cbaf454851a6444030faac22a7aa">quickstats::MultipleQuantilesVariableNumber::operator()</a></div><div class="ttdeci">void operator()(const Number_ num, Input_ *ptr, OutputFun_ output)</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:390</div></div>
 <div class="ttc" id="aclassquickstats_1_1MultipleQuantilesVariableNumber_html_a9ab3e814a9df33cbc4e199ac149328bc"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesVariableNumber.html#a9ab3e814a9df33cbc4e199ac149328bc">quickstats::MultipleQuantilesVariableNumber::MultipleQuantilesVariableNumber</a></div><div class="ttdeci">MultipleQuantilesVariableNumber(const Number_ max_num, QuantilesPointer_ quantiles_ptr)</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:355</div></div>
-<div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">median.hpp</div><div class="ttdef"><b>Definition</b> median.hpp:14</div></div>
+<div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">median.hpp</div><div class="ttdef"><b>Definition</b> median.hpp:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -109,7 +109,7 @@ $(function(){ initResizable(false); });
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
 <div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median&lt;double&gt;</a>(10, 3, x.data());</div>
-<div class="ttc" id="anamespacequickstats_html_a739d1e42f6a0d27ad2e70b3464e54f81"><div class="ttname"><a href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median</a></div><div class="ttdeci">Output_ median(const Number_ num, Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> median.hpp:32</div></div>
+<div class="ttc" id="anamespacequickstats_html_a739d1e42f6a0d27ad2e70b3464e54f81"><div class="ttname"><a href="namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81">quickstats::median</a></div><div class="ttdeci">Output_ median(const Number_ num, Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> median.hpp:34</div></div>
 </div><!-- fragment --><h1>Single quantiles</h1>
 <p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
 <div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, 0.2);</div>
