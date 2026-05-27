@@ -16,6 +16,7 @@ add_executable(
     src/SingleQuantile.cpp
     src/MultipleQuantiles.cpp
     src/median.cpp
+    src/rss.cpp
 )
 
 target_link_libraries(

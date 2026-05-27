@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <cmath>
+#include <cstddef>
 
 namespace quickstats {
 
@@ -21,6 +22,16 @@ Value_ interpolate(const Value_ left, const Value_ right, const Value_ right_fra
         // This assumes that right_frac > 0 otherwise there wouldn't be any need for interpolation.
         return left + (right - left) * right_frac; 
     }
+}
+
+template<typename Output_>
+bool check_zeroed(const std::size_t len, const Output_* const ptr) {
+    for (std::size_t i = 0; i < len; ++i) {
+        if (ptr[i] != 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
 }
