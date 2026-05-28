@@ -68,24 +68,24 @@ template<typename Output_, typename Number_>
 class SingleQuantileFixedNumber {
 public:
     /**
-     * @param num Number of elements from which to compute a quantile.
+     * @param num_total Total number of elements from which to compute a quantile.
      * This should be positive.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
-    SingleQuantileFixedNumber(const Number_ num, const Output_ quantile) : my_num(num) {
+    SingleQuantileFixedNumber(const Number_ num_total, const Output_ quantile) : my_num_total(num_total) {
         static_assert(std::is_integral<Number_>::value);
         static_assert(std::is_floating_point<Output_>::value);
 
-        if (num <= 0) {
+        if (num_total <= 0) {
             throw std::out_of_range("'num' should be positive");
         }
-        const Number_ num_m1 = num - 1;
+        const Number_ num_m1 = num_total - 1;
 
         configure_single_quantile(quantile, num_m1, my_upper_index, my_upper_fraction, my_skip_lower);
     }
 
 private:
-    Number_ my_num, my_upper_index;
+    Number_ my_num_total, my_upper_index;
     Output_ my_upper_fraction;
     bool my_skip_lower;
 
@@ -93,16 +93,16 @@ public:
     /**
      * @tparam Input_ Numeric type of the input values.
      *
-     * @param[in] ptr Pointer to the start of an array of length `num`.
+     * @param[in] ptr Pointer to the start of an array of length `num_total`.
      * This should not contain any NaN values.
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability. 
      */
     template<typename Input_>
-    Output_ operator()(Input_* ptr) const {
+    Output_ operator()(Input_* const ptr) const {
         const auto target = ptr + my_upper_index;
-        std::nth_element(ptr, target, ptr + my_num);
+        std::nth_element(ptr, target, ptr + my_num_total);
 
         // Avoid an extra memory access to get the lower index if we don't need it; this would also fail if upper_index = 0.
         const Output_ upper = *target;
@@ -115,36 +115,36 @@ public:
     }
 
     /**
-     * Overload to compute the desired quantile from a sparse vector of length `num`.
-     * This vector is assumed to have `nnz` structural non-zeros and `num - nnz` zeros.
+     * Overload to compute the desired quantile from a sparse vector of length `num_total`.
+     * This vector should have `num_non_zero` structural non-zeros and `num_total - num_non_zero` structural zeros.
      *
      * @tparam Input_ Numeric type of the input values.
      *
-     * @param nnz Number of structural non-zeros in the sparse vector.
-     * This should be no greater than `num`.
-     * @param[in] ptr Pointer to the start of an array of length `nnz`, containing the values of the structural non-zeros of the sparse vector.
+     * @param num_non_zero Number of structural non-zeros in the sparse vector.
+     * This should be no greater than `num_total`.
+     * @param[in] ptr Pointer to the start of an array of length `num_non_zero`, containing the values of the structural non-zeros of the sparse vector.
      * It should not contain any NaN values.
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ nnz, Input_* ptr) const {
-        assert(nnz <= my_num);
-        if (nnz == my_num) {
+    Output_ operator()(const Number_ num_non_zero, Input_* const ptr) const {
+        assert(num_non_zero <= my_num_total);
+        if (num_non_zero == my_num_total) {
             return operator()(ptr);
-        } else if (nnz == 0) {
+        } else if (num_non_zero == 0) {
             return 0;
         }
 
         Number_ num_negative = 0;
-        for (Number_ i = 0; i < nnz; ++i) {
+        for (Number_ i = 0; i < num_non_zero; ++i) {
             num_negative += (ptr[i] < 0);
         }
 
         if (my_upper_index < num_negative) {
             const auto target = ptr + my_upper_index;
-            std::nth_element(ptr, target, ptr + nnz);
+            std::nth_element(ptr, target, ptr + num_non_zero);
 
             const Output_ upper = *target;
             if (my_skip_lower) {
@@ -157,24 +157,24 @@ public:
 
         if (num_negative && my_upper_index == num_negative) {
             // The upper value is zero. It can't be positive, as that would
-            // imply that there are no structural zeros and nnz == my_num.
+            // imply that there are no structural zeros and num_non_zero == my_num_total.
             if (my_skip_lower) {
                 return 0;
             }
 
             const auto target = ptr + (my_upper_index - 1);
-            std::nth_element(ptr, target, ptr + nnz);
+            std::nth_element(ptr, target, ptr + num_non_zero);
             return static_cast<Output_>(*target) * (1 - my_upper_fraction);
         }
 
-        const Number_ num_zeros = my_num - nnz;
+        const Number_ num_zeros = my_num_total - num_non_zero;
         const Number_ num_not_positive = num_zeros + num_negative;
         if (my_upper_index < num_not_positive) {
             return 0;
         }
 
         const auto target = ptr + (my_upper_index - num_zeros);
-        std::nth_element(ptr, target, ptr + nnz);
+        std::nth_element(ptr, target, ptr + num_non_zero);
         const Output_ upper = *target;
         if (my_skip_lower) {
             return upper;
@@ -202,13 +202,15 @@ template<typename Output_, typename Number_>
 class SingleQuantileVariableNumber {
 public:
     /**
-     * @param max_num Maximum number of elements. 
-     * Unlike `SingleQuantileFixedNumber`, this may be zero.
+     * @param max_num_total Maximum of the total number of elements. 
+     * This should be non-negative.
+     * Unlike `SingleQuantileFixedNumber`, this may also be zero.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
-    SingleQuantileVariableNumber(Number_ max_num, const Output_ quantile) : my_quantile(quantile) {
-        if (max_num >= 2) {
-            sanisizer::resize(my_choices, max_num - 1);
+    SingleQuantileVariableNumber(const Number_ max_num_total, const Output_ quantile) : my_quantile(quantile) {
+        assert(max_num_total >= 0);
+        if (max_num_total >= 2) {
+            sanisizer::resize(my_choices, max_num_total - 1);
         }
     }
 
@@ -222,62 +224,64 @@ public:
      *
      * @tparam Input_ Numeric type of the input values.
      *
-     * @param num Number of the elements from which to compute the quantile.
-     * This should be no greater than `max_num`.
-     * @param[in] ptr Pointer to an array of length `num`.
+     * @param num_total Total number of the elements from which to compute the quantile.
+     * This should be no greater than `max_num_total`.
+     * @param[in] ptr Pointer to an array of length `num_total`.
      * This should not contain NaN values.
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability. 
-     * If `num = 0`, NaN is returned instead.
+     * If `num_total = 0`, NaN is returned instead.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ num, Input_* ptr) {
-        if (num == 0) {
+    Output_ operator()(const Number_ num_total, Input_* ptr) {
+        if (num_total == 0) {
             return std::numeric_limits<Output_>::quiet_NaN();
-        } else if (num == 1) {
+        } else if (num_total == 1) {
             return *ptr;
         } else {
-            auto& ocalc = my_choices[num - 2];
+            assert(sanisizer::is_less_than_or_equal(num_total - 1, my_choices.size())); 
+            auto& ocalc = my_choices[num_total - 2];
             if (!ocalc.has_value()) { // Instantiating them on demand.
-                ocalc.emplace(num, my_quantile);
+                ocalc.emplace(num_total, my_quantile);
             }
             return (*ocalc)(ptr);
         }
     }
 
     /**
-     * Overload to compute the desired quantile from a sparse vector of length `num`.
-     * This vector is assumed to have `nnz` structural non-zeros and `num - nnz` zeros.
+     * Overload to compute the desired quantile from a sparse vector of length `num_total`.
+     * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
      *
      * This method is not thread-safe.
      *
      * @tparam Input_ Numeric type of the input values.
      *
-     * @param num Number of elements from which to compute the quantile.
-     * This should be no greater than `max_num`.
-     * @param nnz Number of elements that are structural non-zero elements.
-     * This should be no greater than `num`.
-     * @param[in] ptr Pointer to the start of an array of length `num`.
+     * @param num_total Total number of elements from which to compute the quantile.
+     * This should be no greater than `max_num_total`.
+     * @param num_non_zero Number of elements that are structural non-zero elements.
+     * This should be no greater than `num_total`.
+     * @param[in] values Pointer to the start of an array of length `num_total`.
      * This is expected to contain the values of the structural non-zero elements of the sparse vector.
      * It should not contain any NaN values.
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability. 
-     * If `num = 0`, NaN is returned instead.
+     * If `num_total = 0`, NaN is returned instead.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ num, const Number_ nnz, Input_* ptr) {
-        if (num == 0) {
+    Output_ operator()(const Number_ num_total, const Number_ num_non_zero, Input_* const values) {
+        if (num_total == 0) {
             return std::numeric_limits<Output_>::quiet_NaN();
-        } else if (num == 1) {
-            return (nnz ? *ptr : 0);
+        } else if (num_total == 1) {
+            return (num_non_zero ? *values : 0);
         } else {
-            auto& ocalc = my_choices[num - 2];
+            assert(sanisizer::is_less_than_or_equal(num_total - 1, my_choices.size())); 
+            auto& ocalc = my_choices[num_total - 2];
             if (!ocalc.has_value()) { // Instantiating them on demand.
-                ocalc.emplace(num, my_quantile);
+                ocalc.emplace(num_total, my_quantile);
             }
-            return (*ocalc)(nnz, ptr);
+            return (*ocalc)(num_non_zero, values);
         }
     }
 };
