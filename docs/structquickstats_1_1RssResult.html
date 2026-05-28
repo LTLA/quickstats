@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>quickstats: Member List</title>
+<title>quickstats: quickstats::RssResult&lt; Output_ &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,21 +92,78 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacequickstats.html">quickstats</a></li><li class="navelem"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">MultipleQuantilesVariableNumber</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacequickstats.html">quickstats</a></li><li class="navelem"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structquickstats_1_1RssResult-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">quickstats::RssResult&lt; Output_ &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html#ac829ac1a51cf26656aa9a927abbfe0da">MultipleQuantilesVariableNumber</a>(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr)</td><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html#a43d12ab28f44695591eaaa368a1b5c97">operator()</a>(const std::size_t num_total, Input_ *const ptr, OutputFun_ output)</td><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html#a109466cd8bfffe33ae837af631228aec">operator()</a>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, OutputFun_ output)</td><td class="entry"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Result of <code><a class="el" href="#a3c99a0a61c93b092c1fa0b83ab0bed27">rss()</a></code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rss_8hpp_source.html">rss.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ab025af92ba44f996d3dc19e074372d2b" id="r_ab025af92ba44f996d3dc19e074372d2b"><td class="memItemLeft" align="right" valign="top">Output_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab025af92ba44f996d3dc19e074372d2b">mean</a> = 0</td></tr>
+<tr class="separator:ab025af92ba44f996d3dc19e074372d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c99a0a61c93b092c1fa0b83ab0bed27" id="r_a3c99a0a61c93b092c1fa0b83ab0bed27"><td class="memItemLeft" align="right" valign="top">Output_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c99a0a61c93b092c1fa0b83ab0bed27">rss</a> = 0</td></tr>
+<tr class="separator:a3c99a0a61c93b092c1fa0b83ab0bed27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_ = double&gt;<br />
+struct quickstats::RssResult&lt; Output_ &gt;</div><p>Result of <code><a class="el" href="#a3c99a0a61c93b092c1fa0b83ab0bed27">rss()</a></code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab025af92ba44f996d3dc19e074372d2b" name="ab025af92ba44f996d3dc19e074372d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab025af92ba44f996d3dc19e074372d2b">&#9670;&#160;</a></span>mean</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ <a class="el" href="structquickstats_1_1RssResult.html">quickstats::RssResult</a>&lt; Output_ &gt;::mean = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sample mean. This is set to NaN if there are no input values. </p>
+
+</div>
+</div>
+<a id="a3c99a0a61c93b092c1fa0b83ab0bed27" name="a3c99a0a61c93b092c1fa0b83ab0bed27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c99a0a61c93b092c1fa0b83ab0bed27">&#9670;&#160;</a></span>rss</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ <a class="el" href="structquickstats_1_1RssResult.html">quickstats::RssResult</a>&lt; Output_ &gt;::rss = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Residual sum of squares from the mean. This is set to 0 if there are no input values. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>quickstats/<a class="el" href="rss_8hpp_source.html">rss.hpp</a></li>
+</ul>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>quickstats: quickstats::SingleQuantileFixedNumber&lt; Output_, Number_ &gt; Class Template Reference</title>
+<title>quickstats: quickstats::SingleQuantileFixedNumber&lt; Output_ &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,7 +100,7 @@ $(function(){ initResizable(false); });
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classquickstats_1_1SingleQuantileFixedNumber-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">quickstats::SingleQuantileFixedNumber&lt; Output_, Number_ &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">quickstats::SingleQuantileFixedNumber&lt; Output_ &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -111,42 +111,41 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a618b718231dcec8c9d7aa91018a2449c" id="r_a618b718231dcec8c9d7aa91018a2449c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a618b718231dcec8c9d7aa91018a2449c">SingleQuantileFixedNumber</a> (const Number_ num, const Output_ quantile)</td></tr>
-<tr class="separator:a618b718231dcec8c9d7aa91018a2449c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeca16d5d48b528ec4131038ef3099875" id="r_aeca16d5d48b528ec4131038ef3099875"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
-<tr class="memitem:aeca16d5d48b528ec4131038ef3099875"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aeca16d5d48b528ec4131038ef3099875">operator()</a> (Input_ *ptr) const</td></tr>
-<tr class="separator:aeca16d5d48b528ec4131038ef3099875"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed209822c087f3471c66dbc5bb3ec5ca" id="r_aed209822c087f3471c66dbc5bb3ec5ca"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
-<tr class="memitem:aed209822c087f3471c66dbc5bb3ec5ca"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aed209822c087f3471c66dbc5bb3ec5ca">operator()</a> (const Number_ nnz, Input_ *ptr) const</td></tr>
-<tr class="separator:aed209822c087f3471c66dbc5bb3ec5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad449cd259f6ec320afcaa00f013bb388" id="r_ad449cd259f6ec320afcaa00f013bb388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad449cd259f6ec320afcaa00f013bb388">SingleQuantileFixedNumber</a> (const std::size_t num_total, const Output_ quantile)</td></tr>
+<tr class="separator:ad449cd259f6ec320afcaa00f013bb388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb23c362ce91af9b60fec8e44fdb6261" id="r_abb23c362ce91af9b60fec8e44fdb6261"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
+<tr class="memitem:abb23c362ce91af9b60fec8e44fdb6261"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abb23c362ce91af9b60fec8e44fdb6261">operator()</a> (Input_ *const ptr) const</td></tr>
+<tr class="separator:abb23c362ce91af9b60fec8e44fdb6261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab58ccd5925a27793969c547b69775d7e" id="r_ab58ccd5925a27793969c547b69775d7e"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
+<tr class="memitem:ab58ccd5925a27793969c547b69775d7e"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab58ccd5925a27793969c547b69775d7e">operator()</a> (const std::size_t num_non_zero, Input_ *const ptr) const</td></tr>
+<tr class="separator:ab58ccd5925a27793969c547b69775d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_, typename Number_&gt;<br />
-class quickstats::SingleQuantileFixedNumber&lt; Output_, Number_ &gt;</div><p>Calculate a single quantile from a fixed number of elements. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Output_&gt;<br />
+class quickstats::SingleQuantileFixedNumber&lt; Output_ &gt;</div><p>Calculate a single quantile from a fixed number of elements. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile. </td></tr>
-    <tr><td class="paramname">Number_</td><td>Integer type of the number of elements.</td></tr>
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile.</td></tr>
   </table>
   </dd>
 </dl>
 <p>A <code><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html" title="Calculate a single quantile from a fixed number of elements.">SingleQuantileFixedNumber</a></code> instance computes a type 7 quantile, consistent with the default in R's <code>quantile</code> function. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a618b718231dcec8c9d7aa91018a2449c" name="a618b718231dcec8c9d7aa91018a2449c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a618b718231dcec8c9d7aa91018a2449c">&#9670;&#160;</a></span>SingleQuantileFixedNumber()</h2>
+<a id="ad449cd259f6ec320afcaa00f013bb388" name="ad449cd259f6ec320afcaa00f013bb388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad449cd259f6ec320afcaa00f013bb388">&#9670;&#160;</a></span>SingleQuantileFixedNumber()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Number_ &gt; </div>
+template&lt;typename Output_ &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_, Number_ &gt;::SingleQuantileFixedNumber </td>
+          <td class="memname"><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_ &gt;::SingleQuantileFixedNumber </td>
           <td>(</td>
-          <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,7 +161,7 @@ template&lt;typename Output_ , typename Number_ &gt; </div>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">num</td><td>Number of elements from which to compute a quantile. This should be positive. </td></tr>
+    <tr><td class="paramname">num_total</td><td>Total number of elements from which to compute a quantile. This should be positive. </td></tr>
     <tr><td class="paramname">quantile</td><td>Probability of the quantile to compute, in \([0, 1]\). </td></tr>
   </table>
   </dd>
@@ -171,13 +170,13 @@ template&lt;typename Output_ , typename Number_ &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aeca16d5d48b528ec4131038ef3099875" name="aeca16d5d48b528ec4131038ef3099875"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeca16d5d48b528ec4131038ef3099875">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<a id="abb23c362ce91af9b60fec8e44fdb6261" name="abb23c362ce91af9b60fec8e44fdb6261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb23c362ce91af9b60fec8e44fdb6261">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Number_ &gt; </div>
+template&lt;typename Output_ &gt; </div>
 <div class="memtemplate">
 template&lt;typename Input_ &gt; </div>
 <table class="mlabels">
@@ -185,9 +184,9 @@ template&lt;typename Input_ &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_, Number_ &gt;::operator() </td>
+          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_ &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">Input_ *</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span></td><td>)</td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -205,7 +204,7 @@ template&lt;typename Input_ &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>num</code>. This should not contain any NaN values. On output, the elements may be reordered.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>num_total</code>. This should not contain any NaN values. On output, the elements may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
@@ -213,13 +212,13 @@ template&lt;typename Input_ &gt; </div>
 
 </div>
 </div>
-<a id="aed209822c087f3471c66dbc5bb3ec5ca" name="aed209822c087f3471c66dbc5bb3ec5ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed209822c087f3471c66dbc5bb3ec5ca">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<a id="ab58ccd5925a27793969c547b69775d7e" name="ab58ccd5925a27793969c547b69775d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab58ccd5925a27793969c547b69775d7e">&#9670;&#160;</a></span>operator()() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Number_ &gt; </div>
+template&lt;typename Output_ &gt; </div>
 <div class="memtemplate">
 template&lt;typename Input_ &gt; </div>
 <table class="mlabels">
@@ -227,14 +226,14 @@ template&lt;typename Input_ &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_, Number_ &gt;::operator() </td>
+          <td class="memname">Output_ <a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">quickstats::SingleQuantileFixedNumber</a>&lt; Output_ &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>nnz</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_non_zero</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Input_ *</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;) const</td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;) const</td>
         </tr>
       </table>
   </td>
@@ -243,7 +242,7 @@ template&lt;typename Input_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Overload to compute the desired quantile from a sparse vector of length <code>num</code>. This vector is assumed to have <code>nnz</code> structural non-zeros and <code>num - nnz</code> zeros.</p>
+<p>Overload to compute the desired quantile from a sparse vector of length <code>num_total</code>. This vector should have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> structural zeros.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
@@ -252,8 +251,8 @@ template&lt;typename Input_ &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">nnz</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>nnz</code>, containing the values of the structural non-zeros of the sparse vector. It should not contain any NaN values. On output, the elements may be reordered.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. It should not contain any NaN values. On output, the elements may be reordered.</td></tr>
   </table>
   </dd>
 </dl>

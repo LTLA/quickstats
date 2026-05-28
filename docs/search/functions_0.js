@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['median_0',['median',['../namespacequickstats.html#a739d1e42f6a0d27ad2e70b3464e54f81',1,'quickstats::median(const Number_ num, Input_ *const ptr)'],['../namespacequickstats.html#ab09b274d0b6be96d50c4a7dac2ff56c8',1,'quickstats::median(const Number_ num, const Number_ nnz, Input_ *const ptr)']]],
-  ['multiplequantilesfixednumber_1',['MultipleQuantilesFixedNumber',['../classquickstats_1_1MultipleQuantilesFixedNumber.html#a0362f8453eacfa548269f2e0a319179e',1,'quickstats::MultipleQuantilesFixedNumber']]],
-  ['multiplequantilesvariablenumber_2',['MultipleQuantilesVariableNumber',['../classquickstats_1_1MultipleQuantilesVariableNumber.html#a9ab3e814a9df33cbc4e199ac149328bc',1,'quickstats::MultipleQuantilesVariableNumber']]]
+  ['add_0',['add',['../classquickstats_1_1RssRunningDense.html#aba8cf27848bbb34173c8c26f7347b87f',1,'quickstats::RssRunningDense::add()'],['../classquickstats_1_1RssRunningDenseSkip.html#a78e0564ca83e9f7dc4220ac0d96e2521',1,'quickstats::RssRunningDenseSkip::add()'],['../classquickstats_1_1RssRunningSparse.html#a558089cf538150e15c233016509f9f5c',1,'quickstats::RssRunningSparse::add()'],['../classquickstats_1_1RssRunningSparseSkip.html#a8fe3f95a1aa52ccf19258c552ad3daf2',1,'quickstats::RssRunningSparseSkip::add()']]]
 ];

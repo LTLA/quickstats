@@ -111,6 +111,21 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">MultipleQuantilesVariableNumber</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate multiple quantiles from a variable number of elements.  <a href="classquickstats_1_1MultipleQuantilesVariableNumber.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">rss()</a></code>.  <a href="structquickstats_1_1RssResult.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1RssRunningDense.html">RssRunningDense</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Running residual sum of squares from dense data.  <a href="classquickstats_1_1RssRunningDense.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1RssRunningDenseSkip.html">RssRunningDenseSkip</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Running residual sum of squares from dense data, with skipping.  <a href="classquickstats_1_1RssRunningDenseSkip.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1RssRunningSparse.html">RssRunningSparse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Running residual sum of squares from sparse data.  <a href="classquickstats_1_1RssRunningSparse.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1RssRunningSparseSkip.html">RssRunningSparseSkip</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Running residual sum of squares from sparse data, with skipping.  <a href="classquickstats_1_1RssRunningSparseSkip.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html">SingleQuantileFixedNumber</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a single quantile from a fixed number of elements.  <a href="classquickstats_1_1SingleQuantileFixedNumber.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,12 +135,18 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a739d1e42f6a0d27ad2e70b3464e54f81" id="r_a739d1e42f6a0d27ad2e70b3464e54f81"><td class="memTemplParams" colspan="2">template&lt;typename Output_ , typename Number_ , typename Input_ &gt; </td></tr>
-<tr class="memitem:a739d1e42f6a0d27ad2e70b3464e54f81"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a739d1e42f6a0d27ad2e70b3464e54f81">median</a> (const Number_ num, Input_ *const ptr)</td></tr>
-<tr class="separator:a739d1e42f6a0d27ad2e70b3464e54f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab09b274d0b6be96d50c4a7dac2ff56c8" id="r_ab09b274d0b6be96d50c4a7dac2ff56c8"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Number_ , typename Input_ &gt; </td></tr>
-<tr class="memitem:ab09b274d0b6be96d50c4a7dac2ff56c8"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab09b274d0b6be96d50c4a7dac2ff56c8">median</a> (const Number_ num, const Number_ nnz, Input_ *const ptr)</td></tr>
-<tr class="separator:ab09b274d0b6be96d50c4a7dac2ff56c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123" id="r_a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplParams" colspan="2">template&lt;typename Output_ , typename Input_ &gt; </td></tr>
+<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a> (const std::size_t num_total, Input_ *const ptr)</td></tr>
+<tr class="separator:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976" id="r_a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2cb6e9679bbd56aba352d0eb680c1976">median</a> (const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</td></tr>
+<tr class="separator:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee422dd8fc8049526c27e64be4d5480" id="r_a3ee422dd8fc8049526c27e64be4d5480"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a3ee422dd8fc8049526c27e64be4d5480"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a>&lt; Output_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ee422dd8fc8049526c27e64be4d5480">rss</a> (const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr)</td></tr>
+<tr class="separator:a3ee422dd8fc8049526c27e64be4d5480"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab18b547c9bf1f469e54292a2d345bacb" id="r_ab18b547c9bf1f469e54292a2d345bacb"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:ab18b547c9bf1f469e54292a2d345bacb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a>&lt; Output_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab18b547c9bf1f469e54292a2d345bacb">rss</a> (const std::size_t num_total, const Input_ *const ptr)</td></tr>
+<tr class="separator:ab18b547c9bf1f469e54292a2d345bacb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="median_8hpp_source.html">median.hpp</a> </p>
@@ -139,18 +160,18 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a739d1e42f6a0d27ad2e70b3464e54f81" name="a739d1e42f6a0d27ad2e70b3464e54f81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a739d1e42f6a0d27ad2e70b3464e54f81">&#9670;&#160;</a></span>median() <span class="overload">[1/2]</span></h2>
+<a id="a66ea74c07fc1cb5a9a9689c8afc76123" name="a66ea74c07fc1cb5a9a9689c8afc76123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66ea74c07fc1cb5a9a9689c8afc76123">&#9670;&#160;</a></span>median() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Number_ , typename Input_ &gt; </div>
+template&lt;typename Output_ , typename Input_ &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">Output_ quickstats::median </td>
           <td>(</td>
-          <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,66 +183,148 @@ template&lt;typename Output_ , typename Number_ , typename Input_ &gt; </div>
 <p>Compute the median of an array of elements.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">num</td><td>Number of elements from which to compute a median. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num</code>. This should not contain any NaN values. On output, the contents may be reordered.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements from which to compute a median. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. This should not contain any NaN values. On output, the contents may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of representing NaNs. </td></tr>
-    <tr><td class="paramname">Input_</td><td>Numeric type of the input values. </td></tr>
-    <tr><td class="paramname">Number_</td><td>Integer type of the number of elements.</td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Median of values in <code>[ptr, ptr + num)</code>, or NaN if <code>num == 0</code>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Median of values in <code>[ptr, ptr + num_total)</code>, or NaN if <code>num_total == 0</code>. </dd></dl>
 
 </div>
 </div>
-<a id="ab09b274d0b6be96d50c4a7dac2ff56c8" name="ab09b274d0b6be96d50c4a7dac2ff56c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab09b274d0b6be96d50c4a7dac2ff56c8">&#9670;&#160;</a></span>median() <span class="overload">[2/2]</span></h2>
+<a id="a2cb6e9679bbd56aba352d0eb680c1976" name="a2cb6e9679bbd56aba352d0eb680c1976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cb6e9679bbd56aba352d0eb680c1976">&#9670;&#160;</a></span>median() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_  = double, typename Number_ , typename Input_ &gt; </div>
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">Output_ quickstats::median </td>
           <td>(</td>
-          <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>num</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Number_</td>          <td class="paramname"><span class="paramname"><em>nnz</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_non_zero</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;)</td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>values</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Compute the median of a sparse vector. This vector is assumed to have <code>nnz</code> structural non-zeros and <code>num - nnz</code> zeros.</p>
+<p>Compute the median of a sparse vector. This vector is assumed to have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> zeros.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">num</td><td>Total number of elements in the sparse vector. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">nnz</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num</code>. <code>num - nnz</code> is the number of zeros. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the start of an array of length <code>nnz</code>, containing the values of the structural non-zeros of the sparse vector. It should not contain any NaN values. On output, the contents may be reordered.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. It should not contain any NaN values. On output, the contents may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of storing NaNs. </td></tr>
-    <tr><td class="paramname">Input_</td><td>Numeric type of the input values. </td></tr>
-    <tr><td class="paramname">Size_</td><td>Integer type of the row/column indices.</td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Median of the sparse vector. </dd></dl>
+
+</div>
+</div>
+<a id="a3ee422dd8fc8049526c27e64be4d5480" name="a3ee422dd8fc8049526c27e64be4d5480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ee422dd8fc8049526c27e64be4d5480">&#9670;&#160;</a></span>rss() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a>&lt; Output_ &gt; quickstats::rss </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_non_zero</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compute the residual sum of squares from a sparse vector. This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences; thus, it is best used with a sufficiently high-precision <code>Output_</code> like <code>double</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros in the sparse vector.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sample mean and residual sum of squares of the sparse vector. </dd></dl>
+
+</div>
+</div>
+<a id="ab18b547c9bf1f469e54292a2d345bacb" name="ab18b547c9bf1f469e54292a2d345bacb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab18b547c9bf1f469e54292a2d345bacb">&#9670;&#160;</a></span>rss() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a>&lt; Output_ &gt; quickstats::rss </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compute the residual sum of squares from the mean from a dense array. This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences; thus, it is best used with a sufficiently high-precision <code>Output_</code> like <code>double</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the array. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sample mean and residual sum of squares of the array. </dd></dl>
 
 </div>
 </div>
