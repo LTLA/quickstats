@@ -292,6 +292,13 @@
       <anchor>ab18b547c9bf1f469e54292a2d345bacb</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr)</arglist>
     </member>
+    <member kind="function">
+      <type>Float_</type>
+      <name>recenter_rss</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a18014e9467233e456a3b77b682d9a020</anchor>
+      <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
+    </member>
   </compound>
   <compound kind="page">
     <name>index</name>

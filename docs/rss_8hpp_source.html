@@ -404,9 +404,21 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>};</div>
 </div>
 <div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span> </div>
-<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>}</div>
-<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span> </div>
-<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00496" data-start="{" data-end="}">
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">  496</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">recenter_rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ old_rss, <span class="keyword">const</span> Float_ old_mean, <span class="keyword">const</span> Float_ new_mean) {</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>        <span class="keywordflow">return</span> old_rss;</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>        <span class="keyword">const</span> Float_ delta = old_mean - new_mean;</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>        <span class="keywordflow">return</span> old_rss + num_total * delta * delta;</div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>    }</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>}</div>
+</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span> </div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>}</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span> </div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html">quickstats::RssRunningDenseSkip</a></div><div class="ttdoc">Running residual sum of squares from dense data, with skipping.</div><div class="ttdef"><b>Definition</b> rss.hpp:200</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html_a680dcce8b648666fca6715114277adc6"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html#a680dcce8b648666fca6715114277adc6">quickstats::RssRunningDenseSkip::RssRunningDenseSkip</a></div><div class="ttdeci">RssRunningDenseSkip(const std::size_t num_obj, Output_ *mean, Output_ *rss, Count_ *num_unskipped)</div><div class="ttdef"><b>Definition</b> rss.hpp:211</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html_a78e0564ca83e9f7dc4220ac0d96e2521"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html#a78e0564ca83e9f7dc4220ac0d96e2521">quickstats::RssRunningDenseSkip::add</a></div><div class="ttdeci">void add(const Input_ *ptr, Skip_ skip)</div><div class="ttdef"><b>Definition</b> rss.hpp:233</div></div>
@@ -424,6 +436,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclassquickstats_1_1RssRunningSparse_html_aee3ab861047492f1ac4b2caf27160b72"><div class="ttname"><a href="classquickstats_1_1RssRunningSparse.html#aee3ab861047492f1ac4b2caf27160b72">quickstats::RssRunningSparse::RssRunningSparse</a></div><div class="ttdeci">RssRunningSparse(const std::size_t num_obj, Output_ *const mean, Output_ *const rss, Count_ *const num_non_zero)</div><div class="ttdef"><b>Definition</b> rss.hpp:310</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningSparse_html_aefdcce4422dc638fa18b23fd0db3296f"><div class="ttname"><a href="classquickstats_1_1RssRunningSparse.html#aefdcce4422dc638fa18b23fd0db3296f">quickstats::RssRunningSparse::finish</a></div><div class="ttdeci">void finish()</div><div class="ttdef"><b>Definition</b> rss.hpp:349</div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">median.hpp</div><div class="ttdef"><b>Definition</b> median.hpp:17</div></div>
+<div class="ttc" id="anamespacequickstats_html_a18014e9467233e456a3b77b682d9a020"><div class="ttname"><a href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">quickstats::recenter_rss</a></div><div class="ttdeci">Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</div><div class="ttdef"><b>Definition</b> rss.hpp:496</div></div>
 <div class="ttc" id="anamespacequickstats_html_a3ee422dd8fc8049526c27e64be4d5480"><div class="ttname"><a href="namespacequickstats.html#a3ee422dd8fc8049526c27e64be4d5480">quickstats::rss</a></div><div class="ttdeci">RssResult&lt; Output_ &gt; rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> rss.hpp:59</div></div>
 <div class="ttc" id="astructquickstats_1_1RssResult_html"><div class="ttname"><a href="structquickstats_1_1RssResult.html">quickstats::RssResult</a></div><div class="ttdoc">Result of rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:27</div></div>
 <div class="ttc" id="astructquickstats_1_1RssResult_html_a3c99a0a61c93b092c1fa0b83ab0bed27"><div class="ttname"><a href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">quickstats::RssResult::rss</a></div><div class="ttdeci">Output_ rss</div><div class="ttdef"><b>Definition</b> rss.hpp:38</div></div>
