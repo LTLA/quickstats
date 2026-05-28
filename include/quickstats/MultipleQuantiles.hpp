@@ -20,12 +20,11 @@ namespace quickstats {
  * @brief Calculate multiple quantiles from a fixed number of elements.
  *
  * @tparam Output_ Floating-point type of the output quantiles.
- * @tparam Number_ Integer type of the number of elements.
  *
  * A `MultipleQuantilesFixedNumber` instance computes type 7 quantiles, consistent with the default in R's `quantile` function.
  * It is equivalent to but more efficient than multiple calls to different `SingleQuantileFixedNumber` instances.
  */
-template<class Output_, typename Number_>
+template<class Output_>
 class MultipleQuantilesFixedNumber {
 public:
     /**
@@ -37,17 +36,16 @@ public:
      * Each entry should be in \f$[0, 1]\f$.
      */
     template<typename Quantiles_>
-    MultipleQuantilesFixedNumber(const Number_ num_total, const Quantiles_& quantiles) :
+    MultipleQuantilesFixedNumber(const std::size_t num_total, const Quantiles_& quantiles) :
         my_len(num_total),
         my_stacks(sanisizer::cast<I<decltype(my_stacks.size())> >(quantiles.size()))
     {
-        static_assert(std::is_integral<Number_>::value);
         static_assert(std::is_floating_point<Output_>::value);
 
         if (num_total <= 0) {
             throw std::runtime_error("'num_total' should be positive");
         }
-        const Number_ num_m1 = num_total - 1;
+        const std::size_t num_m1 = num_total - 1;
 
         const auto num_quantiles = quantiles.size();
         Output_ last_quantile = -1;
@@ -65,10 +63,10 @@ public:
     }
 
 private:
-    Number_ my_len;
+    std::size_t my_len;
 
     struct Configuration { 
-        Number_ upper_index;
+        std::size_t upper_index;
         Output_ upper_fraction;
         bool skip_lower;
     };
@@ -78,12 +76,12 @@ private:
 public:
     /**
      * @tparam Input_ Numeric type of the input values.
-     * @tparam OutputFun_ Functor that accepts a `Number_` and an `Output_`.
+     * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param[in] ptr Pointer to the start of an array of length `num_total`.
      * This should not contain any NaN values.
      * On output, the elements may be reordered.
-     * @param output Function that accepts a `Number_`, the index of the probability in `quantiles`;
+     * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
      */
@@ -92,8 +90,8 @@ public:
         const auto end = ptr + my_len;
         const auto num_quantiles = my_stacks.size();
 
-        Number_ last_index = 0;
-        Number_ last_index_p1 = 0; // yes, this is a deliberate starting value for 'last_index + 1'.
+        std::size_t last_index = 0;
+        std::size_t last_index_p1 = 0; // yes, this is a deliberate starting value for 'last_index + 1'.
         Output_ lower_val, upper_val;
 
         for (I<decltype(num_quantiles)> q = 0; q < num_quantiles; ++q) {
@@ -140,19 +138,19 @@ public:
      * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
      *
      * @tparam Input_ Numeric type of the input values.
-     * @tparam OutputFun_ Functor that accepts a `Number_` and an `Output_`.
+     * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param num_non_zero Number of structural non-zeros in the sparse vector.
      * This should be no greater than `num_total`.
      * @param[in] values Pointer to the start of an array of length `num_non_zero`, containing the values of the structural non-zeros of the sparse vector.
      * It should not contain any NaN values.
      * On output, the elements may be reordered.
-     * @param output Function that accepts a `Number_`, the index of the probability in `quantiles`;
+     * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
      */
     template<typename Input_, class OutputFun_>
-    void operator()(const Number_ num_non_zero, Input_* const values, OutputFun_ output) const {
+    void operator()(const std::size_t num_non_zero, Input_* const values, OutputFun_ output) const {
         assert(num_non_zero <= my_len);
         const auto num_quantiles = my_stacks.size();
 
@@ -166,13 +164,13 @@ public:
             return; 
         }
 
-        Number_ num_negative = 0;
-        for (Number_ i = 0; i < num_non_zero; ++i) {
+        std::size_t num_negative = 0;
+        for (std::size_t i = 0; i < num_non_zero; ++i) {
             num_negative += (values[i] < 0);
         }
 
-        Number_ last_index = 0;
-        Number_ last_index_p1 = 0; // see comments for the dense case for an explanation.
+        std::size_t last_index = 0;
+        std::size_t last_index_p1 = 0; // see comments for the dense case for an explanation.
         I<decltype(num_quantiles)> q = 0;
 
         // Processing all quantiles where both upper and lower values are negative.
@@ -252,8 +250,8 @@ public:
         }
 
         // Processing all quantiles where both the lower and upper values are zero.
-        const Number_ num_zeros = my_len - num_non_zero;
-        const Number_ num_not_positive = num_zeros + num_negative;
+        const std::size_t num_zeros = my_len - num_non_zero;
+        const std::size_t num_not_positive = num_zeros + num_negative;
         for (; q < num_quantiles; ++q) {
             if (my_stacks[q].upper_index >= num_not_positive) {
                 break;
@@ -300,7 +298,7 @@ public:
                 const auto& curstack = my_stacks[q];
 
                 // This should always be positive as we know that 'upper_index > num_not_positive' and thus 'upper_index - num_zeros > num_negative >= 0'.
-                const Number_ curindex = curstack.upper_index - num_zeros;
+                const std::size_t curindex = curstack.upper_index - num_zeros;
 
                 // Even with subtraction of num_zeros, we can be sure that 'curindex >= last_index + 1' in the first iteration of this loop.
                 // From the clauses above, we know that 'last_index <= num_negative' and 'upper_index > num_not_positive'.
@@ -338,31 +336,28 @@ public:
  *
  * @tparam Output_ Floating-point type of the output quantile.
  * This should be capable of representing NaNs.
- * @tparam Number_ Integer type of the number of elements.
  * @tparam QuantilesPointer_ Pointer to a container that has a `size()` method and supports access by `[]`.
  * This may or may not be a smart pointer.
  *
  * This uses the same logic as the `MultipleQuantilesFixedNumber` class but supports any number of elements, from zero up to a specified maximum.
  */
-template<typename Output_, typename Number_, class QuantilesPointer_>
+template<typename Output_, class QuantilesPointer_>
 class MultipleQuantilesVariableNumber {
 public:
     /**
      * @param max_num_total Maximum of the total number of elements. 
-     * This should be non-negative.
      * Unlike `MultipleQuantilesFixedNumber`, this may also be zero.
      * @param quantiles_ptr Pointer to a container of sorted quantile probabilities.
      * Each probability should be in \f$[0, 1]\f$.
      */
-    MultipleQuantilesVariableNumber(const Number_ max_num_total, QuantilesPointer_ quantiles_ptr) : my_quantiles_ptr(std::move(quantiles_ptr)) {
-        assert(max_num_total >= 0);
+    MultipleQuantilesVariableNumber(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr) : my_quantiles_ptr(std::move(quantiles_ptr)) {
         if (max_num_total >= 2) {
             sanisizer::resize(my_choices, max_num_total - 1);
         }
     }
 
 private:
-    std::vector<std::optional<MultipleQuantilesFixedNumber<Output_, Number_> > > my_choices;
+    std::vector<std::optional<MultipleQuantilesFixedNumber<Output_> > > my_choices;
     QuantilesPointer_ my_quantiles_ptr;
 
     template<class OutputFun_>
@@ -378,19 +373,19 @@ public:
      * This method is not thread-safe.
      *
      * @tparam Input_ Numeric type of the input values.
-     * @tparam OutputFun_ Functor that accepts a `Number_` and an `Output_`.
+     * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param num_total Total number of the elements from which to compute the quantile.
      * This should be no greater than `max_num_total`.
      * @param[in] ptr Pointer to an array of length `num_total`.
      * This should not contain NaN values.
      * On output, the elements may be reordered.
-     * @param output Function that accepts a `Number_`, the index of the probability in `quantiles`;
+     * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
      */
     template<typename Input_, class OutputFun_>
-    void operator()(const Number_ num_total, Input_* const ptr, OutputFun_ output) {
+    void operator()(const std::size_t num_total, Input_* const ptr, OutputFun_ output) {
         if (num_total == 0) {
             fill(std::numeric_limits<Output_>::quiet_NaN(), std::move(output));
         } else if (num_total == 1) {
@@ -412,7 +407,7 @@ public:
      * This method is not thread-safe.
      *
      * @tparam Input_ Numeric type of the input values.
-     * @tparam OutputFun_ Functor that accepts a `Number_` and an `Output_`.
+     * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param num_total Total number of elements from which to compute the quantile.
      * This should be no greater than `max_num_total`.
@@ -422,12 +417,12 @@ public:
      * This is expected to contain the values of the structural non-zero elements of the sparse vector.
      * It should not contain any NaN values.
      * On output, the elements may be reordered.
-     * @param output Function that accepts a `Number_`, the index of the probability in `quantiles`;
+     * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
      */
     template<typename Input_, class OutputFun_>
-    void operator()(const Number_ num_total, const Number_ num_non_zero, Input_* const values, OutputFun_ output) {
+    void operator()(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, OutputFun_ output) {
         if (num_total == 0) {
             fill(std::numeric_limits<Output_>::quiet_NaN(), std::move(output));
         } else if (num_total == 1) {

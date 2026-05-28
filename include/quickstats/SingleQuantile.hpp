@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <optional>
 #include <limits>
+#include <cstddef>
 
 #include "sanisizer/sanisizer.hpp"
 
@@ -22,11 +23,11 @@ namespace quickstats {
 /**
  * @cond
  */
-template<typename Output_, typename Number_>
+template<typename Output_>
 void configure_single_quantile(
     const Output_ quantile,
-    const Number_ num_m1,
-    Number_& upper_index,
+    const std::size_t num_m1,
+    std::size_t& upper_index,
     Output_& upper_fraction,
     bool& skip_lower
 ) {
@@ -40,7 +41,7 @@ void configure_single_quantile(
 
     // Protect the cast from conversion imprecision between size_t and Float_,
     // e.g., if it rounds up or if it converts it to an Inf.
-    const auto converted_upper_index = sanisizer::from_float<Number_>(raw_upper_index);
+    const auto converted_upper_index = sanisizer::from_float<std::size_t>(raw_upper_index);
     if (converted_upper_index <= num_m1) {
         upper_index = converted_upper_index;
         upper_fraction = raw_index - raw_lower_index;
@@ -60,11 +61,10 @@ void configure_single_quantile(
  * @brief Calculate a single quantile from a fixed number of elements.
  *
  * @tparam Output_ Floating-point type of the output quantile.
- * @tparam Number_ Integer type of the number of elements.
  *
  * A `SingleQuantileFixedNumber` instance computes a type 7 quantile, consistent with the default in R's `quantile` function.
  */
-template<typename Output_, typename Number_>
+template<typename Output_>
 class SingleQuantileFixedNumber {
 public:
     /**
@@ -72,20 +72,19 @@ public:
      * This should be positive.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
-    SingleQuantileFixedNumber(const Number_ num_total, const Output_ quantile) : my_num_total(num_total) {
-        static_assert(std::is_integral<Number_>::value);
+    SingleQuantileFixedNumber(const std::size_t num_total, const Output_ quantile) : my_num_total(num_total) {
         static_assert(std::is_floating_point<Output_>::value);
 
         if (num_total <= 0) {
             throw std::out_of_range("'num' should be positive");
         }
-        const Number_ num_m1 = num_total - 1;
+        const std::size_t num_m1 = num_total - 1;
 
         configure_single_quantile(quantile, num_m1, my_upper_index, my_upper_fraction, my_skip_lower);
     }
 
 private:
-    Number_ my_num_total, my_upper_index;
+    std::size_t my_num_total, my_upper_index;
     Output_ my_upper_fraction;
     bool my_skip_lower;
 
@@ -129,7 +128,7 @@ public:
      * @return Quantile of the specified probability.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ num_non_zero, Input_* const ptr) const {
+    Output_ operator()(const std::size_t num_non_zero, Input_* const ptr) const {
         assert(num_non_zero <= my_num_total);
         if (num_non_zero == my_num_total) {
             return operator()(ptr);
@@ -137,8 +136,8 @@ public:
             return 0;
         }
 
-        Number_ num_negative = 0;
-        for (Number_ i = 0; i < num_non_zero; ++i) {
+        std::size_t num_negative = 0;
+        for (std::size_t i = 0; i < num_non_zero; ++i) {
             num_negative += (ptr[i] < 0);
         }
 
@@ -167,8 +166,8 @@ public:
             return static_cast<Output_>(*target) * (1 - my_upper_fraction);
         }
 
-        const Number_ num_zeros = my_num_total - num_non_zero;
-        const Number_ num_not_positive = num_zeros + num_negative;
+        const std::size_t num_zeros = my_num_total - num_non_zero;
+        const std::size_t num_not_positive = num_zeros + num_negative;
         if (my_upper_index < num_not_positive) {
             return 0;
         }
@@ -194,28 +193,25 @@ public:
  *
  * @tparam Output_ Floating-point type of the output quantile.
  * This should be capable of representing NaNs.
- * @tparam Number_ Integer type of the number of elements.
  *
  * This uses the same logic as the `SingleQuantileFixedNumber` class but supports any number of elements, from zero up to a specified maximum.
  */
-template<typename Output_, typename Number_>
+template<typename Output_>
 class SingleQuantileVariableNumber {
 public:
     /**
      * @param max_num_total Maximum of the total number of elements. 
-     * This should be non-negative.
      * Unlike `SingleQuantileFixedNumber`, this may also be zero.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
      */
-    SingleQuantileVariableNumber(const Number_ max_num_total, const Output_ quantile) : my_quantile(quantile) {
-        assert(max_num_total >= 0);
+    SingleQuantileVariableNumber(const std::size_t max_num_total, const Output_ quantile) : my_quantile(quantile) {
         if (max_num_total >= 2) {
             sanisizer::resize(my_choices, max_num_total - 1);
         }
     }
 
 private:
-    std::vector<std::optional<SingleQuantileFixedNumber<Output_, Number_> > > my_choices;
+    std::vector<std::optional<SingleQuantileFixedNumber<Output_> > > my_choices;
     Output_ my_quantile;
 
 public:
@@ -234,7 +230,7 @@ public:
      * If `num_total = 0`, NaN is returned instead.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ num_total, Input_* ptr) {
+    Output_ operator()(const std::size_t num_total, Input_* ptr) {
         if (num_total == 0) {
             return std::numeric_limits<Output_>::quiet_NaN();
         } else if (num_total == 1) {
@@ -270,7 +266,7 @@ public:
      * If `num_total = 0`, NaN is returned instead.
      */
     template<typename Input_>
-    Output_ operator()(const Number_ num_total, const Number_ num_non_zero, Input_* const values) {
+    Output_ operator()(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
         if (num_total == 0) {
             return std::numeric_limits<Output_>::quiet_NaN();
         } else if (num_total == 1) {

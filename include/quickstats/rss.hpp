@@ -45,7 +45,6 @@ struct RssResult {
  *
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
- * @tparam Number_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input values.
  *
  * @param num_total Total number of elements in the sparse vector.
@@ -56,8 +55,10 @@ struct RssResult {
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
-template<typename Output_ = double, typename Number_, typename Input_>
-RssResult<Output_> rss(const Number_ num_total, const Number_ num_non_zero, const Input_* const ptr) {
+template<typename Output_ = double, typename Input_>
+RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr) {
+    static_assert(std::is_floating_point<Output_>::value);
+
     RssResult<Output_> output;
     if (num_total == 0) {
         output.mean = std::numeric_limits<Output_>::quiet_NaN();
@@ -65,13 +66,13 @@ RssResult<Output_> rss(const Number_ num_total, const Number_ num_non_zero, cons
     }
 
     Output_& mean = output.mean;
-    for (Number_ i = 0; i < num_non_zero; ++i) {
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
         mean += ptr[i];
     }
     mean /= num_total;
 
     Output_& ssd = output.rss;
-    for (Number_ i = 0; i < num_non_zero; ++i) {
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
         const auto delta = static_cast<Output_>(ptr[i]) - mean;
         ssd += delta * delta;
     }
@@ -91,7 +92,6 @@ RssResult<Output_> rss(const Number_ num_total, const Number_ num_non_zero, cons
  *
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
- * @tparam Number_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input values.
  *
  * @param num_total Total number of elements in the array.
@@ -99,16 +99,16 @@ RssResult<Output_> rss(const Number_ num_total, const Number_ num_non_zero, cons
  *
  * @return The sample mean and residual sum of squares of the array.
  */
-template<typename Output_ = double, typename Number_, typename Input_>
-RssResult<Output_> rss(const Number_ num_total, const Input_* const ptr) {
+template<typename Output_ = double, typename Input_>
+RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr) {
     return rss(num_total, num_total, ptr);
 }
 
 /**
  * @cond
  */
-template<typename Output_ = double, typename Value_, typename Number_>
-void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Number_ count) {
+template<typename Output_ = double, typename Value_, typename Count_>
+void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Count_ count) {
     Output_ delta = static_cast<Output_>(value) - mean;
     mean += delta / count;
     sumsq += delta * (static_cast<Output_>(value) - mean);
@@ -129,12 +129,11 @@ void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Number
  * The idea is to repeatedly call `add()` on each observed vector from 1 to \f$m\f$, followed by a call to `finish()`.
  * `mean[i]` and `rss[i]` will subsequently be filled with the mean and RSS, respectively, for the objective vector `i`.
  *
- * @tparam Number_ Integer type of the number of elements in each objective vector.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
  */
-template<typename Number_, typename Input_, typename Output_ = double>
+template<typename Input_, typename Output_ = double>
 class RssRunningDense {
 public:
     /**
@@ -160,7 +159,7 @@ public:
      * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
      */
     void add(const Input_* const ptr) {
-        my_count = sanisizer::sum<Number_>(my_count, 1);
+        my_count = sanisizer::sum<std::size_t>(my_count, 1);
         for (std::size_t i = 0; i < my_num_obj; ++i) {
             welford_add(my_mean[i], my_rss[i], ptr[i], my_count);
         }
@@ -180,7 +179,9 @@ private:
     std::size_t my_num_obj;
     Output_* my_mean;
     Output_* my_rss;
-    Number_ my_count = 0;
+    std::size_t my_count = 0;
+
+    static_assert(std::is_floating_point<Output_>::value);
 };
 
 /**
@@ -190,12 +191,12 @@ private:
  * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for the unskipped elements of objective vector `i`,
  * while `num_unskipped[i]` will contain the number of unskipped elements. 
  *
- * @tparam Number_ Integer type of the number of elements in each objective vector.
+ * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
  */
-template<typename Number_, typename Input_, typename Output_ = double>
+template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningDenseSkip {
 public:
     /**
@@ -207,7 +208,7 @@ public:
      * @param[out] num_unskipped Pointer to an output array of length `num_obj`.
      * This should be zeroed on input.
      */
-    RssRunningDenseSkip(const std::size_t num_obj, Output_* mean, Output_* rss, Number_* num_unskipped) :
+    RssRunningDenseSkip(const std::size_t num_obj, Output_* mean, Output_* rss, Count_* num_unskipped) :
         my_num_obj(num_obj),
         my_mean(mean),
         my_rss(rss),
@@ -224,15 +225,14 @@ public:
      *
      * @tparam Skip_ Function that indicates whether to skip a particular element. 
      *
-     * @param[in] ptr Pointer to an array of values of length `num`, corresponding to an observed vector.
+     * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
      * @param skip Function that accepts the index of an objective vector `i` and its value `ptr[i]`,
      * and returns a boolean indicating whether to skip this element.
      */
     template<class Skip_>
     void add(const Input_* ptr, Skip_ skip) {
-        // my_count is the upper bound of all my_ok_count, so we check it once
-        // here to avoid having to check it in the loop.
-        my_count = sanisizer::sum<Number_>(my_count, 1);
+        // my_count is the upper bound of all my_num_unskipped, so we check it once here to avoid having to check it in the loop.
+        my_count = sanisizer::sum<Count_>(my_count, 1);
 
         for (std::size_t i = 0; i < my_num_obj; ++i) {
             const auto val = ptr[i];
@@ -262,15 +262,18 @@ private:
     std::size_t my_num_obj;
     Output_* my_mean;
     Output_* my_rss;
-    Number_ my_count = 0;
-    Number_* my_num_unskipped;
+    Count_ my_count = 0;
+    Count_* my_num_unskipped;
+
+    static_assert(std::is_integral<Count_>::value);
+    static_assert(std::is_floating_point<Output_>::value);
 };
 
 /**
  * @cond
  */
-template<typename Output_ = double, typename Number_>
-void welford_add_zeros(Output_& mean, Output_& sumsq, const Number_ num_total, const Number_ num_non_zero) {
+template<typename Output_ = double, typename Count_>
+void welford_add_zeros(Output_& mean, Output_& sumsq, const Count_ num_total, const Count_ num_non_zero) {
     const auto ratio = static_cast<Output_>(num_non_zero) / static_cast<Output_>(num_total);
     sumsq += mean * mean * ratio * (num_total - num_non_zero);
     mean *= ratio;
@@ -287,12 +290,12 @@ void welford_add_zeros(Output_& mean, Output_& sumsq, const Number_ num_total, c
  * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for objective vector `i`.
  * while `num_non_zero[i]` will contain the number of structural non-zero elements. 
  *
- * @tparam Number_ Integer type of the number of elements in each objective vector.
+ * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
  */
-template<typename Number_, typename Input_, typename Output_ = double>
+template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparse {
 public:
     /**
@@ -304,7 +307,7 @@ public:
      * @param[out] num_non_zero Pointer to an output array of length `num_obj`.
      * This should be zeroed on input.
      */
-    RssRunningSparse(const std::size_t num_obj, Output_* const mean, Output_* const rss, Number_* const num_non_zero) : 
+    RssRunningSparse(const std::size_t num_obj, Output_* const mean, Output_* const rss, Count_* const num_non_zero) : 
         my_num_obj(num_obj),
         my_mean(mean),
         my_rss(rss),
@@ -328,8 +331,11 @@ public:
      */
     template<typename Index_>
     void add(const std::size_t num_non_zero_obs, const Input_* const value, const Index_* const index) {
+        static_assert(std::is_integral<Index_>::value);
+
         // my_count is the upper bound of all my_num_non_zero, so no need to check individual increments.
-        my_count = sanisizer::sum<Number_>(my_count, 1);
+        my_count = sanisizer::sum<Count_>(my_count, 1);
+
         for (std::size_t i = 0; i < num_non_zero_obs; ++i) {
             const auto ri = index[i]; 
             welford_add(my_mean[ri], my_rss[ri], value[i], ++(my_num_non_zero[ri]));
@@ -354,8 +360,11 @@ private:
     std::size_t my_num_obj;
     Output_* my_mean;
     Output_* my_rss;
-    Number_* my_num_non_zero;
-    Number_ my_count = 0;
+    Count_* my_num_non_zero;
+    Count_ my_count = 0;
+
+    static_assert(std::is_integral<Count_>::value);
+    static_assert(std::is_floating_point<Output_>::value);
 };
 
 /** 
@@ -371,12 +380,12 @@ private:
  * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for objective vector `i`.
  * while `num_non_zero[i]` will contain the number of structural non-zero elements. 
  *
- * @tparam Number_ Integer type of the number of elements in each objective vector.
+ * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
  */
-template<typename Number_, typename Input_, typename Output_ = double>
+template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparseSkip {
 public:
     /**
@@ -388,7 +397,7 @@ public:
      * @param[out] num_non_zero Pointer to an output array of length `num_obj`.
      * This should be zeroed on input.
      */
-    RssRunningSparseSkip(const std::size_t num_obj, Output_* const mean, Output_* const rss, Number_* const num_non_zero, Number_* const num_unskipped) : 
+    RssRunningSparseSkip(const std::size_t num_obj, Output_* const mean, Output_* const rss, Count_* const num_non_zero, Count_* const num_unskipped) : 
         my_num_obj(num_obj),
         my_mean(mean),
         my_rss(rss),
@@ -417,8 +426,10 @@ public:
      */
     template<typename Index_, class Skip_>
     void add(const std::size_t num_non_zero_obs, const Input_* value, const Index_* index, Skip_ skip) {
+        static_assert(std::is_integral<Index_>::value);
+
         // my_count is the upper bound of all my_num_non_zero, so no need to check individual increments.
-        my_count = sanisizer::sum<Number_>(my_count, 1);
+        my_count = sanisizer::sum<Count_>(my_count, 1);
 
         for (std::size_t i = 0; i < num_non_zero_obs; ++i) {
             const auto val = value[i];
@@ -457,9 +468,12 @@ private:
     std::size_t my_num_obj;
     Output_* my_mean;
     Output_* my_rss;
-    Number_* my_num_non_zero;
-    Number_* my_num_unskipped;
-    Number_ my_count = 0;
+    Count_* my_num_non_zero;
+    Count_* my_num_unskipped;
+    Count_ my_count = 0;
+
+    static_assert(std::is_integral<Count_>::value);
+    static_assert(std::is_floating_point<Output_>::value);
 };
 
 }

@@ -21,7 +21,7 @@ TEST_P(MultipleQuantilesRealisticTest, Dense) {
     std::mt19937_64 rng(range.first + range.second * 2 + num * 4 + nprobs * 8);
     auto sim = simulate_vector<double>(num, range.first, range.second, rng);
 
-    quickstats::MultipleQuantilesFixedNumber<double, int> mult(num, probs);
+    quickstats::MultipleQuantilesFixedNumber<double> mult(num, probs);
     std::vector<double> res(nprobs);
     auto copy = sim;
     mult(copy.data(), [&](std::size_t i, double val) -> void {
@@ -29,7 +29,7 @@ TEST_P(MultipleQuantilesRealisticTest, Dense) {
     });
 
     for (std::size_t p = 0; p < nprobs; ++p) {
-        quickstats::SingleQuantileFixedNumber<double, int> quant(num, probs[p]);
+        quickstats::SingleQuantileFixedNumber<double> quant(num, probs[p]);
         std::copy(sim.begin(), sim.end(), copy.begin());
         EXPECT_EQ(quant(copy.data()), res[p]);
     }
@@ -45,7 +45,7 @@ TEST_P(MultipleQuantilesRealisticTest, Sparse) {
     std::mt19937_64 rng(range.first + range.second * 2 + num * 4 + nprobs * 8);
     auto sim = simulate_vector<double>(num, range.first, range.second, rng);
 
-    quickstats::MultipleQuantilesFixedNumber<double, int> mult(num, probs);
+    quickstats::MultipleQuantilesFixedNumber<double> mult(num, probs);
 
     for (int z = 0; z <= num; ++z) {
         std::vector<double> res(nprobs);
@@ -55,7 +55,7 @@ TEST_P(MultipleQuantilesRealisticTest, Sparse) {
         });
 
         for (std::size_t p = 0; p < nprobs; ++p) {
-            quickstats::SingleQuantileFixedNumber<double, int> quant(num, probs[p]);
+            quickstats::SingleQuantileFixedNumber<double> quant(num, probs[p]);
             std::copy_n(sim.begin(), z, copy.begin());
             EXPECT_EQ(quant(z, copy.data()), res[p]);
         }
@@ -86,7 +86,7 @@ INSTANTIATE_TEST_SUITE_P(
 TEST(MultipleQuantiles, EdgeCases) {
     std::string msg;
     try {
-        quickstats::MultipleQuantilesFixedNumber<double, int>(0, std::vector<double>());
+        quickstats::MultipleQuantilesFixedNumber<double>(0, std::vector<double>());
     } catch (std::exception& e) {
         msg = e.what();
     }
@@ -94,7 +94,7 @@ TEST(MultipleQuantiles, EdgeCases) {
 
     msg.clear();
     try {
-        quickstats::MultipleQuantilesFixedNumber<double, int>(10, std::vector<double>{ 1., 0. });
+        quickstats::MultipleQuantilesFixedNumber<double>(10, std::vector<double>{ 1., 0. });
     } catch (std::exception& e) {
         msg = e.what();
     }
@@ -102,7 +102,7 @@ TEST(MultipleQuantiles, EdgeCases) {
 
     // Check that the methods function correctly with no quantiles.
     {
-        quickstats::MultipleQuantilesFixedNumber<double, int> foo(10, std::vector<double>());
+        quickstats::MultipleQuantilesFixedNumber<double> foo(10, std::vector<double>());
         std::vector<double> input { 1, -1, 2, -2, 3, -3, 4, -4, 5, -5 };
 
         std::vector<double> res;
@@ -120,7 +120,7 @@ TEST(MultipleQuantiles, EdgeCases) {
 
 TEST(MultipleQuantiles, IntegerInput) {
     std::vector<double> quantiles{ 0.5, 0.5, 0.5 };
-    quickstats::MultipleQuantilesFixedNumber<double, int> test(10, quantiles);
+    quickstats::MultipleQuantilesFixedNumber<double> test(10, quantiles);
     std::vector<int> original{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
     {
@@ -163,7 +163,7 @@ TEST(MultipleQuantiles, Infinities) {
     std::vector<double> quantiles{ 0.1, 0.4, 0.6, 0.8};
     const auto inf = std::numeric_limits<double>::infinity();
     std::vector<double> original{ -inf, -inf, 0, inf, inf };
-    quickstats::MultipleQuantilesFixedNumber<double, int> test(original.size(), quantiles);
+    quickstats::MultipleQuantilesFixedNumber<double> test(original.size(), quantiles);
 
     std::vector<double> res(quantiles.size());
     test(original.data(), [&](int i, double q) -> void {
@@ -181,7 +181,7 @@ TEST(MultipleQuantiles, Infinities) {
 TEST(MultipleQuantilesVariable, Dense) {
     std::vector<double> original { 5, 4, 3, 2, 1 };
     std::vector<double> probs { 0., 0.5, 1. };
-    quickstats::MultipleQuantilesVariableNumber<double, int, std::vector<double>*> calc(original.size(), &probs);
+    quickstats::MultipleQuantilesVariableNumber<double, std::vector<double>*> calc(original.size(), &probs);
 
     {
         auto values = original;
@@ -235,7 +235,7 @@ TEST(MultipleQuantilesVariable, Dense) {
 TEST(MultipleQuantilesVariable, Sparse) {
     std::vector<double> original { 10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10 };
     std::vector<double> probs { 0., 0.5, 1. };
-    quickstats::MultipleQuantilesVariableNumber<double, int, std::vector<double>*> calc(11, &probs);
+    quickstats::MultipleQuantilesVariableNumber<double, std::vector<double>*> calc(11, &probs);
 
     {
         auto values = original;

@@ -83,7 +83,7 @@ TEST_P(RssRunningDenseTest, Simple) {
 
     auto mean = sanisizer::create<std::vector<double> >(num_obj);
     auto rss = sanisizer::create<std::vector<double> >(num_obj);
-    quickstats::RssRunningDense<int, double> running(num_obj, mean.data(), rss.data());
+    quickstats::RssRunningDense<double> running(num_obj, mean.data(), rss.data());
 
     for (std::size_t i = 0; i < num_obs; ++i) {
         auto sim = simulate_vector<double>(num_obj, -10.0, 10.0, rng);
@@ -112,7 +112,7 @@ TEST_P(RssRunningDenseTest, SimpleInteger) {
 
     auto mean = sanisizer::create<std::vector<double> >(num_obj);
     auto rss = sanisizer::create<std::vector<double> >(num_obj);
-    quickstats::RssRunningDense<int, int> running(num_obj, mean.data(), rss.data());
+    quickstats::RssRunningDense<int> running(num_obj, mean.data(), rss.data());
 
     for (std::size_t i = 0; i < num_obs; ++i) {
         auto sim = simulate_vector<int>(num_obj, -10, 10, rng);

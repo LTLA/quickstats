@@ -218,8 +218,8 @@ TEST(Median, IntegerInput) {
             dtest.clear();
             dtest.insert(dtest.end(), test.begin(), test.end());
             dtest.resize(i);
-            auto q = quickstats::median<double, int>(i, test.size(), test.data());
-            auto ref = quickstats::median<double, int>(dtest.size(), dtest.data());
+            auto q = quickstats::median<double>(i, test.size(), test.data());
+            auto ref = quickstats::median<double>(dtest.size(), dtest.data());
             EXPECT_EQ(q, ref);
         }
     }
@@ -231,8 +231,8 @@ TEST(Median, IntegerInput) {
             dtest.clear();
             dtest.insert(dtest.end(), test.begin(), test.end());
             dtest.resize(i);
-            auto q = quickstats::median<double, int>(i, test.size(), test.data());
-            auto ref = quickstats::median<double, int>(dtest.size(), dtest.data());
+            auto q = quickstats::median<double>(i, test.size(), test.data());
+            auto ref = quickstats::median<double>(dtest.size(), dtest.data());
             EXPECT_EQ(q, ref);
         }
     }

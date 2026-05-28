@@ -5,6 +5,7 @@
 #include <limits>
 #include <type_traits>
 #include <cassert>
+#include <cstddef>
 
 #include "utils.hpp"
 
@@ -26,20 +27,18 @@ namespace quickstats {
  * @tparam Output_ Floating-point type of the output value.
  * This should be capable of representing NaNs.
  * @tparam Input_ Numeric type of the input values.
- * @tparam Number_ Integer type of the number of elements.
  *
  * @return Median of values in `[ptr, ptr + num_total)`, or NaN if `num_total == 0`.
  */
-template<typename Output_, typename Number_, typename Input_>
-Output_ median(const Number_ num_total, Input_* const ptr) {
-    static_assert(std::is_integral<Number_>::value);
+template<typename Output_, typename Input_>
+Output_ median(const std::size_t num_total, Input_* const ptr) {
     static_assert(std::is_floating_point<Output_>::value);
 
     if (num_total == 0) {
         return std::numeric_limits<Output_>::quiet_NaN();
     }
 
-    const Number_ halfway = num_total / 2;
+    const std::size_t halfway = num_total / 2;
     const bool is_even = (num_total % 2 == 0);
 
     std::nth_element(ptr, ptr + halfway, ptr + num_total);
@@ -72,13 +71,12 @@ Output_ median(const Number_ num_total, Input_* const ptr) {
  *
  * @tparam Output_ Floating-point type of the output value.
  * This should be capable of storing NaNs.
- * @tparam Number_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input values.
  *
  * @return Median of the sparse vector.
  */
-template<typename Output_ = double, typename Number_, typename Input_>
-Output_ median(const Number_ num_total, const Number_ num_non_zero, Input_* const values) {
+template<typename Output_ = double, typename Input_>
+Output_ median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
     assert(num_total >= num_non_zero);
 
     // Fallback to the dense code if there are no structural zeros. This is not
@@ -95,12 +93,12 @@ Output_ median(const Number_ num_total, const Number_ num_non_zero, Input_* cons
         return 0;
     } 
 
-    const Number_ halfway = num_total / 2;
+    const std::size_t halfway = num_total / 2;
     const bool is_even = (num_total % 2 == 0);
 
-    const Number_ num_zero = num_total - num_non_zero;
-    Number_ num_negative = 0;
-    for (Number_ i = 0; i < num_non_zero; ++i) {
+    const std::size_t num_zero = num_total - num_non_zero;
+    std::size_t num_negative = 0;
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
         num_negative += (values[i] < 0);
     }
 
@@ -110,7 +108,7 @@ Output_ median(const Number_ num_total, const Number_ num_non_zero, Input_* cons
             return values[halfway];
 
         } else if (halfway >= num_negative + num_zero) {
-            const Number_ skip_zeros = halfway - num_zero;
+            const std::size_t skip_zeros = halfway - num_zero;
             std::nth_element(values, values + skip_zeros, values + num_non_zero);
             return values[skip_zeros];
 
@@ -126,7 +124,7 @@ Output_ median(const Number_ num_total, const Number_ num_non_zero, Input_* cons
         other = *(std::max_element(values, values + halfway)); // max_element gets the sorted value at halfway - 1, see explanation for the dense case.
 
     } else if (num_negative == halfway) { // the upper half is guaranteed to be zero.
-        const Number_ below_halfway = halfway - 1;
+        const std::size_t below_halfway = halfway - 1;
         std::nth_element(values, values + below_halfway, values + num_non_zero);
         other = values[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
 
@@ -134,12 +132,12 @@ Output_ median(const Number_ num_total, const Number_ num_non_zero, Input_* cons
         ;
 
     } else if (num_negative + num_zero == halfway) { // the lower half is guaranteed to be zero.
-        const Number_ skip_zeros = halfway - num_zero;
+        const std::size_t skip_zeros = halfway - num_zero;
         std::nth_element(values, values + skip_zeros, values + num_non_zero);
         other = values[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
 
     } else { // both halves of the median are non-negative.
-        const Number_ skip_zeros = halfway - num_zero;
+        const std::size_t skip_zeros = halfway - num_zero;
         std::nth_element(values, values + skip_zeros, values + num_non_zero);
         baseline = values[skip_zeros];
         other = *(std::max_element(values, values + skip_zeros)); // max_element gets the sorted value at skip_zeros - 1, see explanation for the dense case.
