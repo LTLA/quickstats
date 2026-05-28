@@ -10,8 +10,8 @@
 #include "utils.hpp"
 
 /**
- * @brief median.hpp
- * @param Compute a median.
+ * @file median.hpp
+ * @brief Compute a median.
  */
 
 namespace quickstats {
@@ -19,10 +19,12 @@ namespace quickstats {
 /**
  * Compute the median of an array of elements.
  *
+ * No consideration is given to special values like NaNs in the array.
+ * If these are to be skipped, consider using `skip_values()` before calling this function.
+ *
  * @param num_total Total number of elements from which to compute a median.
  * @param[in] ptr Pointer to an array of length `num_total`.
- * This should not contain any NaN values.
- * On output, the contents may be reordered. 
+ * On output, the contents may be reordered.
  *
  * @tparam Output_ Floating-point type of the output value.
  * This should be capable of representing NaNs.
@@ -61,12 +63,14 @@ Output_ median(const std::size_t num_total, Input_* const ptr) {
  * Compute the median of a sparse vector.
  * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
  *
+ * No consideration is given to special values like NaNs in the array.
+ * If these are to be skipped, consider using `skip_values()` before calling this function.
+ *
  * @param num_total Total number of elements in the sparse vector.
  * @param num_non_zero Number of structural non-zeros in the sparse vector.
  * This should be no greater than `num_total`.
  * `num_total - num_non_zero` is the number of structural zeros.
  * @param[in] values Pointer to the start of an array of length `num_non_zero`, containing the values of the structural non-zeros of the sparse vector.
- * It should not contain any NaN values.
  * On output, the contents may be reordered.
  *
  * @tparam Output_ Floating-point type of the output value.

@@ -4,6 +4,8 @@
 #include "SingleQuantile.hpp"
 #include "MultipleQuantiles.hpp"
 #include "median.hpp"
+#include "rss.hpp"
+#include "skip_values.hpp"
 
 /**
  * @file quickstats.hpp

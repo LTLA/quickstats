@@ -17,7 +17,7 @@ namespace quickstats {
  * @param num_total Total number of elements.
  * @param[in,out] ptr Pointer to an array of length `num_total`, containing the input elements.
  * On output, the first \f$n\f$ entries will contain the unskipped elements, in the same order as provided in the input.
- * @param skip Function that accepts a `std::size_t` (the positional index of an element in `ptr`) and a `Input_` (the value of the element),
+ * @param skip Function that accepts the index of an element in `ptr` (as a `std::size_t`) and the value of the element (as an `Input_`),
  * and returns a boolean indicating whether this element should be skipped.
  *
  * @return The number of unskipped elements \f$n\f$.

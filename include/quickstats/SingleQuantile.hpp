@@ -14,8 +14,8 @@
 #include "utils.hpp"
 
 /**
- * @brief SingleQuantile.hpp
- * @param Compute a single quantile.
+ * @file SingleQuantile.hpp
+ * @brief Compute a single quantile.
  */
 
 namespace quickstats {
@@ -90,6 +90,11 @@ private:
 
 public:
     /**
+     * Compute the quantile of interest from a dense array.
+     *
+     * No consideration is given to special values like NaNs in the dense array.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
+     *
      * @tparam Input_ Numeric type of the input values.
      *
      * @param[in] ptr Pointer to the start of an array of length `num_total`.
@@ -116,6 +121,9 @@ public:
     /**
      * Overload to compute the desired quantile from a sparse vector of length `num_total`.
      * This vector should have `num_non_zero` structural non-zeros and `num_total - num_non_zero` structural zeros.
+     *
+     * No consideration is given to special values like NaNs in the structural non-zeros.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
      *
      * @tparam Input_ Numeric type of the input values.
      *
@@ -216,6 +224,11 @@ private:
 
 public:
     /**
+     * Compute a single quantile from a dense array of length equal to `num_total`.
+     * 
+     * No consideration is given to special values like NaNs in the array.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
+     *
      * This method is not thread-safe.
      *
      * @tparam Input_ Numeric type of the input values.
@@ -248,6 +261,9 @@ public:
     /**
      * Overload to compute the desired quantile from a sparse vector of length `num_total`.
      * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
+     *
+     * No consideration is given to special values like NaNs in the values of the structural non-zeros.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
      *
      * This method is not thread-safe.
      *

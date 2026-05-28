@@ -14,6 +14,11 @@
 #include "SingleQuantile.hpp"
 #include "utils.hpp"
 
+/**
+ * @file MultipleQuantiles.hpp
+ * @brief Compute multiple quantiles.
+ */
+
 namespace quickstats {
 
 /**
@@ -75,11 +80,15 @@ private:
 
 public:
     /**
+     * Compute multiple quantiles from a dense array of length equal to `num_total`.
+     * 
+     * No consideration is given to special values like NaNs in the array.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
+     *
      * @tparam Input_ Numeric type of the input values.
      * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param[in] ptr Pointer to the start of an array of length `num_total`.
-     * This should not contain any NaN values.
      * On output, the elements may be reordered.
      * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
@@ -137,13 +146,15 @@ public:
      * Overload to compute the desired quantile from a sparse vector of length `num_total`.
      * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
      *
+     * No consideration is given to special values like NaNs in the structural non-zeros.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
+     *
      * @tparam Input_ Numeric type of the input values.
      * @tparam OutputFun_ Functor that accepts a `std::size_t` and an `Output_`.
      *
      * @param num_non_zero Number of structural non-zeros in the sparse vector.
      * This should be no greater than `num_total`.
      * @param[in] values Pointer to the start of an array of length `num_non_zero`, containing the values of the structural non-zeros of the sparse vector.
-     * It should not contain any NaN values.
      * On output, the elements may be reordered.
      * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
@@ -370,6 +381,11 @@ private:
 
 public:
     /**
+     * Compute multiple quantiles from a dense array of length equal to `num_total`.
+     * 
+     * No consideration is given to special values like NaNs in the array.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
+     *
      * This method is not thread-safe.
      *
      * @tparam Input_ Numeric type of the input values.
@@ -378,7 +394,6 @@ public:
      * @param num_total Total number of the elements from which to compute the quantile.
      * This should be no greater than `max_num_total`.
      * @param[in] ptr Pointer to an array of length `num_total`.
-     * This should not contain NaN values.
      * On output, the elements may be reordered.
      * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
@@ -403,6 +418,9 @@ public:
     /**
      * Overload to compute the desired quantile from a sparse vector of length `num_total`.
      * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
+     * 
+     * No consideration is given to special values like NaNs in the values of the structural non-zeros.
+     * If these are to be skipped, consider using `skip_values()` before calling this method.
      *
      * This method is not thread-safe.
      *

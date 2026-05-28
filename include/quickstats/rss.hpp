@@ -43,6 +43,9 @@ struct RssResult {
  * This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences;
  * thus, it is best used with a sufficiently high-precision `Output_` like `double`.
  *
+ * No consideration is given to special values like NaNs in the values of the structural non-zeros.
+ * If these are to be skipped, consider using `skip_values()` before calling this method.
+ *
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
  * @tparam Input_ Numeric type of the input values.
@@ -89,6 +92,9 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  * Compute the residual sum of squares from the mean from a dense array.
  * This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences;
  * thus, it is best used with a sufficiently high-precision `Output_` like `double`.
+ *
+ * No consideration is given to special values like NaNs in the dense array.
+ * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
@@ -155,6 +161,9 @@ public:
 public:
     /**
      * Add the next observed vector to the variance calculation.
+     *
+     * No consideration is given to special values like NaNs in the vector.
+     * If these are to be skipped, consider using `RssRunningDenseSkip` instead.
      *
      * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
      */
@@ -226,7 +235,7 @@ public:
      * @tparam Skip_ Function that indicates whether to skip a particular element. 
      *
      * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
-     * @param skip Function that accepts the index of an objective vector `i` and its value `ptr[i]`,
+     * @param skip Function that accepts the index of an objective vector `i` (as a `std::size_t`) and its value `ptr[i]` (as a `Input_`),
      * and returns a boolean indicating whether to skip this element.
      */
     template<class Skip_>
@@ -321,6 +330,9 @@ public:
     /**
      * Add the next observed sparse vector to the variance calculation.
      *
+     * No consideration is given to special values like NaNs in the structural non-zeros.
+     * If these are to be skipped, consider using `RssRunningDenseSkip` instead.
+     *
      * @tparam Index_ Integer type of the indices of the structural non-zeros.
      *
      * @param num_non_zero_obs Number of non-zero elements in the observed vector, i.e., the length of the `value` and `index` arrays.
@@ -396,6 +408,8 @@ public:
      * This should be zeroed on input.
      * @param[out] num_non_zero Pointer to an output array of length `num_obj`.
      * This should be zeroed on input.
+     * @param[out] num_unskipped Pointer to an output array of length `num_obj`.
+     * This should be zeroed on input.
      */
     RssRunningSparseSkip(const std::size_t num_obj, Output_* const mean, Output_* const rss, Count_* const num_non_zero, Count_* const num_unskipped) : 
         my_num_obj(num_obj),
@@ -421,7 +435,7 @@ public:
      * @param[in] index Pointer to an array containing the indices of the structural non-zero elements.
      * Elements should be unique and less than `num_obj` in the constructor.
      * Each element should correspond to an element in `value`.
-     * @param skip Function that accepts the index of an objective vector `index[i]` and its value `value[i]` for some `i < num_non_zero_obs`,
+     * @param skip Function that accepts the index of an objective vector `index[i]` (as an `Index_`) and its value `value[i]` (as an `Input_`) for some `i < num_non_zero_obs`,
      * and returns a boolean indicating whether to skip this element.
      */
     template<typename Index_, class Skip_>
