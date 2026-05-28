@@ -17,6 +17,12 @@
     <class kind="class">quickstats::RssRunningSparseSkip</class>
     <namespace>quickstats</namespace>
   </compound>
+  <compound kind="file">
+    <name>skip_values.hpp</name>
+    <path>quickstats/</path>
+    <filename>skip__values_8hpp.html</filename>
+    <namespace>quickstats</namespace>
+  </compound>
   <compound kind="class">
     <name>quickstats::MultipleQuantilesFixedNumber</name>
     <filename>classquickstats_1_1MultipleQuantilesFixedNumber.html</filename>
@@ -298,6 +304,13 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a18014e9467233e456a3b77b682d9a020</anchor>
       <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::size_t</type>
+      <name>skip_values</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a20deb047ec36e9fa0bc25dde40a3a8d3</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, Skip_ skip)</arglist>
     </member>
   </compound>
   <compound kind="page">

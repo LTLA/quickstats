@@ -150,6 +150,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a18014e9467233e456a3b77b682d9a020" id="r_a18014e9467233e456a3b77b682d9a020"><td class="memTemplParams" colspan="2">template&lt;typename Float_ &gt; </td></tr>
 <tr class="memitem:a18014e9467233e456a3b77b682d9a020"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a18014e9467233e456a3b77b682d9a020">recenter_rss</a> (const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</td></tr>
 <tr class="separator:a18014e9467233e456a3b77b682d9a020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3" id="r_a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class Skip_ &gt; </td></tr>
+<tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values</a> (const std::size_t num_total, Input_ *const ptr, Skip_ skip)</td></tr>
+<tr class="separator:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="median_8hpp_source.html">median.hpp</a> </p>
@@ -378,6 +381,50 @@ template&lt;typename Float_ &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The recentered RSS, or <code>old_rss</code> (which should be zero) if <code>num_total == 0</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a20deb047ec36e9fa0bc25dde40a3a8d3" name="a20deb047ec36e9fa0bc25dde40a3a8d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20deb047ec36e9fa0bc25dde40a3a8d3">&#9670;&#160;</a></span>skip_values()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Input_ , class Skip_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t quickstats::skip_values </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Skip_</td>          <td class="paramname"><span class="paramname"><em>skip</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input. </td></tr>
+    <tr><td class="paramname">Skip_</td><td>Function defining what elements to skip.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>, containing the input elements. On output, the first \(n\) entries will contain the unskipped elements, in the same order as provided in the input. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">skip</td><td>Function that accepts a <code>std::size_t</code> (the positional index of an element in <code>ptr</code>) and a <code>Input_</code> (the value of the element), and returns a boolean indicating whether this element should be skipped.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of unskipped elements \(n\). </dd></dl>
 
 </div>
 </div>
