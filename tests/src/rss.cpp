@@ -541,3 +541,48 @@ TEST(Rss, RunningSkipAll) {
         }
     }
 }
+
+/***************************************/
+
+TEST(Rss, Recenter) {
+    std::mt19937_64 rng(1234);
+
+    // Into 2.
+    {
+        auto values = simulate_vector<double>(19, -10.0, 10.0, rng);
+        auto first = quickstats::rss(9, values.data());
+        auto second = quickstats::rss(10, values.data() + 9);
+
+        auto all = quickstats::rss(19, values.data());
+        auto combined = quickstats::recenter_rss(9, first.rss, first.mean, all.mean)
+            + quickstats::recenter_rss(10, second.rss, second.mean, all.mean);
+
+        almost_equal_floats(combined, all.rss);
+    }
+
+    // Into 5.
+    {
+        auto values = simulate_vector<double>(31, -10.0, 10.0, rng);
+        auto res1 = quickstats::rss(2, values.data());
+        auto res2 = quickstats::rss(4, values.data() + 2);
+        auto res3 = quickstats::rss(8, values.data() + 6);
+        auto res4 = quickstats::rss(16, values.data() + 14);
+        auto res5 = quickstats::rss(1, values.data() + 30);
+
+        auto all = quickstats::rss(31, values.data());
+        auto combined = quickstats::recenter_rss(2, res1.rss, res1.mean, all.mean)
+            + quickstats::recenter_rss(4, res2.rss, res2.mean, all.mean)
+            + quickstats::recenter_rss(8, res3.rss, res3.mean, all.mean)
+            + quickstats::recenter_rss(16, res4.rss, res4.mean, all.mean)
+            + quickstats::recenter_rss(1, res5.rss, res5.mean, all.mean);
+
+        almost_equal_floats(combined, all.rss);
+    }
+
+    // Ignores an NaN mean.
+    {
+        auto res = quickstats::rss(0, static_cast<double*>(NULL));
+        EXPECT_EQ(quickstats::recenter_rss(0, res.rss, res.mean, 50.0), 0);
+    }
+}
+

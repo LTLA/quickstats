@@ -476,6 +476,32 @@ private:
     static_assert(std::is_floating_point<Output_>::value);
 };
 
+/**
+ * Recenter the residual sum of squares, i.e., sum of squares from a different mean.
+ * This is typically used to combine RSS values from different subsets of the data, e.g., when splitting calculations across cores.
+ * In such cases, the global mean across the entire dataset should be used as the new mean,
+ * and the sum of the recentered RSS values will be the RSS of the entire dataset.
+ * (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)
+ *
+ * @param num_total Total number of elements used to compute the RSS.
+ * @param old_rss The old value of the RSS.
+ * @param old_mean The old mean used to compute the RSS.
+ * @param new_mean The new mean. 
+ *
+ * @tparam Float_ Floating-point type of the various statistics.
+ *
+ * @return The recentered RSS, or `old_rss` (which should be zero) if `num_total == 0`.
+ */
+template<typename Float_>
+Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
+    if (num_total == 0) {
+        return old_rss;
+    } else {
+        const Float_ delta = old_mean - new_mean;
+        return old_rss + num_total * delta * delta;
+    }
+}
+
 }
 
 #endif
