@@ -1,6 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <tagfile doxygen_version="1.12.0">
   <compound kind="file">
+    <name>median.hpp</name>
+    <path>quickstats/</path>
+    <filename>median_8hpp.html</filename>
+    <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="file">
+    <name>MultipleQuantiles.hpp</name>
+    <path>quickstats/</path>
+    <filename>MultipleQuantiles_8hpp.html</filename>
+    <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
+    <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
+    <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="file">
     <name>quickstats.hpp</name>
     <path>quickstats/</path>
     <filename>quickstats_8hpp.html</filename>
@@ -15,6 +29,14 @@
     <class kind="class">quickstats::RssRunningDenseSkip</class>
     <class kind="class">quickstats::RssRunningSparse</class>
     <class kind="class">quickstats::RssRunningSparseSkip</class>
+    <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="file">
+    <name>SingleQuantile.hpp</name>
+    <path>quickstats/</path>
+    <filename>SingleQuantile_8hpp.html</filename>
+    <class kind="class">quickstats::SingleQuantileFixedNumber</class>
+    <class kind="class">quickstats::SingleQuantileVariableNumber</class>
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">

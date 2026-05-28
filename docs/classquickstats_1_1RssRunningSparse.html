@@ -219,6 +219,7 @@ template&lt;typename Index_ &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Add the next observed sparse vector to the variance calculation.</p>
+<p>No consideration is given to special values like NaNs in the structural non-zeros. If these are to be skipped, consider using <code><a class="el" href="classquickstats_1_1RssRunningDenseSkip.html" title="Running residual sum of squares from dense data, with skipping.">RssRunningDenseSkip</a></code> instead.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Index_</td><td>Integer type of the indices of the structural non-zeros.</td></tr>

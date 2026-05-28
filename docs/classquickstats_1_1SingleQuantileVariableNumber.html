@@ -200,6 +200,8 @@ template&lt;typename Input_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Compute a single quantile from a dense array of length equal to <code>num_total</code>.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <p>This method is not thread-safe.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -254,6 +256,7 @@ template&lt;typename Input_ &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Overload to compute the desired quantile from a sparse vector of length <code>num_total</code>. This vector is assumed to have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> zeros.</p>
+<p>No consideration is given to special values like NaNs in the values of the structural non-zeros. If these are to be skipped, consider using <code><a class="el" href="namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <p>This method is not thread-safe.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">

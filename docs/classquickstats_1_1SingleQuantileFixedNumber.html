@@ -196,6 +196,8 @@ template&lt;typename Input_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Compute the quantile of interest from a dense array.</p>
+<p>No consideration is given to special values like NaNs in the dense array. If these are to be skipped, consider using <code><a class="el" href="namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>
@@ -243,6 +245,7 @@ template&lt;typename Input_ &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Overload to compute the desired quantile from a sparse vector of length <code>num_total</code>. This vector should have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> structural zeros.</p>
+<p>No consideration is given to special values like NaNs in the structural non-zeros. If these are to be skipped, consider using <code><a class="el" href="namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Numeric type of the input values.</td></tr>

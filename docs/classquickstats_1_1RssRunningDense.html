@@ -202,6 +202,7 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Add the next observed vector to the variance calculation.</p>
+<p>No consideration is given to special values like NaNs in the vector. If these are to be skipped, consider using <code><a class="el" href="classquickstats_1_1RssRunningDenseSkip.html" title="Running residual sum of squares from dense data, with skipping.">RssRunningDenseSkip</a></code> instead.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of values of length <code>num_obj</code>, corresponding to an observed vector. </td></tr>

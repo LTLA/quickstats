@@ -223,7 +223,7 @@ template&lt;class Skip_ &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of values of length <code>num_obj</code>, corresponding to an observed vector. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">skip</td><td>Function that accepts the index of an objective vector <code>i</code> and its value <code>ptr[i]</code>, and returns a boolean indicating whether to skip this element. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">skip</td><td>Function that accepts the index of an objective vector <code>i</code> (as a <code>std::size_t</code>) and its value <code>ptr[i]</code> (as a <code>Input_</code>), and returns a boolean indicating whether to skip this element. </td></tr>
   </table>
   </dd>
 </dl>

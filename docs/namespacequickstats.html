@@ -100,7 +100,7 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="median_8hpp_source.html">median.hpp</a>  
+<p>Quickly compute simple statistics.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -155,16 +155,7 @@ Functions</h2></td></tr>
 <tr class="separator:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="median_8hpp_source.html">median.hpp</a> </p>
-<p><a class="el" href="SingleQuantile_8hpp_source.html">SingleQuantile.hpp</a>.</p>
-<p>Quickly compute simple statistics.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">Compute</td><td>a median.</td></tr>
-    <tr><td class="paramname">Compute</td><td>a single quantile. </td></tr>
-  </table>
-  </dd>
-</dl>
+<div class="textblock"><p>Quickly compute simple statistics. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a66ea74c07fc1cb5a9a9689c8afc76123" name="a66ea74c07fc1cb5a9a9689c8afc76123"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66ea74c07fc1cb5a9a9689c8afc76123">&#9670;&#160;</a></span>median() <span class="overload">[1/2]</span></h2>
@@ -187,10 +178,11 @@ template&lt;typename Output_ , typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Compute the median of an array of elements.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements from which to compute a median. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. This should not contain any NaN values. On output, the contents may be reordered.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. On output, the contents may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
@@ -231,11 +223,12 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Compute the median of a sparse vector. This vector is assumed to have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> zeros.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. It should not contain any NaN values. On output, the contents may be reordered.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. On output, the contents may be reordered.</td></tr>
   </table>
   </dd>
 </dl>
@@ -276,6 +269,7 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Compute the residual sum of squares from a sparse vector. This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences; thus, it is best used with a sufficiently high-precision <code>Output_</code> like <code>double</code>.</p>
+<p>No consideration is given to special values like NaNs in the values of the structural non-zeros. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
@@ -316,6 +310,7 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Compute the residual sum of squares from the mean from a dense array. This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences; thus, it is best used with a sufficiently high-precision <code>Output_</code> like <code>double</code>.</p>
+<p>No consideration is given to special values like NaNs in the dense array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this method.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
@@ -420,7 +415,7 @@ template&lt;typename Input_ , class Skip_ &gt; </div>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>, containing the input elements. On output, the first \(n\) entries will contain the unskipped elements, in the same order as provided in the input. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">skip</td><td>Function that accepts a <code>std::size_t</code> (the positional index of an element in <code>ptr</code>) and a <code>Input_</code> (the value of the element), and returns a boolean indicating whether this element should be skipped.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">skip</td><td>Function that accepts the index of an element in <code>ptr</code> (as a <code>std::size_t</code>) and the value of the element (as an <code>Input_</code>), and returns a boolean indicating whether this element should be skipped.</td></tr>
   </table>
   </dd>
 </dl>

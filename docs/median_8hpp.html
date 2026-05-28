@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>quickstats: quickstats/quickstats.hpp File Reference</title>
+<title>quickstats: quickstats/median.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -98,24 +98,34 @@ $(function(){ initResizable(false); });
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">quickstats.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">median.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Umbrella header for <b>quickstats</b>.  
+<p>Compute a median.  
 <a href="#details">More...</a></p>
 
-<p><a href="quickstats_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="median_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacequickstats.html">quickstats</a></td></tr>
 <tr class="memdesc:namespacequickstats"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quickly compute simple statistics. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123" id="r_a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplParams" colspan="2">template&lt;typename Output_ , typename Input_ &gt; </td></tr>
+<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">quickstats::median</a> (const std::size_t num_total, Input_ *const ptr)</td></tr>
+<tr class="separator:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976" id="r_a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#a2cb6e9679bbd56aba352d0eb680c1976">quickstats::median</a> (const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</td></tr>
+<tr class="separator:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Umbrella header for <b>quickstats</b>. </p>
+<div class="textblock"><p>Compute a median. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
