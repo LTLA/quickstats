@@ -5,6 +5,7 @@
 #include "MultipleQuantiles.hpp"
 #include "median.hpp"
 #include "rss.hpp"
+#include "pairwise_sum.hpp"
 #include "skip_values.hpp"
 
 /**
