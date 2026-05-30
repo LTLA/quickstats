@@ -15,6 +15,13 @@
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">
+    <name>pairwise_sum.hpp</name>
+    <path>quickstats/</path>
+    <filename>pairwise__sum_8hpp.html</filename>
+    <class kind="struct">quickstats::PairwiseSumWorkspace</class>
+    <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="file">
     <name>quickstats.hpp</name>
     <path>quickstats/</path>
     <filename>quickstats_8hpp.html</filename>
@@ -97,6 +104,11 @@
       <anchor>a109466cd8bfffe33ae837af631228aec</anchor>
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, OutputFun_ output)</arglist>
     </member>
+  </compound>
+  <compound kind="struct">
+    <name>quickstats::PairwiseSumWorkspace</name>
+    <filename>structquickstats_1_1PairwiseSumWorkspace.html</filename>
+    <templarg>typename Output_</templarg>
   </compound>
   <compound kind="struct">
     <name>quickstats::RssResult</name>
@@ -285,6 +297,7 @@
     <filename>namespacequickstats.html</filename>
     <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
     <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
+    <class kind="struct">quickstats::PairwiseSumWorkspace</class>
     <class kind="struct">quickstats::RssResult</class>
     <class kind="class">quickstats::RssRunningDense</class>
     <class kind="class">quickstats::RssRunningDenseSkip</class>
@@ -305,6 +318,20 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a2cb6e9679bbd56aba352d0eb680c1976</anchor>
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>pairwise_sum</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>ad657d40d7dcabdf6e6407d98440a256e</anchor>
+      <arglist>(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>pairwise_sum</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a2686f761a125aff7526fe21efe281686</anchor>
+      <arglist>(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
       <type>RssResult&lt; Output_ &gt;</type>

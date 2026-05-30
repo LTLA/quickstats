@@ -111,6 +111,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">MultipleQuantilesVariableNumber</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate multiple quantiles from a variable number of elements.  <a href="classquickstats_1_1MultipleQuantilesVariableNumber.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-usable workspace for <code><a class="el" href="#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum()</a></code>.  <a href="structquickstats_1_1PairwiseSumWorkspace.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of <code><a class="el" href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">rss()</a></code>.  <a href="structquickstats_1_1RssResult.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +144,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976" id="r_a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
 <tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2cb6e9679bbd56aba352d0eb680c1976">median</a> (const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</td></tr>
 <tr class="separator:a2cb6e9679bbd56aba352d0eb680c1976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad657d40d7dcabdf6e6407d98440a256e" id="r_ad657d40d7dcabdf6e6407d98440a256e"><td class="memTemplParams" colspan="2">template&lt;std::size_t limit_ = 128, typename Input_ , class Modifier_ , typename Output_ &gt; </td></tr>
+<tr class="memitem:ad657d40d7dcabdf6e6407d98440a256e"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum</a> (const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work)</td></tr>
+<tr class="separator:ad657d40d7dcabdf6e6407d98440a256e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2686f761a125aff7526fe21efe281686" id="r_a2686f761a125aff7526fe21efe281686"><td class="memTemplParams" colspan="2">template&lt;std::size_t limit_ = 128, typename Input_ , typename Output_ &gt; </td></tr>
+<tr class="memitem:a2686f761a125aff7526fe21efe281686"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2686f761a125aff7526fe21efe281686">pairwise_sum</a> (const std::size_t num_total, const Input_ *const ptr, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work)</td></tr>
+<tr class="separator:a2686f761a125aff7526fe21efe281686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ee422dd8fc8049526c27e64be4d5480" id="r_a3ee422dd8fc8049526c27e64be4d5480"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
 <tr class="memitem:a3ee422dd8fc8049526c27e64be4d5480"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structquickstats_1_1RssResult.html">RssResult</a>&lt; Output_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ee422dd8fc8049526c27e64be4d5480">rss</a> (const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr)</td></tr>
 <tr class="separator:a3ee422dd8fc8049526c27e64be4d5480"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -240,6 +249,105 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Median of the sparse vector. </dd></dl>
+
+</div>
+</div>
+<a id="ad657d40d7dcabdf6e6407d98440a256e" name="ad657d40d7dcabdf6e6407d98440a256e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad657d40d7dcabdf6e6407d98440a256e">&#9670;&#160;</a></span>pairwise_sum() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t limit_ = 128, typename Input_ , class Modifier_ , typename Output_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::pairwise_sum </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Modifier_</td>          <td class="paramname"><span class="paramname"><em>mod</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>work</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Perform pairwise summation on an array of numeric elements. The array is recursively halved until each subarray is no greater than <code>limit_</code>. Elements in each subarray are summed in sequence, and the subtotals are then added together to obtain the total sum. Compared to naive summation, this reduces round-off error from floating-point imprecision with minimal loss of performance.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">limit_</td><td>Maximum number of elements to sum directly. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
+    <tr><td class="paramname">Modifier_</td><td>Function to apply to each element of the input data to modify it. </td></tr>
+    <tr><td class="paramname">Output_</td><td>Numeric type of the sum.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of observations. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>, containing the elements to be summed. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">mod</td><td>Function that accepts an index into <code>ptr</code> (as a <code>std::size_t</code>) and the value of the element (as an <code>Input_</code>) and returns an <code>Output_</code>. The return value will be used in the summation. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">work</td><td>Workspace that can be re-used across multiple <code><a class="el" href="#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum()</a></code> calls.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Sum of all (modified) elements in <code>[ptr, ptr + num_total)</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a2686f761a125aff7526fe21efe281686" name="a2686f761a125aff7526fe21efe281686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2686f761a125aff7526fe21efe281686">&#9670;&#160;</a></span>pairwise_sum() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t limit_ = 128, typename Input_ , typename Output_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::pairwise_sum </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>work</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Overload of <code><a class="el" href="#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum()</a></code> to conveniently compute the sum of an array without any modification of its elements.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">limit_</td><td>Maximum number of elements to sum directly. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
+    <tr><td class="paramname">Output_</td><td>Numeric type of the sum.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of observations. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>, containing the elements to be summed. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">work</td><td>Workspace that can be re-used across multiple <code><a class="el" href="#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum()</a></code> calls.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Sum of all elements in <code>[ptr, ptr + num_total)</code>. </dd></dl>
 
 </div>
 </div>
