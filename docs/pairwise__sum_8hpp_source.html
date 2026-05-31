@@ -175,9 +175,29 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}</div>
 </div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="comment">/* COMMENTS:</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment"> * I tried to write a multi-threaded version of this where each direct summation was submitted to a separate worker until all workers were occupied,</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment"> * and then added the results once they became available from each worker. </span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment"> * This worksharing is fine-grained but imposes a high cost for inter-thread communication relative to the summation for small `limit_`. </span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment"> * As a consequence, the performance of this multi-threaded version is worse than its serial counterpart.</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment"> * There are many alternative approaches that would have less communication but require more memory.</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment"> * For example, we could split elements into the subarrays ahead of time, distribute the summations to threads once, and then sum the results once all workers are done.</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment"> * This greatly reduces the cross-talk between threads but requires an extra allocation for the results.</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment"> * TBH, the easiest and most performant approach to parallelization is to just split your input array into one subarray per worker,</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment"> * perform the sum within each worker for that subarray, and then add the sums afterwards.</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment"> * This won&#39;t give exactly the same result as serial execution but we&#39;ve crossed that bridge already.</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment"> * (If exact results are required, split it into ceil(log2(num_workers)) subarrays, which allows us to follow the same halving as pairwise_sum().)</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment"> * In any case, summation is already so fast that I don&#39;t think we need to spend a lot of effort in thinking about parallelization.</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment"> * Especially given that, in real applications, the other threads will typically be occupied elsewhere.</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment"> * There is also no parallelization in other parts of this library, so it would be odd to implement it here. </span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>}</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> median.hpp:17</div></div>
 <div class="ttc" id="anamespacequickstats_html_ad657d40d7dcabdf6e6407d98440a256e"><div class="ttname"><a href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:56</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:21</div></div>
