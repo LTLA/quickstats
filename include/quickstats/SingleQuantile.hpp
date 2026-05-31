@@ -8,6 +8,7 @@
 #include <optional>
 #include <limits>
 #include <cstddef>
+#include <vector>
 
 #include "sanisizer/sanisizer.hpp"
 
