@@ -32,6 +32,7 @@
     <path>quickstats/</path>
     <filename>rss_8hpp.html</filename>
     <class kind="struct">quickstats::RssResult</class>
+    <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="class">quickstats::RssRunningDense</class>
     <class kind="class">quickstats::RssRunningDenseSkip</class>
     <class kind="class">quickstats::RssRunningSparse</class>
@@ -240,6 +241,11 @@
       <arglist>()</arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>quickstats::RssWorkspace</name>
+    <filename>structquickstats_1_1RssWorkspace.html</filename>
+    <templarg>typename Output_</templarg>
+  </compound>
   <compound kind="class">
     <name>quickstats::SingleQuantileFixedNumber</name>
     <filename>classquickstats_1_1SingleQuantileFixedNumber.html</filename>
@@ -303,6 +309,7 @@
     <class kind="class">quickstats::RssRunningDenseSkip</class>
     <class kind="class">quickstats::RssRunningSparse</class>
     <class kind="class">quickstats::RssRunningSparseSkip</class>
+    <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
     <member kind="function">
@@ -337,15 +344,15 @@
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a3ee422dd8fc8049526c27e64be4d5480</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr)</arglist>
+      <anchor>a95d0242b517c30e1f406f56dcada7fc3</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>ab18b547c9bf1f469e54292a2d345bacb</anchor>
-      <arglist>(const std::size_t num_total, const Input_ *const ptr)</arglist>
+      <anchor>a4f051c33b4ae44f9d396b5448317f12f</anchor>
+      <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
