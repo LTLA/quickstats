@@ -9,6 +9,7 @@
 #include "sanisizer/sanisizer.hpp"
 
 #include "utils.hpp"
+#include "pairwise_sum.hpp"
 
 /**
  * @file rss.hpp
@@ -38,6 +39,24 @@ struct RssResult {
     Output_ rss = 0;
 };
 
+
+/** 
+ * @brief Re-usable workspace for `rss()`.
+ *
+ * @tparam Output_ Floating-point type of the output data.
+ * This should be capable of storing NaNs.
+ */
+template<typename Output_ = double>
+struct RssWorkspace {
+    /**
+     * @cond
+     */
+    PairwiseSumWorkspace<Output_> pswork;
+    /**
+     * @endcond
+     */
+};
+
 /**
  * Compute the residual sum of squares from a sparse vector.
  * This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences;
@@ -55,11 +74,12 @@ struct RssResult {
  * This should be no greater than `num_total`.
  * `num_total - num_non_zero` is the number of structural zeros.
  * @param[in] ptr Pointer to an array of length `num_non_zero`, containing the values of the structural non-zeros in the sparse vector.
+ * @param work Workspace that can be re-used across multiple `rss()` calls.
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
 template<typename Output_ = double, typename Input_>
-RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr) {
+RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
     static_assert(std::is_floating_point<Output_>::value);
 
     RssResult<Output_> output;
@@ -69,16 +89,19 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
     }
 
     Output_& mean = output.mean;
-    for (std::size_t i = 0; i < num_non_zero; ++i) {
-        mean += ptr[i];
-    }
+    mean = pairwise_sum(num_non_zero, ptr, work.pswork);
     mean /= num_total;
 
     Output_& ssd = output.rss;
-    for (std::size_t i = 0; i < num_non_zero; ++i) {
-        const auto delta = static_cast<Output_>(ptr[i]) - mean;
-        ssd += delta * delta;
-    }
+    ssd = pairwise_sum(
+        num_non_zero,
+        ptr, 
+        [&](std::size_t, const Input_ val) -> Output_ {
+            const auto delta = static_cast<Output_>(val) - mean;
+            return delta * delta;
+        },
+        work.pswork
+    );
 
     assert(num_non_zero <= num_total);
     if (num_non_zero < num_total) {
@@ -102,12 +125,13 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  *
  * @param num_total Total number of elements in the array.
  * @param[in] ptr Pointer to an array of length `num_total`.
+ * @param work Workspace that can be re-used across multiple `rss()` calls.
  *
  * @return The sample mean and residual sum of squares of the array.
  */
 template<typename Output_ = double, typename Input_>
-RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr) {
-    return rss(num_total, num_total, ptr);
+RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work) {
+    return rss(num_total, num_total, ptr, work);
 }
 
 /**
