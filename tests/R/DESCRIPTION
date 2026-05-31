@@ -1,0 +1,9 @@
+Package: quickstats.test
+Title: Test for quickstats
+Version: 0.1.0
+Date: 2026-05-31
+Description: Test bindings for quickstats
+Imports: Rcpp
+LinkingTo: Rcpp
+Encoding: UTF-8
+Config/roxygen2/version: 8.0.0
