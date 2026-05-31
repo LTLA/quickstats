@@ -115,6 +115,31 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Pairw
     );
 }
 
+/* COMMENTS:
+ * I tried to write a multi-threaded version of this where each direct summation was submitted to a separate worker until all workers were occupied,
+ * and then added the results once they became available from each worker. 
+ * This worksharing is fine-grained but imposes a high cost for inter-thread communication relative to the summation for small `limit_`. 
+ * As a consequence, the performance of this multi-threaded version is worse than its serial counterpart.
+ *
+ * I could have implemented alternative approaches that involve less communication but require more memory.
+ * For example, we could split elements into the subarrays ahead of time, distribute the summations to threads once, and then sum the results once all workers are done.
+ * This greatly reduces the cross-talk between threads but requires an extra allocation to store the results.
+ *
+ * TBH, the easiest and most performant approach to parallelization is to just split your input array into one subarray per worker,
+ * perform the sum within each worker for that subarray, and then add the sums afterwards.
+ * This won't give exactly the same result as serial execution but we've crossed that bridge already.
+ * (If exact results are required, we can split it into ceil(log2(num_workers)) subarrays,
+ * which allows us to follow the same halving as pairwise_sum() to get the exact same result at the cost of suboptimal worksharing.)
+ *
+ * In any case, summation is already so fast that I don't think we need to spend a lot of effort in thinking about parallelization.
+ * Especially given that, in real applications, the other threads will typically be occupied elsewhere.
+ * Indeed, we don't deal with parallelization in other parts of this library, so it would be odd to implement it here. 
+ *
+ * I also have a sneaking suspicion that the serial code is already pseudo-parallelized via out-of-order execution,
+ * where the next summation starts before the first one has ended.
+ * I say this because pairwise_sum() somehow manages to be slightly faster than std::accumulate() in our R bindings.
+ */
+
 }
 
 #endif
