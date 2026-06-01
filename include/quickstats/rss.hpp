@@ -67,6 +67,7 @@ struct RssWorkspace {
  *
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
+ * @tparam limit_ Maximum number of elements to sum directly, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
  *
  * @param num_total Total number of elements in the sparse vector.
@@ -78,7 +79,7 @@ struct RssWorkspace {
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
-template<typename Output_ = double, typename Input_>
+template<typename Output_ = double, std::size_t limit_ = 128, typename Input_>
 RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
     static_assert(std::is_floating_point<Output_>::value);
 
@@ -89,11 +90,11 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
     }
 
     Output_& mean = output.mean;
-    mean = pairwise_sum(num_non_zero, ptr, work.pswork);
+    mean = pairwise_sum<limit_>(num_non_zero, ptr, work.pswork);
     mean /= num_total;
 
     Output_& ssd = output.rss;
-    ssd = pairwise_sum(
+    ssd = pairwise_sum<limit_>(
         num_non_zero,
         ptr, 
         [&](std::size_t, const Input_ val) -> Output_ {
