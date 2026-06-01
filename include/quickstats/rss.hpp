@@ -523,8 +523,32 @@ private:
  * (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)
  *
  * @param num_total Total number of elements used to compute the RSS.
+ * This must be positive.
+ * For scenarios where `num_total` might be zero, use `recenter_rss()` instead.
  * @param old_rss The old value of the RSS.
  * @param old_mean The old mean used to compute the RSS.
+ * @param new_mean The new mean. 
+ *
+ * @tparam Float_ Floating-point type of the various statistics.
+ *
+ * @return The recentered RSS, or `old_rss` (which should be zero) if `num_total == 0`.
+ */
+template<typename Float_>
+Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
+    assert(num_total > 0);
+    const Float_ delta = old_mean - new_mean;
+    return old_rss + num_total * delta * delta;
+}
+
+/**
+ * Recenter the residual sum of squares, i.e., sum of squares from a different mean.
+ * This is a safer version of `recenter_rss_unsafe()` that correctly handles `num_total == 0`, at the cost of some performance.
+ *
+ * @param num_total Total number of elements used to compute the RSS.
+ * This should be non-negative.
+ * @param old_rss The old value of the RSS.
+ * @param old_mean The old mean used to compute the RSS.
+ * This is ignored if `num_total == 0`.
  * @param new_mean The new mean. 
  *
  * @tparam Float_ Floating-point type of the various statistics.
@@ -536,8 +560,7 @@ Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Flo
     if (num_total == 0) {
         return old_rss;
     } else {
-        const Float_ delta = old_mean - new_mean;
-        return old_rss + num_total * delta * delta;
+        return recenter_rss_unsafe(num_total, old_rss, old_mean, new_mean);
     }
 }
 
