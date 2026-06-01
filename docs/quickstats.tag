@@ -344,7 +344,7 @@
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a95d0242b517c30e1f406f56dcada7fc3</anchor>
+      <anchor>a483b4c09f0eaabe6c4b6fd9f3a173971</anchor>
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
@@ -360,6 +360,27 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a18014e9467233e456a3b77b682d9a020</anchor>
       <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
+    </member>
+    <member kind="function">
+      <type>Float_</type>
+      <name>rss_to_variance</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a3e61a8fe9d7c3444a1240efdb320862d</anchor>
+      <arglist>(const std::size_t num_total, const Float_ rss)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>rss_to_variance</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a2cf8d8988bbae1ed00d2fcaf198574f3</anchor>
+      <arglist>(const std::size_t num_obj, const std::size_t num_total, Float_ *const rss)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>rss_to_variance</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>ab66e0ff34f470fb675b04db8d84ecdf5</anchor>
+      <arglist>(const std::size_t num_obj, const Count_ *const num_total, Float_ *const rss)</arglist>
     </member>
     <member kind="function">
       <type>std::size_t</type>
