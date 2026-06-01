@@ -541,6 +541,68 @@ Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Flo
     }
 }
 
+/**
+ * Convert the residual sum of squares into the sample variance.
+ *
+ * @tparam Float_ Floating-point type of the RSS and variance.
+ *
+ * @param num_total Total number of observations used to compute the RSS.
+ * @param rss Residual sum of squares, e.g., from `rss()`.
+ * 
+ * @return Sample variance.
+ */
+template<typename Float_>
+Float_ rss_to_variance(const std::size_t num_total, const Float_ rss) {
+    if (num_total < 1) {
+        return std::numeric_limits<Float_>::quiet_NaN();
+    } else {
+        return rss / (num_total - 1);
+    }
+}
+
+/**
+ * Convert an array of residual sums of squares into the corresponding sample variances.
+ * The former is typically generated from `RssRunningDense` or related classes.
+ *
+ * @tparam Float_ Floating-point type of the RSS and variance.
+ *
+ * @param num_obj Number of objective vectors, i.e., the length of the array at `rss`.
+ * @param num_total Total number of observations used to compute the RSS.
+ * @param[in, out] rss On input, a pointer to an array of length `num_obj` containing the residual sum of squares for each objective vector.
+ * On output, each element contains the corresponding sample variance.
+ */
+template<typename Float_>
+void rss_to_variance(const std::size_t num_obj, const std::size_t num_total, Float_* const rss) {
+    if (num_total < 1) {
+        std::fill_n(rss, num_obj, std::numeric_limits<Float_>::quiet_NaN());
+    } else {
+        // For consistency with the other overloads, we won't do the '* (1/denom)' trick.
+        // It shouldn't have much effect on throughput anyway as the bottleneck should be reading from memory.
+        for (std::size_t i = 0; i < num_obj; ++i) {
+            rss[i] /= num_total - 1;
+        }
+    }
+}
+
+/**
+ * Convert an array of residual sums of squares into the corresponding sample variances.
+ * The former is typically generated from `RssRunningDense` or related classes.
+ *
+ * @tparam Count_ Integer type of the number of observations.
+ * @tparam Float_ Floating-point type of the RSS and variance.
+ *
+ * @param num_obj Number of objective vectors, i.e., the length of the array at `rss`.
+ * @param[in] num_total Pointer to an array of length `num_obj`, containing the total number of observations used to compute the RSS in each objective vector.
+ * @param[in, out] rss On input, a pointer to an array of length `num_obj` containing the residual sum of squares for each objective vector.
+ * On output, each element contains the corresponding sample variance.
+ */
+template<typename Count_, typename Float_>
+void rss_to_variance(const std::size_t num_obj, const Count_* const num_total, Float_* const rss) {
+    for (std::size_t i = 0; i < num_obj; ++i) {
+        rss[i] = rss_to_variance(num_total[i], rss[i]);
+    }
+}
+
 }
 
 #endif

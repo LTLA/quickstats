@@ -598,3 +598,29 @@ TEST(Rss, Recenter) {
     }
 }
 
+TEST(Rss, ToVariance) {
+    EXPECT_FLOAT_EQ(quickstats::rss_to_variance(5, 5.0), 1.25);
+    EXPECT_TRUE(std::isnan(quickstats::rss_to_variance(0, 5.0)));
+
+    {
+        std::vector<double> rss_values{ 1.0, 5.0, 3.0 };
+        quickstats::rss_to_variance(rss_values.size(), 11, rss_values.data()); 
+        EXPECT_FLOAT_EQ(rss_values[0], 0.1);
+        EXPECT_FLOAT_EQ(rss_values[1], 0.5);
+        EXPECT_FLOAT_EQ(rss_values[2], 0.3);
+
+        quickstats::rss_to_variance(rss_values.size(), 0, rss_values.data()); 
+        EXPECT_TRUE(std::isnan(rss_values[0]));
+        EXPECT_TRUE(std::isnan(rss_values[1]));
+        EXPECT_TRUE(std::isnan(rss_values[2]));
+    }
+
+    {
+        std::vector<double> rss_values{ 1.0, 5.0, 3.0 };
+        std::vector<int> lengths{ 5, 0, 6 };
+        quickstats::rss_to_variance(rss_values.size(), lengths.data(), rss_values.data()); 
+        EXPECT_FLOAT_EQ(rss_values[0], 0.25);
+        EXPECT_TRUE(std::isnan(rss_values[1]));
+        EXPECT_FLOAT_EQ(rss_values[2], 0.6);
+    }
+}
