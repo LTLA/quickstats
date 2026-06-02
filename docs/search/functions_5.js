@@ -1,10 +1,11 @@
 var searchData=
 [
   ['recenter_5frss_0',['recenter_rss',['../namespacequickstats.html#a18014e9467233e456a3b77b682d9a020',1,'quickstats']]],
-  ['rss_1',['rss',['../namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971',1,'quickstats::rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)'],['../namespacequickstats.html#a4f051c33b4ae44f9d396b5448317f12f',1,'quickstats::rss(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)']]],
-  ['rss_5fto_5fvariance_2',['rss_to_variance',['../namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d',1,'quickstats::rss_to_variance(const std::size_t num_total, const Float_ rss)'],['../namespacequickstats.html#a2cf8d8988bbae1ed00d2fcaf198574f3',1,'quickstats::rss_to_variance(const std::size_t num_obj, const std::size_t num_total, Float_ *const rss)'],['../namespacequickstats.html#ab66e0ff34f470fb675b04db8d84ecdf5',1,'quickstats::rss_to_variance(const std::size_t num_obj, const Count_ *const num_total, Float_ *const rss)']]],
-  ['rssrunningdense_3',['RssRunningDense',['../classquickstats_1_1RssRunningDense.html#af67351fe4df54e9e2f59300b21c1b801',1,'quickstats::RssRunningDense']]],
-  ['rssrunningdenseskip_4',['RssRunningDenseSkip',['../classquickstats_1_1RssRunningDenseSkip.html#a680dcce8b648666fca6715114277adc6',1,'quickstats::RssRunningDenseSkip']]],
-  ['rssrunningsparse_5',['RssRunningSparse',['../classquickstats_1_1RssRunningSparse.html#aee3ab861047492f1ac4b2caf27160b72',1,'quickstats::RssRunningSparse']]],
-  ['rssrunningsparseskip_6',['RssRunningSparseSkip',['../classquickstats_1_1RssRunningSparseSkip.html#aadc49b939d0d88dd8de34c47bbb66e03',1,'quickstats::RssRunningSparseSkip']]]
+  ['recenter_5frss_5funsafe_1',['recenter_rss_unsafe',['../namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4',1,'quickstats']]],
+  ['rss_2',['rss',['../namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971',1,'quickstats::rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)'],['../namespacequickstats.html#a023dc84dd669c9f2dd0d6281d807d972',1,'quickstats::rss(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)']]],
+  ['rss_5fto_5fvariance_3',['rss_to_variance',['../namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d',1,'quickstats::rss_to_variance(const std::size_t num_total, const Float_ rss)'],['../namespacequickstats.html#a2cf8d8988bbae1ed00d2fcaf198574f3',1,'quickstats::rss_to_variance(const std::size_t num_obj, const std::size_t num_total, Float_ *const rss)'],['../namespacequickstats.html#ab66e0ff34f470fb675b04db8d84ecdf5',1,'quickstats::rss_to_variance(const std::size_t num_obj, const Count_ *const num_total, Float_ *const rss)']]],
+  ['rssrunningdense_4',['RssRunningDense',['../classquickstats_1_1RssRunningDense.html#af67351fe4df54e9e2f59300b21c1b801',1,'quickstats::RssRunningDense']]],
+  ['rssrunningdenseskip_5',['RssRunningDenseSkip',['../classquickstats_1_1RssRunningDenseSkip.html#a680dcce8b648666fca6715114277adc6',1,'quickstats::RssRunningDenseSkip']]],
+  ['rssrunningsparse_6',['RssRunningSparse',['../classquickstats_1_1RssRunningSparse.html#aee3ab861047492f1ac4b2caf27160b72',1,'quickstats::RssRunningSparse']]],
+  ['rssrunningsparseskip_7',['RssRunningSparseSkip',['../classquickstats_1_1RssRunningSparseSkip.html#aadc49b939d0d88dd8de34c47bbb66e03',1,'quickstats::RssRunningSparseSkip']]]
 ];

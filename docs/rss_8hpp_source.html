@@ -124,53 +124,52 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
 </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>&gt;</div>
-<div class="foldopen" id="foldopen00050" data-start="{" data-end="};">
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structquickstats_1_1RssWorkspace.html">   50</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace</a> {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a> pswork;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>};</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>&gt;</div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="};">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structquickstats_1_1RssWorkspace.html">   49</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace</a> {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a> pswork;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
 </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_&gt;</div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">   83</a></span><a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> std::size_t num_non_zero, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keyword">static_assert</span>(std::is_floating_point&lt;Output_&gt;::value);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> output;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b">mean</a> = std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> output;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    Output_&amp; mean = output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b">mean</a>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    mean = <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(num_non_zero, ptr, work.pswork);</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    mean /= num_total;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    Output_&amp; ssd = output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">rss</a>;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    ssd = <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        num_non_zero,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        ptr, </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        [&amp;](std::size_t, <span class="keyword">const</span> Input_ val) -&gt; Output_ {</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keyword">const</span> <span class="keyword">auto</span> delta = <span class="keyword">static_cast&lt;</span>Output_<span class="keyword">&gt;</span>(val) - mean;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keywordflow">return</span> delta * delta;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        },</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        work.pswork</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    );</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    assert(num_non_zero &lt;= num_total);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (num_non_zero &lt; num_total) {</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        ssd += <span class="keyword">static_cast&lt;</span>Output_<span class="keyword">&gt;</span>(num_total - num_non_zero) * mean * mean;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> output;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">typename</span> Output_&gt;</div>
+<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">   82</a></span><a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> std::size_t num_non_zero, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">static_assert</span>(std::is_floating_point&lt;Output_&gt;::value);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> output;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b">mean</a> = std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> output;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    Output_&amp; mean = output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b">mean</a>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    mean = <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(num_non_zero, ptr, work.pswork);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    mean /= num_total;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    Output_&amp; ssd = output.<a class="code hl_variable" href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">rss</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    ssd = <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        num_non_zero,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        ptr, </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        [&amp;](std::size_t, <span class="keyword">const</span> Input_ val) -&gt; Output_ {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keyword">const</span> <span class="keyword">auto</span> delta = <span class="keyword">static_cast&lt;</span>Output_<span class="keyword">&gt;</span>(val) - mean;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">return</span> delta * delta;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        },</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        work.pswork</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    );</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    assert(num_non_zero &lt;= num_total);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">if</span> (num_non_zero &lt; num_total) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        ssd += <span class="keyword">static_cast&lt;</span>Output_<span class="keyword">&gt;</span>(num_total - num_non_zero) * mean * mean;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> output;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
 </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">typename</span> Output_&gt;</div>
 <div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a4f051c33b4ae44f9d396b5448317f12f">  134</a></span><a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>(num_total, num_total, ptr, work);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a023dc84dd669c9f2dd0d6281d807d972">  134</a></span><a class="code hl_struct" href="structquickstats_1_1RssResult.html">RssResult&lt;Output_&gt;</a> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">RssWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss&lt;limit_&gt;</a>(num_total, num_total, ptr, work);</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
 </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
@@ -416,56 +415,64 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>};</div>
 </div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span> </div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="foldopen" id="foldopen00535" data-start="{" data-end="}">
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">  535</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">recenter_rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ old_rss, <span class="keyword">const</span> Float_ old_mean, <span class="keyword">const</span> Float_ new_mean) {</div>
-<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
-<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>        <span class="keywordflow">return</span> old_rss;</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>        <span class="keyword">const</span> Float_ delta = old_mean - new_mean;</div>
-<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>        <span class="keywordflow">return</span> old_rss + num_total * delta * delta;</div>
-<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>    }</div>
-<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>}</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00537" data-start="{" data-end="}">
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno"><a class="line" href="namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4">  537</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ old_rss, <span class="keyword">const</span> Float_ old_mean, <span class="keyword">const</span> Float_ new_mean) {</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>    assert(num_total &gt; 0);</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>    <span class="keyword">const</span> Float_ delta = old_mean - new_mean;</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>    <span class="keywordflow">return</span> old_rss + num_total * delta * delta;</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>}</div>
 </div>
-<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span> </div>
-<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="foldopen" id="foldopen00555" data-start="{" data-end="}">
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">  555</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
-<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>    <span class="keywordflow">if</span> (num_total &lt; 1) {</div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Float_&gt;::quiet_NaN();</div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a> / (num_total - 1);</div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    }</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>}</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span> </div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00559" data-start="{" data-end="}">
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">  559</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">recenter_rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ old_rss, <span class="keyword">const</span> Float_ old_mean, <span class="keyword">const</span> Float_ new_mean) {</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>        <span class="keywordflow">return</span> old_rss;</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe</a>(num_total, old_rss, old_mean, new_mean);</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>    }</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>}</div>
 </div>
-<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span> </div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="foldopen" id="foldopen00575" data-start="{" data-end="}">
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2cf8d8988bbae1ed00d2fcaf198574f3">  575</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> std::size_t num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>    <span class="keywordflow">if</span> (num_total &lt; 1) {</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>        std::fill_n(<a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>, num_obj, std::numeric_limits&lt;Float_&gt;::quiet_NaN());</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>        <span class="comment">// For consistency with the other overloads, we won&#39;t do the &#39;* (1/denom)&#39; trick.</span></div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>        <span class="comment">// It shouldn&#39;t have much effect on throughput anyway as the bottleneck should be reading from memory.</span></div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>            <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i] /= num_total - 1;</div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>        }</div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>    }</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>}</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span> </div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00578" data-start="{" data-end="}">
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">  578</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    <span class="keywordflow">if</span> (num_total &lt; 1) {</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Float_&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a> / (num_total - 1);</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>    }</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>}</div>
 </div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span> </div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Count_, <span class="keyword">typename</span> Float_&gt;</div>
-<div class="foldopen" id="foldopen00600" data-start="{" data-end="}">
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno"><a class="line" href="namespacequickstats.html#ab66e0ff34f470fb675b04db8d84ecdf5">  600</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> Count_* <span class="keyword">const</span> num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i] = <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(num_total[i], <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i]);</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    }</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>}</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span> </div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00598" data-start="{" data-end="}">
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2cf8d8988bbae1ed00d2fcaf198574f3">  598</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> std::size_t num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>    <span class="keywordflow">if</span> (num_total &lt; 1) {</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        std::fill_n(<a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>, num_obj, std::numeric_limits&lt;Float_&gt;::quiet_NaN());</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        <span class="comment">// For consistency with the other overloads, we won&#39;t do the &#39;* (1/denom)&#39; trick.</span></div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>        <span class="comment">// It shouldn&#39;t have much effect on throughput anyway as the bottleneck should be reading from memory.</span></div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>            <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i] /= num_total - 1;</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        }</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    }</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>}</div>
 </div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span> </div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>}</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span> </div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span> </div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Count_, <span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00623" data-start="{" data-end="}">
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno"><a class="line" href="namespacequickstats.html#ab66e0ff34f470fb675b04db8d84ecdf5">  623</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> Count_* <span class="keyword">const</span> num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>) {</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i] = <a class="code hl_function" href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">rss_to_variance</a>(num_total[i], <a class="code hl_function" href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">rss</a>[i]);</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>    }</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>}</div>
+</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span> </div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>}</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span> </div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html">quickstats::RssRunningDenseSkip</a></div><div class="ttdoc">Running residual sum of squares from dense data, with skipping.</div><div class="ttdef"><b>Definition</b> rss.hpp:234</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html_a680dcce8b648666fca6715114277adc6"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html#a680dcce8b648666fca6715114277adc6">quickstats::RssRunningDenseSkip::RssRunningDenseSkip</a></div><div class="ttdeci">RssRunningDenseSkip(const std::size_t num_obj, Output_ *mean, Output_ *rss, Count_ *num_unskipped)</div><div class="ttdef"><b>Definition</b> rss.hpp:245</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningDenseSkip_html_a78e0564ca83e9f7dc4220ac0d96e2521"><div class="ttname"><a href="classquickstats_1_1RssRunningDenseSkip.html#a78e0564ca83e9f7dc4220ac0d96e2521">quickstats::RssRunningDenseSkip::add</a></div><div class="ttdeci">void add(const Input_ *ptr, Skip_ skip)</div><div class="ttdef"><b>Definition</b> rss.hpp:267</div></div>
@@ -483,16 +490,17 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclassquickstats_1_1RssRunningSparse_html_aee3ab861047492f1ac4b2caf27160b72"><div class="ttname"><a href="classquickstats_1_1RssRunningSparse.html#aee3ab861047492f1ac4b2caf27160b72">quickstats::RssRunningSparse::RssRunningSparse</a></div><div class="ttdeci">RssRunningSparse(const std::size_t num_obj, Output_ *const mean, Output_ *const rss, Count_ *const num_non_zero)</div><div class="ttdef"><b>Definition</b> rss.hpp:344</div></div>
 <div class="ttc" id="aclassquickstats_1_1RssRunningSparse_html_aefdcce4422dc638fa18b23fd0db3296f"><div class="ttname"><a href="classquickstats_1_1RssRunningSparse.html#aefdcce4422dc638fa18b23fd0db3296f">quickstats::RssRunningSparse::finish</a></div><div class="ttdeci">void finish()</div><div class="ttdef"><b>Definition</b> rss.hpp:386</div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> median.hpp:17</div></div>
-<div class="ttc" id="anamespacequickstats_html_a18014e9467233e456a3b77b682d9a020"><div class="ttname"><a href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">quickstats::recenter_rss</a></div><div class="ttdeci">Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</div><div class="ttdef"><b>Definition</b> rss.hpp:535</div></div>
-<div class="ttc" id="anamespacequickstats_html_a3e61a8fe9d7c3444a1240efdb320862d"><div class="ttname"><a href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">quickstats::rss_to_variance</a></div><div class="ttdeci">Float_ rss_to_variance(const std::size_t num_total, const Float_ rss)</div><div class="ttdef"><b>Definition</b> rss.hpp:555</div></div>
-<div class="ttc" id="anamespacequickstats_html_a483b4c09f0eaabe6c4b6fd9f3a173971"><div class="ttname"><a href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">quickstats::rss</a></div><div class="ttdeci">RssResult&lt; Output_ &gt; rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> rss.hpp:83</div></div>
+<div class="ttc" id="anamespacequickstats_html_a18014e9467233e456a3b77b682d9a020"><div class="ttname"><a href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">quickstats::recenter_rss</a></div><div class="ttdeci">Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</div><div class="ttdef"><b>Definition</b> rss.hpp:559</div></div>
+<div class="ttc" id="anamespacequickstats_html_a3e61a8fe9d7c3444a1240efdb320862d"><div class="ttname"><a href="namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d">quickstats::rss_to_variance</a></div><div class="ttdeci">Float_ rss_to_variance(const std::size_t num_total, const Float_ rss)</div><div class="ttdef"><b>Definition</b> rss.hpp:578</div></div>
+<div class="ttc" id="anamespacequickstats_html_a483b4c09f0eaabe6c4b6fd9f3a173971"><div class="ttname"><a href="namespacequickstats.html#a483b4c09f0eaabe6c4b6fd9f3a173971">quickstats::rss</a></div><div class="ttdeci">RssResult&lt; Output_ &gt; rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> rss.hpp:82</div></div>
+<div class="ttc" id="anamespacequickstats_html_aafa331b28266495a53d45ea326b5a8b4"><div class="ttname"><a href="namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4">quickstats::recenter_rss_unsafe</a></div><div class="ttdeci">Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</div><div class="ttdef"><b>Definition</b> rss.hpp:537</div></div>
 <div class="ttc" id="anamespacequickstats_html_ad657d40d7dcabdf6e6407d98440a256e"><div class="ttname"><a href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:56</div></div>
 <div class="ttc" id="apairwise__sum_8hpp_html"><div class="ttname"><a href="pairwise__sum_8hpp.html">pairwise_sum.hpp</a></div><div class="ttdoc">Pairwise summation.</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:21</div></div>
 <div class="ttc" id="astructquickstats_1_1RssResult_html"><div class="ttname"><a href="structquickstats_1_1RssResult.html">quickstats::RssResult</a></div><div class="ttdoc">Result of rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:28</div></div>
 <div class="ttc" id="astructquickstats_1_1RssResult_html_a3c99a0a61c93b092c1fa0b83ab0bed27"><div class="ttname"><a href="structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27">quickstats::RssResult::rss</a></div><div class="ttdeci">Output_ rss</div><div class="ttdef"><b>Definition</b> rss.hpp:39</div></div>
 <div class="ttc" id="astructquickstats_1_1RssResult_html_ab025af92ba44f996d3dc19e074372d2b"><div class="ttname"><a href="structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b">quickstats::RssResult::mean</a></div><div class="ttdeci">Output_ mean</div><div class="ttdef"><b>Definition</b> rss.hpp:33</div></div>
-<div class="ttc" id="astructquickstats_1_1RssWorkspace_html"><div class="ttname"><a href="structquickstats_1_1RssWorkspace.html">quickstats::RssWorkspace</a></div><div class="ttdoc">Re-usable workspace for rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:50</div></div>
+<div class="ttc" id="astructquickstats_1_1RssWorkspace_html"><div class="ttname"><a href="structquickstats_1_1RssWorkspace.html">quickstats::RssWorkspace</a></div><div class="ttdoc">Re-usable workspace for rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

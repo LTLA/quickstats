@@ -351,8 +351,15 @@
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a4f051c33b4ae44f9d396b5448317f12f</anchor>
+      <anchor>a023dc84dd669c9f2dd0d6281d807d972</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+    </member>
+    <member kind="function">
+      <type>Float_</type>
+      <name>recenter_rss_unsafe</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>aafa331b28266495a53d45ea326b5a8b4</anchor>
+      <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
