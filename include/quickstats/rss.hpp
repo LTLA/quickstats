@@ -39,7 +39,6 @@ struct RssResult {
     Output_ rss = 0;
 };
 
-
 /** 
  * @brief Re-usable workspace for `rss()`.
  *
@@ -65,10 +64,10 @@ struct RssWorkspace {
  * No consideration is given to special values like NaNs in the values of the structural non-zeros.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
- * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  * @tparam limit_ Maximum number of elements to sum directly, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
+ * @tparam Output_ Floating-point type of the output data.
+ * This should be capable of storing NaNs.
  *
  * @param num_total Total number of elements in the sparse vector.
  * @param num_non_zero Number of structural non-zeros in the sparse vector.
@@ -79,7 +78,7 @@ struct RssWorkspace {
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
-template<typename Output_ = double, std::size_t limit_ = 128, typename Input_>
+template<std::size_t limit_ = 128, typename Input_, typename Output_>
 RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
     static_assert(std::is_floating_point<Output_>::value);
 
@@ -120,9 +119,10 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  * No consideration is given to special values like NaNs in the dense array.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
+ * @tparam limit_ Maximum number of elements to sum directly, see `pairwise_sum()` for details.
+ * @tparam Input_ Numeric type of the input values.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
- * @tparam Input_ Numeric type of the input values.
  *
  * @param num_total Total number of elements in the array.
  * @param[in] ptr Pointer to an array of length `num_total`.
@@ -130,9 +130,9 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  *
  * @return The sample mean and residual sum of squares of the array.
  */
-template<typename Output_ = double, typename Input_>
+template<std::size_t limit_ = 128, typename Input_, typename Output_>
 RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work) {
-    return rss(num_total, num_total, ptr, work);
+    return rss<limit_>(num_total, num_total, ptr, work);
 }
 
 /**
