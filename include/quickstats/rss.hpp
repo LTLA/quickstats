@@ -209,6 +209,13 @@ public:
         }
     }
 
+    /**
+     * @return Number of observed vectors that have been added by `add()`.
+     */
+    std::size_t num_obs() const {
+        return my_count;
+    }
+
 private:
     std::size_t my_num_obj;
     Output_* my_mean;
@@ -290,6 +297,13 @@ public:
                 }
             }
         }
+    }
+
+    /**
+     * @return Number of observed vectors that have been added by `add()`.
+     */
+    Count_ num_obs() const {
+        return my_count;
     }
 
 private:
@@ -391,6 +405,13 @@ public:
                 welford_add_zeros(my_mean[i], my_rss[i], my_count, my_num_non_zero[i]);
             }
         }
+    }
+
+    /**
+     * @return Number of observed vectors that have been added by `add()`.
+     */
+    Count_ num_obs() const {
+        return my_count;
     }
 
 private:
@@ -501,6 +522,13 @@ public:
                 }
             }
         }
+    }
+
+    /**
+     * @return Number of observed vectors that have been added by `add()`.
+     */
+    Count_ num_obs() const {
+        return my_count;
     }
 
 private:

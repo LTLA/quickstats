@@ -97,6 +97,7 @@ TEST_P(RssRunningDenseTest, Simple) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -127,6 +128,7 @@ TEST_P(RssRunningDenseTest, SimpleInteger) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -212,6 +214,7 @@ TEST_P(RssRunningDenseTest, SkipInteger) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -267,6 +270,7 @@ TEST_P(RssRunningSparseTest, Simple) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -310,6 +314,7 @@ TEST_P(RssRunningSparseTest, SimpleInteger) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -365,6 +370,7 @@ TEST_P(RssRunningSparseTest, Skip) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
@@ -421,6 +427,7 @@ TEST_P(RssRunningSparseTest, SkipInteger) {
     }
 
     running.finish();
+    EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
     for (std::size_t j = 0; j < num_obj; ++j) {
