@@ -118,6 +118,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a78e0564ca83e9f7dc4220ac0d96e2521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3b2033db1c7e38c0e62bc6bdf67f05f" id="r_aa3b2033db1c7e38c0e62bc6bdf67f05f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3b2033db1c7e38c0e62bc6bdf67f05f">finish</a> ()</td></tr>
 <tr class="separator:aa3b2033db1c7e38c0e62bc6bdf67f05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe289aa4dc2b508de01a40b44c96a226" id="r_afe289aa4dc2b508de01a40b44c96a226"><td class="memItemLeft" align="right" valign="top">Count_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe289aa4dc2b508de01a40b44c96a226">num_obs</a> () const</td></tr>
+<tr class="separator:afe289aa4dc2b508de01a40b44c96a226"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename Count_, typename Input_, typename Output_ = double&gt;<br />
@@ -255,6 +257,34 @@ template&lt;typename Count_ , typename Input_ , typename Output_  = double&gt; <
 </table>
 </div><div class="memdoc">
 <p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add()</a></code>. </p>
+
+</div>
+</div>
+<a id="afe289aa4dc2b508de01a40b44c96a226" name="afe289aa4dc2b508de01a40b44c96a226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe289aa4dc2b508de01a40b44c96a226">&#9670;&#160;</a></span>num_obs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Count_ , typename Input_ , typename Output_  = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Count_ <a class="el" href="classquickstats_1_1RssRunningDenseSkip.html">quickstats::RssRunningDenseSkip</a>&lt; Count_, Input_, Output_ &gt;::num_obs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Number of observed vectors that have been added by <code><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add()</a></code>. </dd></dl>
 
 </div>
 </div>

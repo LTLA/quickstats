@@ -117,6 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba8cf27848bbb34173c8c26f7347b87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da0ea85bc271b3431d39f9a0f29005a" id="r_a5da0ea85bc271b3431d39f9a0f29005a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5da0ea85bc271b3431d39f9a0f29005a">finish</a> ()</td></tr>
 <tr class="separator:a5da0ea85bc271b3431d39f9a0f29005a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515e4234c610bed34bce9da6fc771095" id="r_a515e4234c610bed34bce9da6fc771095"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a515e4234c610bed34bce9da6fc771095">num_obs</a> () const</td></tr>
+<tr class="separator:a515e4234c610bed34bce9da6fc771095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename Input_, typename Output_ = double&gt;<br />
@@ -237,6 +239,34 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>. </p>
+
+</div>
+</div>
+<a id="a515e4234c610bed34bce9da6fc771095" name="a515e4234c610bed34bce9da6fc771095"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515e4234c610bed34bce9da6fc771095">&#9670;&#160;</a></span>num_obs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Input_ , typename Output_  = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense</a>&lt; Input_, Output_ &gt;::num_obs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Number of observed vectors that have been added by <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>. </dd></dl>
 
 </div>
 </div>

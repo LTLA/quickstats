@@ -156,6 +156,13 @@
       <anchor>a5da0ea85bc271b3431d39f9a0f29005a</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type>std::size_t</type>
+      <name>num_obs</name>
+      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
+      <anchor>a515e4234c610bed34bce9da6fc771095</anchor>
+      <arglist>() const</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>quickstats::RssRunningDenseSkip</name>
@@ -183,6 +190,13 @@
       <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
       <anchor>aa3b2033db1c7e38c0e62bc6bdf67f05f</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Count_</type>
+      <name>num_obs</name>
+      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
+      <anchor>afe289aa4dc2b508de01a40b44c96a226</anchor>
+      <arglist>() const</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -212,6 +226,13 @@
       <anchor>aefdcce4422dc638fa18b23fd0db3296f</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type>Count_</type>
+      <name>num_obs</name>
+      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
+      <anchor>a685fa72db8ac4ed475e4ea689b779190</anchor>
+      <arglist>() const</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>quickstats::RssRunningSparseSkip</name>
@@ -239,6 +260,13 @@
       <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
       <anchor>a4318383804b3eebb640724320aee3277</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Count_</type>
+      <name>num_obs</name>
+      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
+      <anchor>ad4ef8541e52dffe1dd19a2e2383292f7</anchor>
+      <arglist>() const</arglist>
     </member>
   </compound>
   <compound kind="struct">
