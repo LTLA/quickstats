@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <tagfile doxygen_version="1.12.0">
   <compound kind="file">
+    <name>mad.hpp</name>
+    <path>quickstats/</path>
+    <filename>mad_8hpp.html</filename>
+    <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="file">
     <name>median.hpp</name>
     <path>quickstats/</path>
     <filename>median_8hpp.html</filename>
@@ -340,6 +346,27 @@
     <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
+    <member kind="function">
+      <type>Output_</type>
+      <name>mad</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a2817fc572f61655310795a98123c1fd0</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>mad</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a25416f8f75659b00756d4740d0dbe860</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median)</arglist>
+    </member>
+    <member kind="function">
+      <type>Float_</type>
+      <name>scale_mad_to_sd</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a294a3815731fe4eccb7b4d5fb13228b6</anchor>
+      <arglist>(const Float_ x)</arglist>
+    </member>
     <member kind="function">
       <type>Output_</type>
       <name>median</name>

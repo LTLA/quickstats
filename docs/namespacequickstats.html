@@ -141,7 +141,16 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123" id="r_a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplParams" colspan="2">template&lt;typename Output_ , typename Input_ &gt; </td></tr>
+<tr class="memitem:a2817fc572f61655310795a98123c1fd0" id="r_a2817fc572f61655310795a98123c1fd0"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a2817fc572f61655310795a98123c1fd0"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad</a> (const std::size_t num_total, Input_ *const ptr, const Input_ <a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)</td></tr>
+<tr class="separator:a2817fc572f61655310795a98123c1fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25416f8f75659b00756d4740d0dbe860" id="r_a25416f8f75659b00756d4740d0dbe860"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a25416f8f75659b00756d4740d0dbe860"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a25416f8f75659b00756d4740d0dbe860">mad</a> (const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ <a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)</td></tr>
+<tr class="separator:a25416f8f75659b00756d4740d0dbe860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a294a3815731fe4eccb7b4d5fb13228b6" id="r_a294a3815731fe4eccb7b4d5fb13228b6"><td class="memTemplParams" colspan="2">template&lt;typename Float_ &gt; </td></tr>
+<tr class="memitem:a294a3815731fe4eccb7b4d5fb13228b6"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd</a> (const Float_ x)</td></tr>
+<tr class="separator:a294a3815731fe4eccb7b4d5fb13228b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123" id="r_a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
 <tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a> (const std::size_t num_total, Input_ *const ptr)</td></tr>
 <tr class="separator:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cb6e9679bbd56aba352d0eb680c1976" id="r_a2cb6e9679bbd56aba352d0eb680c1976"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
@@ -181,13 +190,146 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Quickly compute simple statistics. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2817fc572f61655310795a98123c1fd0" name="a2817fc572f61655310795a98123c1fd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2817fc572f61655310795a98123c1fd0">&#9670;&#160;</a></span>mad() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::mad </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_</td>          <td class="paramname"><span class="paramname"><em>median</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compute the median absolute deviation (MAD) of an array of elements, given its median.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
+<p>See also <code><a class="el" href="#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd()</a></code> if the MAD is to be used as an estimate of the standard deviation.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of representing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values and median. This is generally expected to be floating-point, though it is also possible to use signed integers as their differences do not overflow.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements from which to compute a MAD. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the array at <code>ptr</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the array. If <code>median</code> is not finite, the MAD is set to NaN. </dd></dl>
+
+</div>
+</div>
+<a id="a25416f8f75659b00756d4740d0dbe860" name="a25416f8f75659b00756d4740d0dbe860"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25416f8f75659b00756d4740d0dbe860">&#9670;&#160;</a></span>mad() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::mad </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_non_zero</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>values</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_</td>          <td class="paramname"><span class="paramname"><em>median</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compute the median absolute deviation (MAD) of a sparse vector, given its median. This vector is assumed to have <code>num_non_zero</code> structural non-zeros and <code>num_total - num_non_zero</code> zeros.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
+<p>See also <code><a class="el" href="#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd()</a></code> if the MAD is to be used as an estimate of the standard deviation.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of representing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input values and median. This is generally expected to be floating-point, though it is also possible to use signed integers as long as their differences do not overflow.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the sparse vector at <code>values</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the sparse vector. </dd></dl>
+
+</div>
+</div>
+<a id="a294a3815731fe4eccb7b4d5fb13228b6" name="a294a3815731fe4eccb7b4d5fb13228b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a294a3815731fe4eccb7b4d5fb13228b6">&#9670;&#160;</a></span>scale_mad_to_sd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Float_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Float_ quickstats::scale_mad_to_sd </td>
+          <td>(</td>
+          <td class="paramtype">const Float_</td>          <td class="paramname"><span class="paramname"><em>x</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Scale the median absolute deviation (MAD) so that its expected value for a normal distribution is equal to the standard deviation.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Float_</td><td>Floating-point type of the MAD.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>MAD, typically computed from <code><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad()</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Scaled value of <code>x</code>. </dd></dl>
+
+</div>
+</div>
 <a id="a66ea74c07fc1cb5a9a9689c8afc76123" name="a66ea74c07fc1cb5a9a9689c8afc76123"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66ea74c07fc1cb5a9a9689c8afc76123">&#9670;&#160;</a></span>median() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Output_ , typename Input_ &gt; </div>
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">Output_ quickstats::median </td>
