@@ -32,7 +32,7 @@ namespace quickstats {
  *
  * @return Median of values in `[ptr, ptr + num_total)`, or NaN if `num_total == 0`.
  */
-template<typename Output_, typename Input_>
+template<typename Output_ = double, typename Input_>
 Output_ median(const std::size_t num_total, Input_* const ptr) {
     static_assert(std::is_floating_point<Output_>::value);
 
@@ -60,6 +60,84 @@ Output_ median(const std::size_t num_total, Input_* const ptr) {
 }
 
 /**
+ * @cond
+ */
+// We support an arbitrary zero_value so that the MAD calculation can re-use this for the sparse calculations, see mad.hpp for details.
+template<typename Output_, typename Input_>
+Output_ median_internal(const std::size_t num_total, const std::size_t num_non_zero, Input_* const non_zero_values, const Input_ zero_value) {
+    assert(num_total >= num_non_zero);
+
+    // Fallback to the dense code if there are no structural zeros. This is not
+    // just for efficiency as the downstream averaging code assumes that there
+    // is at least one structural zero when considering its scenarios.
+    if (num_non_zero == num_total) {
+        return median<Output_>(num_total, non_zero_values);
+    }
+
+    // Is the number of non-zeros less than the number of zeros?
+    // If so, the median must be equal to the zero value.
+    // Note that we calculate it in this way to avoid overflow from 'num_non_zero * 2'.
+    if (num_non_zero < num_total - num_non_zero) {
+        return zero_value;
+    } 
+
+    const std::size_t halfway = num_total / 2;
+    const bool is_even = (num_total % 2 == 0);
+
+    const std::size_t num_zero = num_total - num_non_zero;
+    std::size_t num_below = 0;
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
+        num_below += (non_zero_values[i] < zero_value);
+    }
+
+    if (!is_even) {
+        if (num_below > halfway) {
+            std::nth_element(non_zero_values, non_zero_values + halfway, non_zero_values + num_non_zero);
+            return non_zero_values[halfway];
+
+        } else if (halfway >= num_below + num_zero) {
+            const std::size_t skip_zeros = halfway - num_zero;
+            std::nth_element(non_zero_values, non_zero_values + skip_zeros, non_zero_values + num_non_zero);
+            return non_zero_values[skip_zeros];
+
+        } else {
+            return zero_value;
+        }
+    }
+
+    Output_ baseline = zero_value, other = zero_value;
+    if (num_below > halfway) { // both halves of the median are below the zero value.
+        std::nth_element(non_zero_values, non_zero_values + halfway, non_zero_values + num_non_zero);
+        baseline = non_zero_values[halfway];
+        other = *(std::max_element(non_zero_values, non_zero_values + halfway)); // max_element gets the sorted value at halfway - 1, see explanation for the dense case.
+
+    } else if (num_below == halfway) { // the upper half is guaranteed to be the zero value.
+        const std::size_t below_halfway = halfway - 1;
+        std::nth_element(non_zero_values, non_zero_values + below_halfway, non_zero_values + num_non_zero);
+        other = non_zero_values[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+
+    } else if (num_below < halfway && num_below + num_zero > halfway) { // both halves are the zero value, so the zero value is the median.
+        ;
+
+    } else if (num_below + num_zero == halfway) { // the lower half is guaranteed to be the zero value.
+        const std::size_t skip_zeros = halfway - num_zero;
+        std::nth_element(non_zero_values, non_zero_values + skip_zeros, non_zero_values + num_non_zero);
+        other = non_zero_values[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+
+    } else { // both halves of the median are above the zero value.
+        const std::size_t skip_zeros = halfway - num_zero;
+        std::nth_element(non_zero_values, non_zero_values + skip_zeros, non_zero_values + num_non_zero);
+        baseline = non_zero_values[skip_zeros];
+        other = *(std::max_element(non_zero_values, non_zero_values + skip_zeros)); // max_element gets the sorted value at skip_zeros - 1, see explanation for the dense case.
+    }
+
+    return interpolate<Output_>(baseline, other, 0.5);
+}
+/**
+ * @endcond
+ */
+
+/**
  * Compute the median of a sparse vector.
  * This vector is assumed to have `num_non_zero` structural non-zeros and `num_total - num_non_zero` zeros.
  *
@@ -81,73 +159,7 @@ Output_ median(const std::size_t num_total, Input_* const ptr) {
  */
 template<typename Output_ = double, typename Input_>
 Output_ median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
-    assert(num_total >= num_non_zero);
-
-    // Fallback to the dense code if there are no structural zeros. This is not
-    // just for efficiency as the downstream averaging code assumes that there
-    // is at least one structural zero when considering its scenarios.
-    if (num_non_zero == num_total) {
-        return median<Output_>(num_total, values);
-    }
-
-    // Is the number of non-zeros less than the number of zeros?
-    // If so, the median must be zero. Note that we calculate it
-    // in this way to avoid overflow from 'num_non_zero * 2'.
-    if (num_non_zero < num_total - num_non_zero) {
-        return 0;
-    } 
-
-    const std::size_t halfway = num_total / 2;
-    const bool is_even = (num_total % 2 == 0);
-
-    const std::size_t num_zero = num_total - num_non_zero;
-    std::size_t num_negative = 0;
-    for (std::size_t i = 0; i < num_non_zero; ++i) {
-        num_negative += (values[i] < 0);
-    }
-
-    if (!is_even) {
-        if (num_negative > halfway) {
-            std::nth_element(values, values + halfway, values + num_non_zero);
-            return values[halfway];
-
-        } else if (halfway >= num_negative + num_zero) {
-            const std::size_t skip_zeros = halfway - num_zero;
-            std::nth_element(values, values + skip_zeros, values + num_non_zero);
-            return values[skip_zeros];
-
-        } else {
-            return 0;
-        }
-    }
-
-    Output_ baseline = 0, other = 0;
-    if (num_negative > halfway) { // both halves of the median are negative.
-        std::nth_element(values, values + halfway, values + num_non_zero);
-        baseline = values[halfway];
-        other = *(std::max_element(values, values + halfway)); // max_element gets the sorted value at halfway - 1, see explanation for the dense case.
-
-    } else if (num_negative == halfway) { // the upper half is guaranteed to be zero.
-        const std::size_t below_halfway = halfway - 1;
-        std::nth_element(values, values + below_halfway, values + num_non_zero);
-        other = values[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
-
-    } else if (num_negative < halfway && num_negative + num_zero > halfway) { // both halves are zero, so zero is the median.
-        ;
-
-    } else if (num_negative + num_zero == halfway) { // the lower half is guaranteed to be zero.
-        const std::size_t skip_zeros = halfway - num_zero;
-        std::nth_element(values, values + skip_zeros, values + num_non_zero);
-        other = values[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
-
-    } else { // both halves of the median are non-negative.
-        const std::size_t skip_zeros = halfway - num_zero;
-        std::nth_element(values, values + skip_zeros, values + num_non_zero);
-        baseline = values[skip_zeros];
-        other = *(std::max_element(values, values + skip_zeros)); // max_element gets the sorted value at skip_zeros - 1, see explanation for the dense case.
-    }
-
-    return interpolate<Output_>(baseline, other, 0.5);
+    return median_internal<Output_>(num_total, num_non_zero, values, static_cast<Input_>(0));
 }
 
 }

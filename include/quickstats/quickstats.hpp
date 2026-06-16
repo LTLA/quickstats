@@ -4,6 +4,7 @@
 #include "SingleQuantile.hpp"
 #include "MultipleQuantiles.hpp"
 #include "median.hpp"
+#include "mad.hpp"
 #include "rss.hpp"
 #include "pairwise_sum.hpp"
 #include "skip_values.hpp"

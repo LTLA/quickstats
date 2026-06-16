@@ -16,6 +16,7 @@ add_executable(
     src/SingleQuantile.cpp
     src/MultipleQuantiles.cpp
     src/median.cpp
+    src/mad.cpp
     src/rss.cpp
     src/pairwise_sum.cpp
     src/skip_values.cpp
