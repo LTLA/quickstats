@@ -63,10 +63,12 @@ TEST(Median, SparseAllPositive) {
     std::vector<int> vec { 2, 1, 4, 5, 3 };
     int vsize = vec.size();
     EXPECT_EQ(direct_medians(vec.data(), vsize, 5), 3);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0.5);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 9), 1);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 6), 2.5);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 7), 2);
     EXPECT_EQ(direct_medians(vec.data(), vsize, 8), 1.5);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 9), 1);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0); // Test up to 2 * vec.size() + 1, at and after which it'll always be zero.
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0.5);
 
     EXPECT_TRUE(std::isnan(quickstats::median<double>(0, 0, static_cast<double*>(NULL))));
 
@@ -78,16 +80,21 @@ TEST(Median, SparseAllPositive) {
     EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 8), (1.0/3 + 2.0/9) / 2);
     EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 9), 2.0/9);
     EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 10), 2.0/9);
+    EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 11), 2.0/9);
+    EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 12), 1.0/9);
+    EXPECT_EQ(direct_medians(frac_vec.data(), fvsize, 13), 0); // at and after this, it'll always be zero.
 }
 
 TEST(Median, SparseAllNegative) {
     std::vector<int> vec { -2, -1, -4, -5, -3 };
     int vsize = vec.size();
     EXPECT_EQ(direct_medians(vec.data(), vsize, 5), -3);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 10), -0.5);
-    EXPECT_EQ(direct_medians(vec.data(), vsize, 9), -1);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 6), -2.5);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 7), -2);
     EXPECT_EQ(direct_medians(vec.data(), vsize, 8), -1.5);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 9), -1);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 10), -0.5);
+    EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0); // at and after this, it'll always be zero.
 }
 
 TEST(Median, SparseMixed) {
@@ -96,10 +103,12 @@ TEST(Median, SparseMixed) {
         std::vector<double> vec { 2.5, -1, 4, -5, 3 };
         int vsize = vec.size();
         EXPECT_EQ(direct_medians(vec.data(), vsize, 5), 2.5);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 6), 1.25);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 7), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 8), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 9), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0); // at and after this, it'll always be zero.
     }
 
     // Mostly negative.
@@ -107,10 +116,12 @@ TEST(Median, SparseMixed) {
         std::vector<double> vec { -2.5, 1, -4, 5, -3 };
         int vsize = vec.size();
         EXPECT_EQ(direct_medians(vec.data(), vsize, 5), -2.5);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 6), -1.25);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 7), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 8), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 9), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0); // at and after this, it'll always be zero.
     }
 
     // Equal numbers of positive and negative.
@@ -118,10 +129,13 @@ TEST(Median, SparseMixed) {
         std::vector<double> vec { -2.5, 1, -4, 5, -3, 6 };
         int vsize = vec.size();
         EXPECT_FLOAT_EQ(direct_medians(vec.data(), vsize, 6), -0.75);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 13), 0);
-        EXPECT_EQ(direct_medians(vec.data(), vsize, 12), 0);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 7), 0);
         EXPECT_EQ(direct_medians(vec.data(), vsize, 8), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 9), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 10), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 11), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 12), 0);
+        EXPECT_EQ(direct_medians(vec.data(), vsize, 13), 0); // at and after this, it'll always be zero.
     }
 }
 

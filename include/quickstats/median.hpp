@@ -114,7 +114,7 @@ Output_ median_internal(const std::size_t num_total, const std::size_t num_non_z
     } else if (num_below == halfway) { // the upper half is guaranteed to be the zero value.
         const std::size_t below_halfway = halfway - 1;
         std::nth_element(non_zero_values, non_zero_values + below_halfway, non_zero_values + num_non_zero);
-        other = non_zero_values[below_halfway]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+        other = non_zero_values[below_halfway]; // set to other so that, in the common case of zero_value = 0, addition/subtraction of baseline = 0 has no effect on precision. 
 
     } else if (num_below < halfway && num_below + num_zero > halfway) { // both halves are the zero value, so the zero value is the median.
         ;
@@ -122,7 +122,7 @@ Output_ median_internal(const std::size_t num_total, const std::size_t num_non_z
     } else if (num_below + num_zero == halfway) { // the lower half is guaranteed to be the zero value.
         const std::size_t skip_zeros = halfway - num_zero;
         std::nth_element(non_zero_values, non_zero_values + skip_zeros, non_zero_values + num_non_zero);
-        other = non_zero_values[skip_zeros]; // set to other so that addition/subtraction of a zero baseline has no effect on precision. 
+        other = non_zero_values[skip_zeros]; // set to other so that, in the common case of zero_value = 0, addition/subtraction of baseline = 0 has no effect on precision. 
 
     } else { // both halves of the median are above the zero value.
         const std::size_t skip_zeros = halfway - num_zero;
