@@ -29,28 +29,45 @@ static double dense_mad(std::vector<double> non_zeros, std::size_t num_total) {
     return quickstats::mad(num_total, non_zeros.data(), med);
 }
 
+static std::size_t get_max_test_length(std::size_t num_non_zeros) {
+    return num_non_zeros * 2 + 1; // at or beyond this, the median and MAD will always be zero.
+}
+
 TEST(Mad, SparseAllPositive) {
-    std::vector<double> vec { 2, 1, 4, 5, 3 };
-    for (int total = vec.size(); total < 11; ++total) {
-        EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+    {
+        std::vector<double> vec { 2, 1, 4, 5, 3 };
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+        }
     }
 
     // Make sure we get identical results when the midpoints are tied floating-point values.
-    std::vector<double> frac_vec { 1.0/3, 2.0/9, 3.0/7, 1.0/3, 2.0/9, 1.0/3 };
-    for (int total = frac_vec.size(); total < 15; ++total) {
-        EXPECT_EQ(sparse_mad(frac_vec, total), dense_mad(frac_vec, total));
+    {
+        std::vector<double> vec { 1.0/3, 2.0/9, 3.0/7, 1.0/3, 2.0/9, 1.0/3 };
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+        }
     }
 }
 
 TEST(Mad, SparseAllNegative) {
-    std::vector<double> vec { -2, -1, -4, -5, -3 };
-    for (int total = vec.size(); total < 11; ++total) {
-        EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+    {
+        std::vector<double> vec { -2, -1, -4, -5, -3 };
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+        }
     }
 
-    std::vector<double> frac_vec { -0.2, -0.3, -0.4, -0.2, -0.4, -0.1 };
-    for (int total = frac_vec.size(); total < 15; ++total) {
-        EXPECT_EQ(sparse_mad(frac_vec, total), dense_mad(frac_vec, total));
+    // Trying with some ties and fractions, for some variety.
+    {
+        std::vector<double> vec { -0.2, -0.3, -0.4, -0.2, -0.4, -0.1 };
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
+        }
     }
 }
 
@@ -58,7 +75,8 @@ TEST(Mad, SparseMixed) {
     // Mostly positive.
     {
         std::vector<double> vec { 2.5, -1, 4, -5, 3 };
-        for (int total = vec.size(); total < 11; ++total) {
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
             EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
         }
     }
@@ -66,7 +84,8 @@ TEST(Mad, SparseMixed) {
     // Mostly negative.
     {
         std::vector<double> vec { -2.5, 1, -4, 5, -3 };
-        for (int total = vec.size(); total < 11; ++total) {
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
             EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
         }
     }
@@ -74,7 +93,8 @@ TEST(Mad, SparseMixed) {
     // Equal numbers of positive and negative.
     {
         std::vector<double> vec { -2.5, 1, -4, 5, -3, 6 };
-        for (int total = vec.size(); total < 13; ++total) {
+        const auto limit = get_max_test_length(vec.size());
+        for (std::size_t total = vec.size(); total <= limit; ++total) {
             EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
         }
     }
@@ -112,7 +132,100 @@ INSTANTIATE_TEST_SUITE_P(
 
 /****************************************/
 
-TEST(Mad, Infinite) {
-    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(0, NULL, std::numeric_limits<double>::infinity())));
-    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(0, 0, NULL, std::numeric_limits<double>::infinity())));
+TEST(Mad, RegularInfinite) {
+    std::vector<double> dummy{ 100 };
+    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(1, dummy.data(), std::numeric_limits<double>::infinity())));
+    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(1, 1, dummy.data(), std::numeric_limits<double>::infinity())));
+
+    // Also NaN if the input is empty.
+    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(0, NULL, 1)));
+    EXPECT_TRUE(std::isnan(quickstats::mad<double, double>(0, 0, NULL, 1)));
+}
+
+TEST(Mad, DenseInfinite) {
+    const auto inf = std::numeric_limits<double>::infinity();
+    auto dense_mad_with_infinities = [](std::vector<double> values, double median) {
+        return quickstats::mad_with_infinities<double>(values.size(), values.data(), median);
+    };
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf };
+        EXPECT_EQ(dense_mad_with_infinities(dummy, inf), 0);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, 0.0), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, -inf), inf);
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, 100.0 };
+        EXPECT_EQ(dense_mad_with_infinities(dummy, inf), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, 0.0), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, -inf), inf);
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, -inf };
+        EXPECT_EQ(dense_mad_with_infinities(dummy, inf), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, 0.0), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, -inf), inf);
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, -inf, -inf };
+        EXPECT_EQ(dense_mad_with_infinities(dummy, inf), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, 0.0), inf);
+        EXPECT_EQ(dense_mad_with_infinities(dummy, -inf), 0);
+    }
+}
+
+static double sparse_mad_with_infinities(std::vector<double> non_zeros, std::size_t num_total, double median) {
+    return quickstats::mad_with_infinities(num_total, non_zeros.size(), non_zeros.data(), median);
+}
+
+static double dense_mad_with_infinities(std::vector<double> non_zeros, std::size_t num_total, double median) {
+    non_zeros.resize(num_total);
+    return quickstats::mad_with_infinities(num_total, non_zeros.data(), median);
+}
+
+TEST(Mad, SparseInfinite) {
+    const auto inf = std::numeric_limits<double>::infinity();
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf };
+        const auto limit = get_max_test_length(dummy.size());
+        for (std::size_t total = dummy.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, inf), dense_mad_with_infinities(dummy, total, inf));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, 0.0), dense_mad_with_infinities(dummy, total, 0.0));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, -inf), dense_mad_with_infinities(dummy, total, -inf));
+        }
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, 100.0 };
+        const auto limit = get_max_test_length(dummy.size());
+        for (std::size_t total = dummy.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, inf), dense_mad_with_infinities(dummy, total, inf));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, 0.0), dense_mad_with_infinities(dummy, total, 0.0));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, -inf), dense_mad_with_infinities(dummy, total, -inf));
+        }
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, -inf };
+        const auto limit = get_max_test_length(dummy.size());
+        for (std::size_t total = dummy.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, inf), dense_mad_with_infinities(dummy, total, inf));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, 0.0), dense_mad_with_infinities(dummy, total, 0.0));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, -inf), dense_mad_with_infinities(dummy, total, -inf));
+        }
+    }
+
+    {
+        std::vector<double> dummy{ inf, inf, -inf, -inf, inf, -inf, -inf };
+        const auto limit = get_max_test_length(dummy.size());
+        for (std::size_t total = dummy.size(); total <= limit; ++total) {
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, inf), dense_mad_with_infinities(dummy, total, inf));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, 0.0), dense_mad_with_infinities(dummy, total, 0.0));
+            EXPECT_EQ(sparse_mad_with_infinities(dummy, total, -inf), dense_mad_with_infinities(dummy, total, -inf));
+        }
+    }
 }
