@@ -111,55 +111,84 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="namespacequickstats.html">   14</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacequickstats.html">quickstats</a> {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
-<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">   38</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(<span class="keyword">const</span> std::size_t num_total, Input_* <span class="keyword">const</span> ptr, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (!std::isfinite(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// Pre-emptively avoid shenanigans from trying to order NaN deviations.</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_total; ++i) {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        ptr[i] = std::abs(ptr[i] - <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    return ::quickstats::median&lt;Output_&gt;(num_total, ptr);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">   39</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(<span class="keyword">const</span> std::size_t num_total, Input_* <span class="keyword">const</span> ptr, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (!std::isfinite(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment">// Pre-emptively avoid shenanigans from trying to order NaN deviations.</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_total; ++i) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        ptr[i] = std::abs(ptr[i] - <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    return ::quickstats::median&lt;Output_&gt;(num_total, ptr);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
-<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a25416f8f75659b00756d4740d0dbe860">   74</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> std::size_t num_non_zero, Input_* <span class="keyword">const</span> values, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">if</span> (!std::isfinite(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// Pre-emptively avoid shenanigans from trying to order NaN deviations.</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// It is also possible to implement the sparse MAD by subtracting &#39;abs(median)&#39; from the absolute deviations,</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// computing the sparse median of the difference, and then adding &#39;abs(median)&#39; back to the result.</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// We don&#39;t do this as the subtraction and addition introduces some numerical error,</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// which isn&#39;t that consequential in practice but interferes with exact comparisons to the dense results in our tests.</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_non_zero; ++i) {</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        values[i] = std::abs(values[i] - <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">return</span> median_internal&lt;Output_&gt;(num_total, num_non_zero, values, std::abs(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>));</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a25416f8f75659b00756d4740d0dbe860">   77</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> std::size_t num_non_zero, Input_* <span class="keyword">const</span> values, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">if</span> (!std::isfinite(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">// Pre-emptively avoid shenanigans from trying to order NaN deviations.</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Output_&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// It is also possible to implement the sparse MAD by subtracting &#39;abs(median)&#39; from the absolute deviations,</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// computing the sparse median of the difference, and then adding &#39;abs(median)&#39; back to the result.</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="comment">// We don&#39;t do this as the subtraction and addition introduces some numerical error,</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// which isn&#39;t that consequential in practice but interferes with exact comparisons to the dense results in our tests.</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_non_zero; ++i) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        values[i] = std::abs(values[i] - <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">return</span> median_internal&lt;Output_&gt;(num_total, num_non_zero, values, std::abs(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>));</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
 </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">  101</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd</a>(<span class="keyword">const</span> Float_ x) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> x * 1.4826;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">  104</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd</a>(<span class="keyword">const</span> Float_ x) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> x * 1.4826;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
 </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00128" data-start="{" data-end="}">
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a3d575d85c8a4145488afafaef6b7c004">  128</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a3d575d85c8a4145488afafaef6b7c004">mad_with_infinities</a>(<span class="keyword">const</span> std::size_t num_total, Input_* <span class="keyword">const</span> ptr, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">if</span> (std::isinf(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_total; ++i) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            ptr[i] = (<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a> == ptr[i] ? 0 : std::numeric_limits&lt;Input_&gt;::infinity());</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        return ::quickstats::median&lt;Output_&gt;(num_total, ptr);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(num_total, ptr, <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
 </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a83f9afb541c81922021dc535a0055d88">  162</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#a3d575d85c8a4145488afafaef6b7c004">mad_with_infinities</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> std::size_t num_non_zero, Input_* <span class="keyword">const</span> values, <span class="keyword">const</span> Input_ <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">if</span> (std::isinf(<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_non_zero; ++i) {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            values[i] = (<a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a> == values[i] ? 0 : std::numeric_limits&lt;Input_&gt;::infinity());</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        }</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">return</span> median_internal&lt;Output_&gt;(num_total, num_non_zero, values, std::numeric_limits&lt;Input_&gt;::infinity());</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">mad</a>(num_total, num_non_zero, values, <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>}</div>
+</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
+</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="amedian_8hpp_html"><div class="ttname"><a href="median_8hpp.html">median.hpp</a></div><div class="ttdoc">Compute a median.</div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:14</div></div>
-<div class="ttc" id="anamespacequickstats_html_a2817fc572f61655310795a98123c1fd0"><div class="ttname"><a href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">quickstats::mad</a></div><div class="ttdeci">Output_ mad(const std::size_t num_total, Input_ *const ptr, const Input_ median)</div><div class="ttdef"><b>Definition</b> mad.hpp:38</div></div>
-<div class="ttc" id="anamespacequickstats_html_a294a3815731fe4eccb7b4d5fb13228b6"><div class="ttname"><a href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">quickstats::scale_mad_to_sd</a></div><div class="ttdeci">Float_ scale_mad_to_sd(const Float_ x)</div><div class="ttdef"><b>Definition</b> mad.hpp:101</div></div>
+<div class="ttc" id="anamespacequickstats_html_a2817fc572f61655310795a98123c1fd0"><div class="ttname"><a href="namespacequickstats.html#a2817fc572f61655310795a98123c1fd0">quickstats::mad</a></div><div class="ttdeci">Output_ mad(const std::size_t num_total, Input_ *const ptr, const Input_ median)</div><div class="ttdef"><b>Definition</b> mad.hpp:39</div></div>
+<div class="ttc" id="anamespacequickstats_html_a294a3815731fe4eccb7b4d5fb13228b6"><div class="ttname"><a href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">quickstats::scale_mad_to_sd</a></div><div class="ttdeci">Float_ scale_mad_to_sd(const Float_ x)</div><div class="ttdef"><b>Definition</b> mad.hpp:104</div></div>
+<div class="ttc" id="anamespacequickstats_html_a3d575d85c8a4145488afafaef6b7c004"><div class="ttname"><a href="namespacequickstats.html#a3d575d85c8a4145488afafaef6b7c004">quickstats::mad_with_infinities</a></div><div class="ttdeci">Output_ mad_with_infinities(const std::size_t num_total, Input_ *const ptr, const Input_ median)</div><div class="ttdef"><b>Definition</b> mad.hpp:128</div></div>
 <div class="ttc" id="anamespacequickstats_html_a66ea74c07fc1cb5a9a9689c8afc76123"><div class="ttname"><a href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">quickstats::median</a></div><div class="ttdeci">Output_ median(const std::size_t num_total, Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> median.hpp:36</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

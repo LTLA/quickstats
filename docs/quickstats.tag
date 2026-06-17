@@ -369,6 +369,20 @@
     </member>
     <member kind="function">
       <type>Output_</type>
+      <name>mad_with_infinities</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a3d575d85c8a4145488afafaef6b7c004</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
+      <name>mad_with_infinities</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a83f9afb541c81922021dc535a0055d88</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median)</arglist>
+    </member>
+    <member kind="function">
+      <type>Output_</type>
       <name>median</name>
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a66ea74c07fc1cb5a9a9689c8afc76123</anchor>

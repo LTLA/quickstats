@@ -150,6 +150,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a294a3815731fe4eccb7b4d5fb13228b6" id="r_a294a3815731fe4eccb7b4d5fb13228b6"><td class="memTemplParams" colspan="2">template&lt;typename Float_ &gt; </td></tr>
 <tr class="memitem:a294a3815731fe4eccb7b4d5fb13228b6"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a294a3815731fe4eccb7b4d5fb13228b6">scale_mad_to_sd</a> (const Float_ x)</td></tr>
 <tr class="separator:a294a3815731fe4eccb7b4d5fb13228b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d575d85c8a4145488afafaef6b7c004" id="r_a3d575d85c8a4145488afafaef6b7c004"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a3d575d85c8a4145488afafaef6b7c004"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3d575d85c8a4145488afafaef6b7c004">mad_with_infinities</a> (const std::size_t num_total, Input_ *const ptr, const Input_ <a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)</td></tr>
+<tr class="separator:a3d575d85c8a4145488afafaef6b7c004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83f9afb541c81922021dc535a0055d88" id="r_a83f9afb541c81922021dc535a0055d88"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
+<tr class="memitem:a83f9afb541c81922021dc535a0055d88"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a83f9afb541c81922021dc535a0055d88">mad_with_infinities</a> (const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ <a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a>)</td></tr>
+<tr class="separator:a83f9afb541c81922021dc535a0055d88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123" id="r_a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Input_ &gt; </td></tr>
 <tr class="memitem:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median</a> (const std::size_t num_total, Input_ *const ptr)</td></tr>
 <tr class="separator:a66ea74c07fc1cb5a9a9689c8afc76123"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,11 +235,11 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements from which to compute a MAD. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the array at <code>ptr</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the array at <code>ptr</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>. For medians that might be infinite, consider using <code><a class="el" href="#a3d575d85c8a4145488afafaef6b7c004">mad_with_infinities()</a></code> instead.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>MAD of the array. If <code>median</code> is not finite, the MAD is set to NaN. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the array. If <code>median</code> is not finite or if <code>num_total == 0</code>, NaN is returned. </dd></dl>
 
 </div>
 </div>
@@ -282,11 +288,11 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
     <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the sparse vector at <code>values</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the sparse vector at <code>values</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>. For medians that might be infinite, consider using <code><a class="el" href="#a3d575d85c8a4145488afafaef6b7c004">mad_with_infinities()</a></code> instead.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>MAD of the sparse vector. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the sparse vector. If <code>median</code> is not finite or if <code>num_total == 0</code>, NaN is returned. </dd></dl>
 
 </div>
 </div>
@@ -320,6 +326,102 @@ template&lt;typename Float_ &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Scaled value of <code>x</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a3d575d85c8a4145488afafaef6b7c004" name="a3d575d85c8a4145488afafaef6b7c004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d575d85c8a4145488afafaef6b7c004">&#9670;&#160;</a></span>mad_with_infinities() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::mad_with_infinities </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_</td>          <td class="paramname"><span class="paramname"><em>median</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Variant of <code><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad()</a></code> to compute the median absolute deviation from an array of elements with an infinite median. Specifically, we assume that all occurrences of infinity of the same sign refer to the same arbitrarily large number, such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic). This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of representing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Floating-point type of the input values and median.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements from which to compute a MAD. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array of length <code>num_total</code>. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the array at <code>ptr</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>. This may be infinite.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the array, assuming that the difference between infinities of the same sign is zero. If <code>median</code> is finite, this will be the same as <code><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad()</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="a83f9afb541c81922021dc535a0055d88" name="a83f9afb541c81922021dc535a0055d88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f9afb541c81922021dc535a0055d88">&#9670;&#160;</a></span>mad_with_infinities() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_  = double, typename Input_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Output_ quickstats::mad_with_infinities </td>
+          <td>(</td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_non_zero</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Input_ *const</td>          <td class="paramname"><span class="paramname"><em>values</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Input_</td>          <td class="paramname"><span class="paramname"><em>median</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Variant of <code><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad()</a></code> to compute the median absolute deviation from a sparse vector with an infinite median. Specifically, we assume that all occurrences of infinity of the same sign refer to the same arbitrarily large number, such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic). This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. This should be capable of representing NaNs. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Floating-point type of the input values and median.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">num_total</td><td>Total number of elements in the sparse vector. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">num_non_zero</td><td>Number of structural non-zeros in the sparse vector. This should be no greater than <code>num_total</code>. <code>num_total - num_non_zero</code> is the number of structural zeros. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>Pointer to the start of an array of length <code>num_non_zero</code>, containing the values of the structural non-zeros of the sparse vector. On output, the contents will contain the (possibly reordered) absolute deviations from the median. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">median</td><td>Median of the sparse vector at <code>values</code>, typically computed with <code><a class="el" href="#a66ea74c07fc1cb5a9a9689c8afc76123">median()</a></code>. This may be infinite.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>MAD of the sparse vector, assuming that the difference between infinities of the same sign is zero. If <code>median</code> is finite, this will be the same as <code><a class="el" href="#a2817fc572f61655310795a98123c1fd0">mad()</a></code>. </dd></dl>
 
 </div>
 </div>
