@@ -16,6 +16,12 @@ TEST_P(PairwiseSumTest, Basic) {
         std::accumulate(sim.begin(), sim.end(), 0.0),
         quickstats::pairwise_sum(n, sim.data(), wrk)
     );
+
+    // Trying with a smaller limit.
+    almost_equal_floats(
+        std::accumulate(sim.begin(), sim.end(), 0.0),
+        quickstats::pairwise_sum<5>(n, sim.data(), wrk)
+    );
 }
 
 TEST_P(PairwiseSumTest, Modified) {

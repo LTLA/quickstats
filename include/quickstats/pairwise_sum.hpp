@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstddef>
 #include <optional>
+#include <cassert>
 
 /**
  * @file pairwise_sum.hpp
@@ -40,6 +41,7 @@ struct PairwiseSumWorkspace {
  * Compared to naive summation, this reduces round-off error from floating-point imprecision with minimal loss of performance. 
  *
  * @tparam limit_ Maximum number of elements to sum directly.
+ * This should be positive.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Modifier_ Function to apply to each element of the input data to modify it.
  * @tparam Output_ Numeric type of the sum.
@@ -55,19 +57,27 @@ struct PairwiseSumWorkspace {
 template<std::size_t limit_ = 128, typename Input_, class Modifier_, typename Output_>
 Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modifier_ mod, PairwiseSumWorkspace<Output_>& work) {
     work.states.clear();
+    if (num_total == 0) {
+        return 0;
+    }
 
     std::size_t start = 0, end = num_total;
     Output_ out = 0;
     while (1) {
         const std::size_t len = end - start;
+        static_assert(limit_ > 0);
         if (len > limit_) {
             work.states.emplace_back(end);
             end = start + len / 2;
             continue;
         }
 
-        Output_ tmp = 0;
-        for (std::size_t i = start; i < end; ++i) {
+        // This should always be true if 'limit_ > 0'.
+        // From the code above that defines the recursive 'end', we know that 'len > limit_ >= 1', so 'len / 2 >= 1', which means that 'start < end'.
+        // Additionally, the initial 'end' is defined from 'num_total > 0', so 'end > start' in all circumstances at this point in the function.
+        assert(start < end);
+        Output_ tmp = mod(start, ptr[start]); // As a result, we can skip one addition by assuming that 'start < end'.
+        for (std::size_t i = start + 1; i < end; ++i) {
             tmp += mod(i, ptr[i]);
         }
 
