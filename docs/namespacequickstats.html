@@ -544,7 +544,7 @@ template&lt;std::size_t limit_ = 128, typename Input_ , class Modifier_ , typena
 <p>Perform pairwise summation on an array of numeric elements. The array is recursively halved until each subarray is no greater than <code>limit_</code>. Elements in each subarray are summed in sequence, and the subtotals are then added together to obtain the total sum. Compared to naive summation, this reduces round-off error from floating-point imprecision with minimal loss of performance.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">limit_</td><td>Maximum number of elements to sum directly. </td></tr>
+    <tr><td class="paramname">limit_</td><td>Maximum number of elements to sum directly. This should be positive. </td></tr>
     <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
     <tr><td class="paramname">Modifier_</td><td>Function to apply to each element of the input data to modify it. </td></tr>
     <tr><td class="paramname">Output_</td><td>Numeric type of the sum.</td></tr>

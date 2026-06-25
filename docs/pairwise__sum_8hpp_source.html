@@ -121,90 +121,98 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>};</div>
 </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">class</span> Modifier_, <span class="keyword">typename</span> Output_&gt;</div>
-<div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">   56</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, Modifier_ mod, <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    work.states.clear();</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    std::size_t start = 0, end = num_total;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    Output_ out = 0;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">while</span> (1) {</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">const</span> std::size_t len = end - start;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">if</span> (len &gt; limit_) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            work.states.emplace_back(end);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            end = start + len / 2;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        }</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        Output_ tmp = 0;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">for</span> (std::size_t i = start; i &lt; end; ++i) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            tmp += mod(i, ptr[i]);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">class</span> Modifier_, <span class="keyword">typename</span> Output_&gt;</div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">   57</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, Modifier_ mod, <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    work.states.clear();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::size_t start = 0, end = num_total;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    Output_ out = 0;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">while</span> (1) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keyword">const</span> std::size_t len = end - start;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keyword">static_assert</span>(limit_ &gt; 0);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">if</span> (len &gt; limit_) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            work.states.emplace_back(end);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            end = start + len / 2;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        start = end;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">while</span> (work.states.size() &amp;&amp; work.states.back().left_sum.has_value()) {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            tmp += *(work.states.back().left_sum);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            start = work.states.back().left_end;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            work.states.pop_back();</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">if</span> (work.states.empty()) {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            out = tmp;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        work.states.back().left_sum = tmp;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        end = work.states.back().left_end;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="comment">// This should always be true if &#39;limit_ &gt; 0&#39;.</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="comment">// From the code above that defines the recursive &#39;end&#39;, we know that &#39;len &gt; limit_ &gt;= 1&#39;, so &#39;len / 2 &gt;= 1&#39;, which means that &#39;start &lt; end&#39;.</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// Additionally, the initial &#39;end&#39; is defined from &#39;num_total &gt; 0&#39;, so &#39;end &gt; start&#39; in all circumstances at this point in the function.</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        assert(start &lt; end);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        Output_ tmp = mod(start, ptr[start]); <span class="comment">// As a result, we can skip one addition by assuming that &#39;start &lt; end&#39;.</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">for</span> (std::size_t i = start + 1; i &lt; end; ++i) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            tmp += mod(i, ptr[i]);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        start = end;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">while</span> (work.states.size() &amp;&amp; work.states.back().left_sum.has_value()) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            tmp += *(work.states.back().left_sum);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            start = work.states.back().left_end;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            work.states.pop_back();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        }</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">if</span> (work.states.empty()) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            out = tmp;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        work.states.back().left_sum = tmp;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        end = work.states.back().left_end;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>}</div>
 </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">typename</span> Output_&gt;</div>
-<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2686f761a125aff7526fe21efe281686">  107</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        num_total,</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        ptr,</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        [&amp;](std::size_t, <span class="keyword">const</span> Input_ val) -&gt; Output_ {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <span class="keywordflow">return</span> val;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        },</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        work</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    );</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">template</span>&lt;std::<span class="keywordtype">size_t</span> limit_ = 128, <span class="keyword">typename</span> Input_, <span class="keyword">typename</span> Output_&gt;</div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a2686f761a125aff7526fe21efe281686">  116</a></span>Output_ <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Input_* <span class="keyword">const</span> ptr, <a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace&lt;Output_&gt;</a>&amp; work) {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">pairwise_sum&lt;limit_&gt;</a>(</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        num_total,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        ptr,</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        [&amp;](std::size_t, <span class="keyword">const</span> Input_ val) -&gt; Output_ {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="keywordflow">return</span> val;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        },</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        work</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    );</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
 </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="comment">/* COMMENTS:</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment"> * I tried to write a multi-threaded version of this where each direct summation was submitted to a separate worker until all workers were occupied,</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment"> * and then added the results once they became available from each worker. </span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment"> * This worksharing is fine-grained but imposes a high cost for inter-thread communication relative to the summation for small `limit_`. </span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment"> * As a consequence, the performance of this multi-threaded version is worse than its serial counterpart.</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment"> * I could have implemented alternative approaches that involve less communication but require more memory.</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment"> * For example, we could split elements into the subarrays ahead of time, distribute the summations to threads once, and then sum the results once all workers are done.</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment"> * This greatly reduces the cross-talk between threads but requires an extra allocation to store the results.</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment"> * TBH, the easiest and most performant approach to parallelization is to just split your input array into one subarray per worker,</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment"> * perform the sum within each worker for that subarray, and then add the sums afterwards.</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment"> * This won&#39;t give exactly the same result as serial execution but we&#39;ve crossed that bridge already.</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment"> * (If exact results are required, we can split it into ceil(log2(num_workers)) subarrays,</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment"> * which allows us to follow the same halving as pairwise_sum() to get the exact same result at the cost of suboptimal worksharing.)</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment"> * In any case, summation is already so fast that I don&#39;t think we need to spend a lot of effort in thinking about parallelization.</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment"> * Especially given that, in real applications, the other threads will typically be occupied elsewhere.</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment"> * Indeed, we don&#39;t deal with parallelization in other parts of this library, so it would be odd to implement it here. </span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment"> * I also have a sneaking suspicion that the serial code is already pseudo-parallelized via out-of-order execution,</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment"> * where the next summation starts before the first one has ended.</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment"> * I say this because pairwise_sum() somehow manages to be slightly faster than std::accumulate() in our R bindings.</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">/* COMMENTS:</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment"> * I tried to write a multi-threaded version of this where each direct summation was submitted to a separate worker until all workers were occupied,</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment"> * and then added the results once they became available from each worker. </span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment"> * This worksharing is fine-grained but imposes a high cost for inter-thread communication relative to the summation for small `limit_`. </span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment"> * As a consequence, the performance of this multi-threaded version is worse than its serial counterpart.</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment"> * I could have implemented alternative approaches that involve less communication but require more memory.</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment"> * For example, we could split elements into the subarrays ahead of time, distribute the summations to threads once, and then sum the results once all workers are done.</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment"> * This greatly reduces the cross-talk between threads but requires an extra allocation to store the results.</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment"> * TBH, the easiest and most performant approach to parallelization is to just split your input array into one subarray per worker,</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment"> * perform the sum within each worker for that subarray, and then add the sums afterwards.</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment"> * This won&#39;t give exactly the same result as serial execution but we&#39;ve crossed that bridge already.</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment"> * (If exact results are required, we can split it into ceil(log2(num_workers)) subarrays,</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment"> * which allows us to follow the same halving as pairwise_sum() to get the exact same result at the cost of suboptimal worksharing.)</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment"> * In any case, summation is already so fast that I don&#39;t think we need to spend a lot of effort in thinking about parallelization.</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment"> * Especially given that, in real applications, the other threads will typically be occupied elsewhere.</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment"> * Indeed, we don&#39;t deal with parallelization in other parts of this library, so it would be odd to implement it here. </span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment"> * I also have a sneaking suspicion that the serial code is already pseudo-parallelized via out-of-order execution,</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment"> * where the next summation starts before the first one has ended.</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment"> * I say this because pairwise_sum() somehow manages to be slightly faster than std::accumulate() in our R bindings.</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:14</div></div>
-<div class="ttc" id="anamespacequickstats_html_ad657d40d7dcabdf6e6407d98440a256e"><div class="ttname"><a href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:56</div></div>
+<div class="ttc" id="anamespacequickstats_html_ad657d40d7dcabdf6e6407d98440a256e"><div class="ttname"><a href="namespacequickstats.html#ad657d40d7dcabdf6e6407d98440a256e">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:57</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
