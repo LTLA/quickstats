@@ -399,21 +399,21 @@
       <type>Output_</type>
       <name>pairwise_sum</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>ad657d40d7dcabdf6e6407d98440a256e</anchor>
+      <anchor>a8192140d6b03e6f6243acd12721f8dca</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>pairwise_sum</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a2686f761a125aff7526fe21efe281686</anchor>
+      <anchor>a245e5c9d20e2a03c2721f49075a54127</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a483b4c09f0eaabe6c4b6fd9f3a173971</anchor>
+      <anchor>a0d8876c5cb6c72adc4534d3b16a6543a</anchor>
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
