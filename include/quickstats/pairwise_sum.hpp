@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <optional>
 #include <cassert>
+#include <array>
 
 /**
  * @file pairwise_sum.hpp
@@ -35,13 +36,46 @@ struct PairwiseSumWorkspace {
 };
 
 /**
+ * @cond
+ */
+// Mathematically equivalent to std::accumulate but reorders summations for greater instruction-level parallelism.
+// See performance tests in https://github.com/tatami-inc/test-multiplication/tree/master/other/accumulators.
+template<std::size_t width_>
+double recursive_sum(std::array<double, width_>& dots) {
+    if constexpr(width_ == 1) {
+        return dots[0];
+    } else if constexpr(width_ == 2) {
+        return dots[0] + dots[1];
+    } else {
+        constexpr auto half_width = width_ / 2;
+        std::array<double, half_width> tmp;
+        for (std::size_t s = 0; s < half_width; ++s) { // Increase potential for vectorization.
+            tmp[s] = dots[s] + dots[s + half_width];
+        }
+        if constexpr(width_ % 2 == 1) {
+            return recursive_sum<width_ / 2>(tmp) + dots[width_ - 1];
+        } else {
+            return recursive_sum<width_ / 2>(tmp);
+        }
+    }
+}
+/**
+ * @endcond
+ */
+
+/**
  * Perform pairwise summation on an array of numeric elements.
  * The array is recursively halved until each subarray is no greater than `limit_`.
  * Elements in each subarray are summed in sequence, and the subtotals are then added together to obtain the total sum.
  * Compared to naive summation, this reduces round-off error from floating-point imprecision with minimal loss of performance. 
  *
- * @tparam limit_ Maximum number of elements to sum directly.
- * This should be positive.
+ * @tparam limit_ Maximum number of elements in the subarray to be summed in sequence.
+ * This should be positive and is typically a power of 2.
+ * Larger values reduce the recursion overhead at the cost of weakening the mitigations from round-off error.
+ * @tparam accumulators_ Number of accumulators to sum each subarray.
+ * This should be positive and should be less than `limit_ / 2`.
+ * It should also be a power of 2.
+ * Larger values improve instruction parallelization at the cost of increased binary size and potential register spills.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Modifier_ Function to apply to each element of the input data to modify it.
  * @tparam Output_ Numeric type of the sum.
@@ -54,31 +88,81 @@ struct PairwiseSumWorkspace {
  *
  * @return Sum of all (modified) elements in `[ptr, ptr + num_total)`.
  */
-template<std::size_t limit_ = 128, typename Input_, class Modifier_, typename Output_>
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, class Modifier_, typename Output_>
 Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modifier_ mod, PairwiseSumWorkspace<Output_>& work) {
+    static_assert(limit_ > 0);
+    static_assert(accumulators_ > 0);
+    static_assert(accumulators_ <= limit_ / 2);
+
     work.states.clear();
-    if (num_total == 0) {
-        return 0;
+    if (num_total < accumulators_) {
+        if constexpr(accumulators_ == 1) {
+            return 0;
+        } else {
+            Output_ out = 0;
+            for (std::size_t i = 0; i < num_total; ++i) {
+                out += mod(i, ptr[i]);
+            }
+            return out;
+        }
     }
 
-    std::size_t start = 0, end = num_total;
+    std::size_t start = 0, end = num_total; 
     Output_ out = 0;
     while (1) {
         const std::size_t len = end - start;
-        static_assert(limit_ > 0);
         if (len > limit_) {
             work.states.emplace_back(end);
             end = start + len / 2;
             continue;
         }
 
-        // This should always be true if 'limit_ > 0'.
-        // From the code above that defines the recursive 'end', we know that 'len > limit_ >= 1', so 'len / 2 >= 1', which means that 'start < end'.
-        // Additionally, the initial 'end' is defined from 'num_total > 0', so 'end > start' in all circumstances at this point in the function.
-        assert(start < end);
-        Output_ tmp = mod(start, ptr[start]); // As a result, we can skip one addition by assuming that 'start < end'.
-        for (std::size_t i = start + 1; i < end; ++i) {
-            tmp += mod(i, ptr[i]);
+        // 'start + accumulators_ <= end' should always be true. 
+        //
+        // Let's start by considering the initial case where 'num_total <= limit_'.
+        // As we already handled 'num_total >= accumulators_', we get 'start + accumulators_ == accumulators_ <= num_total == end'.
+        //
+        // Alright, what about the left-hand-side of the recursion?
+        // We get 'end = start + len / 2', and we already know that 'len > limit_' and 'limit_ / 2 >= accumulators_';
+        // hence, we know that that 'start + len / 2 >= start + accumulators_'.
+        //
+        // The right-hand-side of the recursion is easier as we know the the length is greater than or equal to 'len / 2' (as integer division is truncating).
+        // So, if the LHS fulfills the requirement, then the RHS must definitely fulfill it.
+        assert(start + accumulators_ <= end);
+
+        Output_ tmp;
+        if constexpr(accumulators_ == 1) {
+            tmp = mod(start, ptr[start]); // We know that start < end, so we can skip one addition. 
+            for (std::size_t i = start + 1; i < end; ++i) {
+                tmp += mod(i, ptr[i]);
+            }
+
+        } else {
+            // This accumulator logic was originally implemented in https://github.com/tatami-inc/tatami_mult.
+            // We added peeling as we can guarantee that we have enough observations and thus can omit the conditional.
+            std::array<Output_, accumulators_> partials; 
+            for (std::size_t a = 0; a < accumulators_; ++a) { // peeling the first loop as we know that start + accumulators_ <= end.
+                partials[a] = mod(start + a, ptr[start + a]);
+            }
+
+            const std::size_t num_cycles = len / accumulators_;
+            const std::size_t remainder = len % accumulators_;
+            for (std::size_t c = 1; c < num_cycles; ++c) {
+                for (std::size_t a = 0; a < accumulators_; ++a) {
+                    const std::size_t idx = start + c * accumulators_ + a;
+                    partials[a] += mod(idx, ptr[idx]);
+                }
+            }
+
+            // Technically, we could structure the splits to reduce the number of calls to the epilogue loops.
+            // However, this would weaken the symmetry of the splitting and compromise the precision improvements.
+            tmp = 0;
+            for (std::size_t i = 0; i < remainder; ++i) {
+                const std::size_t idx = start + num_cycles * accumulators_ + i;
+                tmp += mod(idx, ptr[idx]);
+            }
+
+            tmp += recursive_sum(partials);
         }
 
         start = end;
@@ -103,7 +187,8 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
 /**
  * Overload of `pairwise_sum()` to conveniently compute the sum of an array without any modification of its elements.
  *
- * @tparam limit_ Maximum number of elements to sum directly.
+ * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
+ * @tparam accumulators_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Numeric type of the sum.
  *
@@ -113,9 +198,9 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
  *
  * @return Sum of all elements in `[ptr, ptr + num_total)`.
  */
-template<std::size_t limit_ = 128, typename Input_, typename Output_>
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
 Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, PairwiseSumWorkspace<Output_>& work) {
-    return pairwise_sum<limit_>(
+    return pairwise_sum<limit_, accumulators_>(
         num_total,
         ptr,
         [&](std::size_t, const Input_ val) -> Output_ {

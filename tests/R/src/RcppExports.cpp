@@ -11,19 +11,20 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // pairwise_sum
-double pairwise_sum(Rcpp::NumericVector input, bool simple);
-RcppExport SEXP _quickstats_test_pairwise_sum(SEXP inputSEXP, SEXP simpleSEXP) {
+double pairwise_sum(Rcpp::NumericVector input, bool simple, bool accumulators);
+RcppExport SEXP _quickstats_test_pairwise_sum(SEXP inputSEXP, SEXP simpleSEXP, SEXP accumulatorsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type input(inputSEXP);
     Rcpp::traits::input_parameter< bool >::type simple(simpleSEXP);
-    rcpp_result_gen = Rcpp::wrap(pairwise_sum(input, simple));
+    Rcpp::traits::input_parameter< bool >::type accumulators(accumulatorsSEXP);
+    rcpp_result_gen = Rcpp::wrap(pairwise_sum(input, simple, accumulators));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_quickstats_test_pairwise_sum", (DL_FUNC) &_quickstats_test_pairwise_sum, 2},
+    {"_quickstats_test_pairwise_sum", (DL_FUNC) &_quickstats_test_pairwise_sum, 3},
     {NULL, NULL, 0}
 };
 

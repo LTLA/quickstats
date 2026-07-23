@@ -64,7 +64,8 @@ struct RssWorkspace {
  * No consideration is given to special values like NaNs in the values of the structural non-zeros.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
- * @tparam limit_ Maximum number of elements to sum directly, see `pairwise_sum()` for details.
+ * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
+ * @tparam accumulators_ Number of accumulators, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
@@ -78,7 +79,7 @@ struct RssWorkspace {
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
-template<std::size_t limit_ = 128, typename Input_, typename Output_>
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
 RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
     static_assert(std::is_floating_point<Output_>::value);
 
@@ -89,11 +90,11 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
     }
 
     Output_& mean = output.mean;
-    mean = pairwise_sum<limit_>(num_non_zero, ptr, work.pswork);
+    mean = pairwise_sum<limit_, accumulators_>(num_non_zero, ptr, work.pswork);
     mean /= num_total;
 
     Output_& ssd = output.rss;
-    ssd = pairwise_sum<limit_>(
+    ssd = pairwise_sum<limit_, accumulators_>(
         num_non_zero,
         ptr, 
         [&](std::size_t, const Input_ val) -> Output_ {
@@ -119,7 +120,8 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  * No consideration is given to special values like NaNs in the dense array.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
- * @tparam limit_ Maximum number of elements to sum directly, see `pairwise_sum()` for details.
+ * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
+ * @tparam accumulators_ Number of accumulators, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
  * @tparam Output_ Floating-point type of the output data.
  * This should be capable of storing NaNs.
@@ -130,9 +132,9 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  *
  * @return The sample mean and residual sum of squares of the array.
  */
-template<std::size_t limit_ = 128, typename Input_, typename Output_>
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
 RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work) {
-    return rss<limit_>(num_total, num_total, ptr, work);
+    return rss<limit_, accumulators_>(num_total, num_total, ptr, work);
 }
 
 /**
