@@ -420,7 +420,7 @@
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a023dc84dd669c9f2dd0d6281d807d972</anchor>
+      <anchor>acd3f9436bce7453e3ba73264b29480a0</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
     </member>
     <member kind="function">
