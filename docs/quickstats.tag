@@ -143,9 +143,9 @@
     </member>
     <member kind="variable">
       <type>Output_</type>
-      <name>empty_mean_placeholder</name>
+      <name>mean_placeholder</name>
       <anchorfile>structquickstats_1_1RssOptions.html</anchorfile>
-      <anchor>ac6bc43f0c329cc2158f1aaec10aad999</anchor>
+      <anchor>a4a8efeb7c4500556892c059be38720c2</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -198,8 +198,8 @@
       <type>void</type>
       <name>finish</name>
       <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>acfba8081b311baeb38fbf25deff931e0</anchor>
-      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+      <anchor>a6ae2f8b2baa39b53ffa7ba922730d6e1</anchor>
+      <arglist>(const Output_ mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>std::size_t</type>
@@ -240,8 +240,8 @@
       <type>void</type>
       <name>finish</name>
       <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>a960c1830ba02ae39b3d5e071d0fb46e4</anchor>
-      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+      <anchor>ada109f7ed9534e9e4fa9dba3672b5c65</anchor>
+      <arglist>(const Output_ mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>Count_</type>
@@ -282,8 +282,8 @@
       <type>void</type>
       <name>finish</name>
       <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>a9db90247a985524e05be2061c50d3471</anchor>
-      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+      <anchor>a76411caeeca8bf8d93e68f9962b4298a</anchor>
+      <arglist>(const Output_ mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>Count_</type>
@@ -324,8 +324,8 @@
       <type>void</type>
       <name>finish</name>
       <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>a59e743432619e7481c679231980d9b25</anchor>
-      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+      <anchor>a3550274548b1c963286c42d06532e841</anchor>
+      <arglist>(const Output_ mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>Count_</type>

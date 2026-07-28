@@ -1,6 +1,15 @@
 var searchData=
 [
-  ['quickly_20compute_20simple_20statistics_0',['Quickly compute simple statistics',['../index.html',1,'']]],
-  ['quickstats_1',['quickstats',['../namespacequickstats.html',1,'']]],
-  ['quickstats_2ehpp_2',['quickstats.hpp',['../quickstats_8hpp.html',1,'']]]
+  ['recenter_5frss_0',['recenter_rss',['../namespacequickstats.html#a18014e9467233e456a3b77b682d9a020',1,'quickstats']]],
+  ['recenter_5frss_5funsafe_1',['recenter_rss_unsafe',['../namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4',1,'quickstats']]],
+  ['rss_2',['rss',['../structquickstats_1_1RssResult.html#a3c99a0a61c93b092c1fa0b83ab0bed27',1,'quickstats::RssResult::rss'],['../namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4',1,'quickstats::rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)'],['../namespacequickstats.html#afe323ae5e6eca125513c9d72dd795c81',1,'quickstats::rss(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)']]],
+  ['rss_2ehpp_3',['rss.hpp',['../rss_8hpp.html',1,'']]],
+  ['rss_5fto_5fvariance_4',['rss_to_variance',['../namespacequickstats.html#a3e61a8fe9d7c3444a1240efdb320862d',1,'quickstats::rss_to_variance(const std::size_t num_total, const Float_ rss)'],['../namespacequickstats.html#a2cf8d8988bbae1ed00d2fcaf198574f3',1,'quickstats::rss_to_variance(const std::size_t num_obj, const std::size_t num_total, Float_ *const rss)'],['../namespacequickstats.html#ab66e0ff34f470fb675b04db8d84ecdf5',1,'quickstats::rss_to_variance(const std::size_t num_obj, const Count_ *const num_total, Float_ *const rss)']]],
+  ['rssoptions_5',['RssOptions',['../structquickstats_1_1RssOptions.html',1,'quickstats']]],
+  ['rssresult_6',['RssResult',['../structquickstats_1_1RssResult.html',1,'quickstats']]],
+  ['rssrunningdense_7',['RssRunningDense',['../classquickstats_1_1RssRunningDense.html',1,'quickstats::RssRunningDense&lt; Input_, Output_ &gt;'],['../classquickstats_1_1RssRunningDense.html#af67351fe4df54e9e2f59300b21c1b801',1,'quickstats::RssRunningDense::RssRunningDense()']]],
+  ['rssrunningdenseskip_8',['RssRunningDenseSkip',['../classquickstats_1_1RssRunningDenseSkip.html',1,'quickstats::RssRunningDenseSkip&lt; Count_, Input_, Output_ &gt;'],['../classquickstats_1_1RssRunningDenseSkip.html#a680dcce8b648666fca6715114277adc6',1,'quickstats::RssRunningDenseSkip::RssRunningDenseSkip()']]],
+  ['rssrunningsparse_9',['RssRunningSparse',['../classquickstats_1_1RssRunningSparse.html',1,'quickstats::RssRunningSparse&lt; Count_, Input_, Output_ &gt;'],['../classquickstats_1_1RssRunningSparse.html#aee3ab861047492f1ac4b2caf27160b72',1,'quickstats::RssRunningSparse::RssRunningSparse()']]],
+  ['rssrunningsparseskip_10',['RssRunningSparseSkip',['../classquickstats_1_1RssRunningSparseSkip.html',1,'quickstats::RssRunningSparseSkip&lt; Count_, Input_, Output_ &gt;'],['../classquickstats_1_1RssRunningSparseSkip.html#aadc49b939d0d88dd8de34c47bbb66e03',1,'quickstats::RssRunningSparseSkip::RssRunningSparseSkip()']]],
+  ['rssworkspace_11',['RssWorkspace',['../structquickstats_1_1RssWorkspace.html',1,'quickstats']]]
 ];

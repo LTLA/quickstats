@@ -117,8 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba8cf27848bbb34173c8c26f7347b87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da0ea85bc271b3431d39f9a0f29005a" id="r_a5da0ea85bc271b3431d39f9a0f29005a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5da0ea85bc271b3431d39f9a0f29005a">finish</a> ()</td></tr>
 <tr class="separator:a5da0ea85bc271b3431d39f9a0f29005a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfba8081b311baeb38fbf25deff931e0" id="r_acfba8081b311baeb38fbf25deff931e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfba8081b311baeb38fbf25deff931e0">finish</a> (const Output_ empty_mean_placeholder)</td></tr>
-<tr class="separator:acfba8081b311baeb38fbf25deff931e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ae2f8b2baa39b53ffa7ba922730d6e1" id="r_a6ae2f8b2baa39b53ffa7ba922730d6e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ae2f8b2baa39b53ffa7ba922730d6e1">finish</a> (const Output_ mean_placeholder)</td></tr>
+<tr class="separator:a6ae2f8b2baa39b53ffa7ba922730d6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a515e4234c610bed34bce9da6fc771095" id="r_a515e4234c610bed34bce9da6fc771095"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a515e4234c610bed34bce9da6fc771095">num_obs</a> () const</td></tr>
 <tr class="separator:a515e4234c610bed34bce9da6fc771095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -244,8 +244,8 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
 
 </div>
 </div>
-<a id="acfba8081b311baeb38fbf25deff931e0" name="acfba8081b311baeb38fbf25deff931e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfba8081b311baeb38fbf25deff931e0">&#9670;&#160;</a></span>finish() <span class="overload">[2/2]</span></h2>
+<a id="a6ae2f8b2baa39b53ffa7ba922730d6e1" name="a6ae2f8b2baa39b53ffa7ba922730d6e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ae2f8b2baa39b53ffa7ba922730d6e1">&#9670;&#160;</a></span>finish() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +258,7 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense</a>&lt; Input_, Output_ &gt;::finish </td>
           <td>(</td>
-          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>empty_mean_placeholder</em></span></td><td>)</td>
+          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>mean_placeholder</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -271,7 +271,7 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
 <p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">empty_mean_placeholder</td><td>Placeholder value to use for the mean when no observed vectors were supplied, i.e., no calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code> were performed. </td></tr>
+    <tr><td class="paramname">mean_placeholder</td><td>Placeholder value to use for the mean when no observed vectors were supplied, i.e., no calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code> were performed. </td></tr>
   </table>
   </dd>
 </dl>
