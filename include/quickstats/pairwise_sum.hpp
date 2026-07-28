@@ -6,6 +6,7 @@
 #include <optional>
 #include <cassert>
 #include <array>
+#include <stdexcept>
 
 /**
  * @file pairwise_sum.hpp
@@ -15,7 +16,7 @@
 namespace quickstats {
 
 /**
- * @brief Re-usable workspace for `pairwise_sum()`.
+ * @brief Re-usable workspace for `pairwise_sum()` and `pairwise_sum_abstract()`.
  *
  * @tparam Output_ Numeric type of the sum.
  */
@@ -33,6 +34,18 @@ struct PairwiseSumWorkspace {
     /**
      * @endcond
      */
+};
+
+/**
+ * @brief Options for `pairwise_sum()` and `pairwise_sum_abstract()`.
+ */
+struct PairwiseSumOptions {
+    /**
+     * Maximum number of elements in the subarray to be summed in sequence.
+     * This should be positive and no less than `2 * accumulators_`.
+     * Larger values reduce the recursion overhead at the cost of weakening the mitigations from round-off error.
+     */
+    std::size_t max_sum_length = 128;
 };
 
 /**
@@ -64,35 +77,30 @@ double recursive_sum(std::array<double, width_>& dots) {
  */
 
 /**
- * Perform pairwise summation on an array of numeric elements.
- * The array is recursively halved until each subarray is no greater than `limit_`.
+ * Perform pairwise summation on an abstract array of numeric elements.
+ * The array is recursively halved until each subarray is no greater than `PairwiseSumOptions::max_sum_length`.
  * Elements in each subarray are summed in sequence, and the subtotals are then added together to obtain the total sum.
  * Compared to naive summation, this reduces round-off error from floating-point imprecision with minimal loss of performance. 
  *
- * @tparam limit_ Maximum number of elements in the subarray to be summed in sequence.
- * This should be positive and is typically a power of 2.
- * Larger values reduce the recursion overhead at the cost of weakening the mitigations from round-off error.
  * @tparam accumulators_ Number of accumulators to sum each subarray.
- * This should be positive and should be less than `limit_ / 2`.
- * It should also be a power of 2.
+ * This should be positive and should be no greater than `PairwiseSumOptions::max_sum_length / 2`.
+ * It is strongly recommended that this is set to a power of 2.
  * Larger values improve instruction parallelization at the cost of increased binary size and potential register spills.
- * @tparam Input_ Numeric type of the input data.
- * @tparam Modifier_ Function to apply to each element of the input data to modify it.
+ * @tparam Input_ Function that accepts a `std::size_t` and returns an input value (typically numeric).
  * @tparam Output_ Numeric type of the sum.
  *
  * @param num_total Total number of observations.
- * @param[in] ptr Pointer to an array of length `num_total`, containing the elements to be summed.
- * @param mod Function that accepts an index into `ptr` (as a `std::size_t`) and the value of the element (as an `Input_`) and returns an `Output_`.
- * The return value will be used in the summation.
- * @param work Workspace that can be re-used across multiple `pairwise_sum()` calls.
+ * @param input Function that accesses an abstract array of length `num_total`.
+ * Specifically, it accepts an integer index in `[0, num_total)` and returns an input value to be summed.
+ * This will be called exacly once for each integer in `[0, num_total)`.
+ * @param work Workspace that can be re-used across multiple `pairwise_sum_abstract()` calls.
+ * @param options Further options.
  *
- * @return Sum of all (modified) elements in `[ptr, ptr + num_total)`.
+ * @return Sum of all `input(i)` values for `i` in `[0, num_total)`.
  */
-template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, class Modifier_, typename Output_>
-Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modifier_ mod, PairwiseSumWorkspace<Output_>& work) {
-    static_assert(limit_ > 0);
+template<std::size_t accumulators_ = 4, class Input_, typename Output_>
+Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace<Output_>& work, const PairwiseSumOptions& options) {
     static_assert(accumulators_ > 0);
-    static_assert(accumulators_ <= limit_ / 2);
 
     work.states.clear();
     if (num_total < accumulators_) {
@@ -101,17 +109,22 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
         } else {
             Output_ out = 0;
             for (std::size_t i = 0; i < num_total; ++i) {
-                out += mod(i, ptr[i]);
+                out += input(i);
             }
             return out;
         }
+    }
+
+    const std::size_t limit = options.max_sum_length;
+    if (accumulators_ > limit / 2) {
+        throw std::runtime_error("'max_sum_length' must be greater than '2 * accumulators_'");
     }
 
     std::size_t start = 0, end = num_total; 
     Output_ out = 0;
     while (1) {
         const std::size_t len = end - start;
-        if (len > limit_) {
+        if (len > limit) {
             work.states.emplace_back(end);
             end = start + len / 2;
             continue;
@@ -119,22 +132,22 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
 
         // 'start + accumulators_ <= end' should always be true. 
         //
-        // Let's start by considering the initial case where 'num_total <= limit_'.
-        // As we already handled 'num_total >= accumulators_', we get 'start + accumulators_ == accumulators_ <= num_total == end'.
+        // Let's start by considering the initial case where 'num_total <= limit'.
+        // As we already know that 'num_total >= accumulators_', we get 'start + accumulators_ == accumulators_ <= num_total == end'.
         //
         // Alright, what about the left-hand-side of the recursion?
-        // We get 'end = start + len / 2', and we already know that 'len > limit_' and 'limit_ / 2 >= accumulators_';
+        // We defined 'end = start + len / 2', and we already know that 'len > limit' and 'limit / 2 >= accumulators_';
         // hence, we know that that 'start + len / 2 >= start + accumulators_'.
         //
-        // The right-hand-side of the recursion is easier as we know the the length is greater than or equal to 'len / 2' (as integer division is truncating).
+        // The right-hand-side of the recursion is easier as we know its length is greater than or equal to 'len / 2' (as integer division is truncating).
         // So, if the LHS fulfills the requirement, then the RHS must definitely fulfill it.
         assert(start + accumulators_ <= end);
 
         Output_ tmp;
         if constexpr(accumulators_ == 1) {
-            tmp = mod(start, ptr[start]); // We know that start < end, so we can skip one addition. 
+            tmp = input(start); // We know that start < end, so we can skip one addition. 
             for (std::size_t i = start + 1; i < end; ++i) {
-                tmp += mod(i, ptr[i]);
+                tmp += input(i);
             }
 
         } else {
@@ -142,7 +155,7 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
             // We added peeling as we can guarantee that we have enough observations and thus can omit the conditional.
             std::array<Output_, accumulators_> partials; 
             for (std::size_t a = 0; a < accumulators_; ++a) { // peeling the first loop as we know that start + accumulators_ <= end.
-                partials[a] = mod(start + a, ptr[start + a]);
+                partials[a] = input(start + a);
             }
 
             const std::size_t num_cycles = len / accumulators_;
@@ -150,7 +163,7 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
             for (std::size_t c = 1; c < num_cycles; ++c) {
                 for (std::size_t a = 0; a < accumulators_; ++a) {
                     const std::size_t idx = start + c * accumulators_ + a;
-                    partials[a] += mod(idx, ptr[idx]);
+                    partials[a] += input(idx);
                 }
             }
 
@@ -159,7 +172,7 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
             tmp = 0;
             for (std::size_t i = 0; i < remainder; ++i) {
                 const std::size_t idx = start + num_cycles * accumulators_ + i;
-                tmp += mod(idx, ptr[idx]);
+                tmp += input(idx);
             }
 
             tmp += recursive_sum(partials);
@@ -185,28 +198,28 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modif
 }
 
 /**
- * Overload of `pairwise_sum()` to conveniently compute the sum of an array without any modification of its elements.
+ * Perform pairwise summation on an array, see `pairwise_sum_abstract()` for more details.
  *
- * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
- * @tparam accumulators_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
+ * @tparam accumulators_ Maximum number of elements to sum in sequence, see `pairwise_sum_abstract()` for details.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Numeric type of the sum.
  *
  * @param num_total Total number of observations.
  * @param[in] ptr Pointer to an array of length `num_total`, containing the elements to be summed.
  * @param work Workspace that can be re-used across multiple `pairwise_sum()` calls.
+ * @param options Further options.
  *
  * @return Sum of all elements in `[ptr, ptr + num_total)`.
  */
-template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
-Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, PairwiseSumWorkspace<Output_>& work) {
-    return pairwise_sum<limit_, accumulators_>(
+template<std::size_t accumulators_ = 4, typename Input_, typename Output_>
+Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, PairwiseSumWorkspace<Output_>& work, const PairwiseSumOptions& options) {
+    return pairwise_sum_abstract<accumulators_>(
         num_total,
-        ptr,
-        [&](std::size_t, const Input_ val) -> Output_ {
-            return val;
+        [&](const std::size_t i) -> auto {
+            return ptr[i];
         },
-        work
+        work,
+        options
     );
 }
 

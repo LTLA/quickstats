@@ -4,41 +4,43 @@
 
 #include "utils.h"
 
-class PairwiseSumTest : public ::testing::TestWithParam<int> {};
+class PairwiseSumTest : public ::testing::TestWithParam<std::tuple<std::size_t, std::size_t> > {};
 
 TEST_P(PairwiseSumTest, Basic) {
-    auto n = GetParam();
-    std::mt19937_64 rng(n * 59);
+    const auto params = GetParam();
+    const auto n = std::get<0>(params);
+    const auto maxsum = std::get<1>(params);
 
+    std::mt19937_64 rng(n * 59 + maxsum);
     auto sim = simulate_vector<double>(n, -10.0, 10.0, rng);
-    quickstats::PairwiseSumWorkspace<double> wrk;
-    almost_equal_floats(
-        std::accumulate(sim.begin(), sim.end(), 0.0),
-        quickstats::pairwise_sum<128, 1>(n, sim.data(), wrk)
-    );
 
-    // Trying with a smaller limit.
+    quickstats::PairwiseSumWorkspace<double> wrk;
+    quickstats::PairwiseSumOptions opt;
+    opt.max_sum_length = maxsum;
+
     almost_equal_floats(
         std::accumulate(sim.begin(), sim.end(), 0.0),
-        quickstats::pairwise_sum<5, 1>(n, sim.data(), wrk)
+        quickstats::pairwise_sum<1>(n, sim.data(), wrk, opt)
     );
 
     // Trying with more accumulators.
     almost_equal_floats(
         std::accumulate(sim.begin(), sim.end(), 0.0),
-        quickstats::pairwise_sum<128, 4>(n, sim.data(), wrk)
+        quickstats::pairwise_sum<2>(n, sim.data(), wrk, opt)
     );
 
     almost_equal_floats(
         std::accumulate(sim.begin(), sim.end(), 0.0),
-        quickstats::pairwise_sum<5, 2>(n, sim.data(), wrk)
+        quickstats::pairwise_sum<4>(n, sim.data(), wrk, opt)
     );
 }
 
 TEST_P(PairwiseSumTest, Modified) {
-    const std::size_t n = GetParam();
-    std::mt19937_64 rng(n * 59);
+    const auto params = GetParam();
+    const auto n = std::get<0>(params);
+    const auto maxsum = std::get<1>(params);
 
+    std::mt19937_64 rng(n * 59 + maxsum);
     auto sim = simulate_vector<double>(n, -10.0, 10.0, rng);
     auto mod = sim;
     for (std::size_t i = 0; i < n; ++i) {
@@ -46,23 +48,26 @@ TEST_P(PairwiseSumTest, Modified) {
     }
 
     quickstats::PairwiseSumWorkspace<double> wrk;
-    auto modsum1 = quickstats::pairwise_sum<128, 1>(
+    quickstats::PairwiseSumOptions opt;
+    opt.max_sum_length = maxsum;
+
+    auto modsum1 = quickstats::pairwise_sum_abstract<1>(
         n,
-        sim.data(),
-        [&](std::size_t i, double val) -> double {
-            return val * 2 + i;
+        [&](const std::size_t i) -> double {
+            return sim[i] * 2 + i;
         },
-        wrk
+        wrk,
+        opt
     );
     almost_equal_floats(std::accumulate(mod.begin(), mod.end(), 0.0), modsum1);
 
-    auto modsum4 = quickstats::pairwise_sum<128, 4>(
+    auto modsum4 = quickstats::pairwise_sum_abstract<4>(
         n,
-        sim.data(),
-        [&](std::size_t i, double val) -> double {
-            return val * 2 + i;
+        [&](const std::size_t i) -> double {
+            return sim[i] * 2 + i;
         },
-        wrk
+        wrk,
+        opt
     );
     almost_equal_floats(std::accumulate(mod.begin(), mod.end(), 0.0), modsum4);
 }
@@ -70,8 +75,27 @@ TEST_P(PairwiseSumTest, Modified) {
 INSTANTIATE_TEST_SUITE_P(
     PairwiseSum,
     PairwiseSumTest,
-    ::testing::Values(0, 1, 50, 100, 200, 500, 1000, 2000, 5000, 10000)
+    ::testing::Combine(
+        ::testing::Values(0, 1, 50, 100, 200, 500, 1000, 2000, 5000, 10000), // vector length
+        ::testing::Values(10, 25, 100, 200) // max sum length
+    )
 );
+
+TEST(PairwiseSum, Error) {
+    quickstats::PairwiseSumWorkspace<double> wrk;
+    quickstats::PairwiseSumOptions opt;
+    opt.max_sum_length = 7;
+
+    std::vector<double> foo(100);
+    std::string msg;
+    try {
+        quickstats::pairwise_sum<4>(foo.size(), foo.data(), wrk, opt);
+    } catch (std::exception& e) {
+        msg = e.what();
+    }
+
+    EXPECT_TRUE(msg.find("must be greater") != std::string::npos);
+}
 
 TEST(RecursiveSum, Basic) {
     // Non-powers of 2.
