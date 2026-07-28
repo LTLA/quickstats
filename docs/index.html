@@ -104,12 +104,12 @@ $(function(){ initResizable(false); });
 <h1>Medians</h1>
 <p>Pretty much as it says - works for dense and sparse vectors:</p>
 <div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
-<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">quickstats::median&lt;double&gt;</a>(x.size(), x.data());</div>
+<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(x.size(), x.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">quickstats::median&lt;double&gt;</a>(10, 3, x.data());</div>
-<div class="ttc" id="anamespacequickstats_html_a66ea74c07fc1cb5a9a9689c8afc76123"><div class="ttname"><a href="namespacequickstats.html#a66ea74c07fc1cb5a9a9689c8afc76123">quickstats::median</a></div><div class="ttdeci">Output_ median(const std::size_t num_total, Input_ *const ptr)</div><div class="ttdef"><b>Definition</b> median.hpp:36</div></div>
+<div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(10, 3, x.data());</div>
+<div class="ttc" id="anamespacequickstats_html_a0c665cf3d1d2e73842221509a6586f9d"><div class="ttname"><a href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median</a></div><div class="ttdeci">Output_ median(const std::size_t num_total, Input_ *const ptr, const MedianOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> median.hpp:49</div></div>
 </div><!-- fragment --><h1>Single quantiles</h1>
 <p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
 <div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, 0.2);</div>

@@ -4,12 +4,14 @@
     <name>mad.hpp</name>
     <path>quickstats/</path>
     <filename>mad_8hpp.html</filename>
+    <class kind="struct">quickstats::MadOptions</class>
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">
     <name>median.hpp</name>
     <path>quickstats/</path>
     <filename>median_8hpp.html</filename>
+    <class kind="struct">quickstats::MedianOptions</class>
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">
@@ -60,6 +62,30 @@
     <path>quickstats/</path>
     <filename>skip__values_8hpp.html</filename>
     <namespace>quickstats</namespace>
+  </compound>
+  <compound kind="struct">
+    <name>quickstats::MadOptions</name>
+    <filename>structquickstats_1_1MadOptions.html</filename>
+    <templarg>typename Output_</templarg>
+    <member kind="variable">
+      <type>Output_</type>
+      <name>placeholder</name>
+      <anchorfile>structquickstats_1_1MadOptions.html</anchorfile>
+      <anchor>a67d07814c94afc0e8804c953249bb367</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>quickstats::MedianOptions</name>
+    <filename>structquickstats_1_1MedianOptions.html</filename>
+    <templarg>typename Output_</templarg>
+    <member kind="variable">
+      <type>Output_</type>
+      <name>placeholder</name>
+      <anchorfile>structquickstats_1_1MedianOptions.html</anchorfile>
+      <anchor>ae8a75ffb923f5f67eab1ac9f306fa571</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>quickstats::MultipleQuantilesFixedNumber</name>
@@ -395,6 +421,8 @@
   <compound kind="namespace">
     <name>quickstats</name>
     <filename>namespacequickstats.html</filename>
+    <class kind="struct">quickstats::MadOptions</class>
+    <class kind="struct">quickstats::MedianOptions</class>
     <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
     <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
     <class kind="struct">quickstats::PairwiseSumOptions</class>
@@ -412,15 +440,15 @@
       <type>Output_</type>
       <name>mad</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a2817fc572f61655310795a98123c1fd0</anchor>
-      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median)</arglist>
+      <anchor>a5f49679389644f302b7bbf897277d49a</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>mad</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a25416f8f75659b00756d4740d0dbe860</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median)</arglist>
+      <anchor>af2970a9cedcef7fcfa34f8452dfbd816</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
@@ -433,29 +461,29 @@
       <type>Output_</type>
       <name>mad_with_infinities</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a3d575d85c8a4145488afafaef6b7c004</anchor>
-      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median)</arglist>
+      <anchor>a103aef8b7055189bb1d6ff4942a36543</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>mad_with_infinities</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a83f9afb541c81922021dc535a0055d88</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median)</arglist>
+      <anchor>a8e54a37e6ab5f15e35d311f6f0d04760</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>median</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a66ea74c07fc1cb5a9a9689c8afc76123</anchor>
-      <arglist>(const std::size_t num_total, Input_ *const ptr)</arglist>
+      <anchor>a0c665cf3d1d2e73842221509a6586f9d</anchor>
+      <arglist>(const std::size_t num_total, Input_ *const ptr, const MedianOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>median</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a2cb6e9679bbd56aba352d0eb680c1976</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</arglist>
+      <anchor>ae2b005b0621b67993c5a6661aa0f1e77</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const MedianOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
