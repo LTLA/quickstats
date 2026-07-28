@@ -2,7 +2,6 @@
 #define QUICKSTATS_MEDIAN_HPP
 
 #include <algorithm>
-#include <limits>
 #include <type_traits>
 #include <cassert>
 #include <cstddef>
@@ -17,6 +16,19 @@
 namespace quickstats {
 
 /**
+ * @brief Options for `median()`.
+ * @tparam Output_ Floating-point type of the output value.
+ */
+template<typename Output_ = double>
+struct MedianOptions {
+    /**
+     * Placeholder value returned by `mad()` when `num_total == 0`. 
+     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
+     */
+    Output_ placeholder = nan_if_available<Output_>();
+};
+
+/**
  * Compute the median of an array of elements.
  *
  * No consideration is given to special values like NaNs in the array.
@@ -25,19 +37,19 @@ namespace quickstats {
  * @param num_total Total number of elements from which to compute a median.
  * @param[in] ptr Pointer to an array of length `num_total`.
  * On output, the contents may be reordered.
+ * @param options Further options.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of representing NaNs.
  * @tparam Input_ Numeric type of the input values.
  *
- * @return Median of values in `[ptr, ptr + num_total)`, or NaN if `num_total == 0`.
+ * @return Median of values in `[ptr, ptr + num_total)`, or `MedianOptions::placeholder` if `num_total == 0`.
  */
 template<typename Output_ = double, typename Input_>
-Output_ median(const std::size_t num_total, Input_* const ptr) {
+Output_ median(const std::size_t num_total, Input_* const ptr, const MedianOptions<Output_>& options) {
     static_assert(std::is_floating_point<Output_>::value);
 
     if (num_total == 0) {
-        return std::numeric_limits<Output_>::quiet_NaN();
+        return options.placeholder;
     }
 
     const std::size_t halfway = num_total / 2;
@@ -64,14 +76,14 @@ Output_ median(const std::size_t num_total, Input_* const ptr) {
  */
 // We support an arbitrary zero_value so that the MAD calculation can re-use this for the sparse calculations, see mad.hpp for details.
 template<typename Output_, typename Input_>
-Output_ median_internal(const std::size_t num_total, const std::size_t num_non_zero, Input_* const non_zero_values, const Input_ zero_value) {
+Output_ median_internal(const std::size_t num_total, const std::size_t num_non_zero, Input_* const non_zero_values, const Input_ zero_value, const MedianOptions<Output_>& options) {
     assert(num_total >= num_non_zero);
 
     // Fallback to the dense code if there are no structural zeros. This is not
     // just for efficiency as the downstream averaging code assumes that there
     // is at least one structural zero when considering its scenarios.
     if (num_non_zero == num_total) {
-        return median<Output_>(num_total, non_zero_values);
+        return median<Output_>(num_total, non_zero_values, options);
     }
 
     // Is the number of non-zeros less than the number of zeros?
@@ -150,17 +162,34 @@ Output_ median_internal(const std::size_t num_total, const std::size_t num_non_z
  * `num_total - num_non_zero` is the number of structural zeros.
  * @param[in] values Pointer to the start of an array of length `num_non_zero`, containing the values of the structural non-zeros of the sparse vector.
  * On output, the contents may be reordered.
+ * @param options Further options.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of storing NaNs.
  * @tparam Input_ Numeric type of the input values.
  *
- * @return Median of the sparse vector.
+ * @return Median of the sparse vector, or `MedianOptions::placeholder` if `num_total == 0`.
  */
 template<typename Output_ = double, typename Input_>
-Output_ median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
-    return median_internal<Output_>(num_total, num_non_zero, values, static_cast<Input_>(0));
+Output_ median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const MedianOptions<Output_>& options) {
+    return median_internal<Output_>(num_total, num_non_zero, values, static_cast<Input_>(0), options);
 }
+
+/**
+ * @cond
+ */
+// Backwards compatibility.
+template<typename Output_ = double, typename Input_>
+Output_ median(const std::size_t num_total, Input_* const ptr) {
+    return median(num_total, ptr, MedianOptions<Output_>());
+}
+
+template<typename Output_ = double, typename Input_>
+Output_ median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
+    return median(num_total, num_non_zero, values, MedianOptions<Output_>());
+}
+/**
+ * @endcond
+ */
 
 }
 

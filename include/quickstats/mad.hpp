@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <cmath>
+#include <limits>
 
 #include "median.hpp"
 
@@ -14,6 +15,19 @@
 namespace quickstats {
 
 /**
+ * @brief Options for `mad()`.
+ * @tparam Output_ Floating-point type of the output value.
+ */
+template<typename Output_ = double>
+struct MadOptions {
+    /**
+     * Placeholder value returned by `mad()` when `num_total == 0` or `median` is not finite.
+     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
+     */
+    Output_ placeholder = nan_if_available<Output_>();
+};
+
+/**
  * Compute the median absolute deviation (MAD) of an array of elements, given its median.
  *
  * No consideration is given to special values like NaNs in the array.
@@ -22,29 +36,33 @@ namespace quickstats {
  * See also `scale_mad_to_sd()` if the MAD is to be used as an estimate of the standard deviation.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of representing NaNs.
  * @tparam Input_ Numeric type of the input values and median.
- * This is generally expected to be floating-point, though it is also possible to use signed integers as their differences do not overflow.
+ * This is generally expected to be floating-point, though it is also possible to use signed integers as long as their differences do not overflow.
  *
  * @param num_total Total number of elements from which to compute a MAD.
  * @param[in] ptr Pointer to an array of length `num_total`.
  * On output, the contents will contain the (possibly reordered) absolute deviations from the median.
  * @param median Median of the array at `ptr`, typically computed with `median()`.
  * For medians that might be infinite, consider using `mad_with_infinities()` instead.
+ * @param options Further options.
  *
  * @return MAD of the array.
- * If `median` is not finite or if `num_total == 0`, NaN is returned.
+ * If `median` is not finite or if `num_total == 0`, `MadOptions::placeholder` is returned.
  */
 template<typename Output_ = double, typename Input_>
-Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median) {
+Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median, const MadOptions<Output_>& options) {
     if (!std::isfinite(median)) {
         // Pre-emptively avoid shenanigans from trying to order NaN deviations.
-        return std::numeric_limits<Output_>::quiet_NaN();
+        return options.placeholder;
     }
+
     for (std::size_t i = 0; i < num_total; ++i) {
         ptr[i] = std::abs(ptr[i] - median);
     }
-    return ::quickstats::median<Output_>(num_total, ptr);
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return ::quickstats::median<Output_>(num_total, ptr, medopt);
 }
 
 /**
@@ -57,7 +75,6 @@ Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median)
  * See also `scale_mad_to_sd()` if the MAD is to be used as an estimate of the standard deviation.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of representing NaNs.
  * @tparam Input_ Numeric type of the input values and median.
  * This is generally expected to be floating-point, though it is also possible to use signed integers as long as their differences do not overflow.
  *
@@ -69,15 +86,16 @@ Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median)
  * On output, the contents will contain the (possibly reordered) absolute deviations from the median.
  * @param median Median of the sparse vector at `values`, typically computed with `median()`.
  * For medians that might be infinite, consider using `mad_with_infinities()` instead.
+ * @param options Further options.
  *
  * @return MAD of the sparse vector.
- * If `median` is not finite or if `num_total == 0`, NaN is returned.
+ * If `median` is not finite or if `num_total == 0`, `MadOptions::placeholder` is returned.
  */
 template<typename Output_ = double, typename Input_>
-Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median) {
+Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median, const MadOptions<Output_>& options) {
     if (!std::isfinite(median)) {
         // Pre-emptively avoid shenanigans from trying to order NaN deviations.
-        return std::numeric_limits<Output_>::quiet_NaN();
+        return options.placeholder;
     }
 
     // It is also possible to implement the sparse MAD by subtracting 'abs(median)' from the absolute deviations,
@@ -88,7 +106,10 @@ Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_*
     for (std::size_t i = 0; i < num_non_zero; ++i) {
         values[i] = std::abs(values[i] - median);
     }
-    return median_internal<Output_>(num_total, num_non_zero, values, std::abs(median));
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return median_internal<Output_>(num_total, num_non_zero, values, std::abs(median), medopt);
 }
 
 /**
@@ -112,7 +133,6 @@ Float_ scale_mad_to_sd(const Float_ x) {
  * This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of representing NaNs.
  * @tparam Input_ Floating-point type of the input values and median.
  *
  * @param num_total Total number of elements from which to compute a MAD.
@@ -120,20 +140,24 @@ Float_ scale_mad_to_sd(const Float_ x) {
  * On output, the contents will contain the (possibly reordered) absolute deviations from the median.
  * @param median Median of the array at `ptr`, typically computed with `median()`.
  * This may be infinite.
+ * @param options Further options.
  *
  * @return MAD of the array, assuming that the difference between infinities of the same sign is zero.
- * If `median` is finite, this will be the same as `mad()`. 
+ * If `median` is finite, the return value will be the same as `mad()`. 
  */
 template<typename Output_ = double, typename Input_>
-Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, const Input_ median) {
-    if (std::isinf(median)) {
-        for (std::size_t i = 0; i < num_total; ++i) {
-            ptr[i] = (median == ptr[i] ? 0 : std::numeric_limits<Input_>::infinity());
-        }
-        return ::quickstats::median<Output_>(num_total, ptr);
-    } else {
-        return mad(num_total, ptr, median);
+Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, const Input_ median, const MadOptions<Output_>& options) {
+    if (!std::isinf(median)) {
+        return mad(num_total, ptr, median, options);
     }
+
+    for (std::size_t i = 0; i < num_total; ++i) {
+        ptr[i] = (median == ptr[i] ? 0 : std::numeric_limits<Input_>::infinity());
+    }
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return ::quickstats::median<Output_>(num_total, ptr, medopt);
 }
 
 /**
@@ -143,7 +167,6 @@ Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, cons
  * This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.
  *
  * @tparam Output_ Floating-point type of the output value.
- * This should be capable of representing NaNs.
  * @tparam Input_ Floating-point type of the input values and median.
  *
  * @param num_total Total number of elements in the sparse vector.
@@ -154,21 +177,52 @@ Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, cons
  * On output, the contents will contain the (possibly reordered) absolute deviations from the median.
  * @param median Median of the sparse vector at `values`, typically computed with `median()`.
  * This may be infinite.
+ * @param options Further options.
  *
  * @return MAD of the sparse vector, assuming that the difference between infinities of the same sign is zero. 
  * If `median` is finite, this will be the same as `mad()`. 
  */
 template<typename Output_ = double, typename Input_>
-Output_ mad_with_infinities(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median) {
-    if (std::isinf(median)) {
-        for (std::size_t i = 0; i < num_non_zero; ++i) {
-            values[i] = (median == values[i] ? 0 : std::numeric_limits<Input_>::infinity());
-        }
-        return median_internal<Output_>(num_total, num_non_zero, values, std::numeric_limits<Input_>::infinity());
-    } else {
-        return mad(num_total, num_non_zero, values, median);
+Output_ mad_with_infinities(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median, const MadOptions<Output_>& options) {
+    if (!std::isinf(median)) {
+        return mad(num_total, num_non_zero, values, median, options);
     }
+
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
+        values[i] = (median == values[i] ? 0 : std::numeric_limits<Input_>::infinity());
+    }
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return median_internal<Output_>(num_total, num_non_zero, values, std::numeric_limits<Input_>::infinity(), medopt);
 }
+
+/**
+ * @cond
+ */
+// Backwards compatibility.
+template<typename Output_ = double, typename Input_>
+Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median) {
+    return mad(num_total, ptr, median, MadOptions<Output_>());
+}
+
+template<typename Output_ = double, typename Input_>
+Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median) {
+    return mad(num_total, num_non_zero, values, median, MadOptions<Output_>());
+}
+
+template<typename Output_ = double, typename Input_>
+Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, const Input_ median) {
+    return mad_with_infinities(num_total, ptr, median, MadOptions<Output_>());
+}
+
+template<typename Output_ = double, typename Input_>
+Output_ mad_with_infinities(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median) {
+    return mad_with_infinities(num_total, num_non_zero, values, median, MadOptions<Output_>());
+}
+/**
+ * @endcond
+ */
 
 }
 
