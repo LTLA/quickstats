@@ -22,13 +22,12 @@ namespace quickstats {
  * @brief Result of `rss()`.
  *
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Output_ = double>
 struct RssResult { 
     /**
      * Sample mean.
-     * This is set to NaN if there are no input values.
+     * This is set to `RssOptions::mean_placeholder` if there are no input values.
      */
     Output_ mean = 0;
 
@@ -43,7 +42,6 @@ struct RssResult {
  * @brief Re-usable workspace for `rss()`.
  *
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Output_ = double>
 struct RssWorkspace {
@@ -56,6 +54,25 @@ struct RssWorkspace {
      */
 };
 
+/** 
+ * @brief Options for `rss()`.
+ *
+ * @tparam Output_ Floating-point type of the output data.
+ */
+template<typename Output_ = double>
+struct RssOptions {
+    /**
+     * Maximum number of elements to sum in sequence, see `PairwiseSumOptions::max_sum_length` for details.
+     */
+    std::size_t max_sum_length = 128;
+
+    /**
+     * Placeholder value for `RssResult::mean` when `num_total == 0` in `rss()`. 
+     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
+     */
+    Output_ mean_placeholder = nan_if_available<Output_>();
+};
+
 /**
  * Compute the residual sum of squares from a sparse vector.
  * This uses the standard two-pass algorithm with naive accumulation of the sum of squared differences;
@@ -64,11 +81,9 @@ struct RssWorkspace {
  * No consideration is given to special values like NaNs in the values of the structural non-zeros.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
- * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
  * @tparam accumulators_ Number of accumulators, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  *
  * @param num_total Total number of elements in the sparse vector.
  * @param num_non_zero Number of structural non-zeros in the sparse vector.
@@ -76,32 +91,35 @@ struct RssWorkspace {
  * `num_total - num_non_zero` is the number of structural zeros.
  * @param[in] ptr Pointer to an array of length `num_non_zero`, containing the values of the structural non-zeros in the sparse vector.
  * @param work Workspace that can be re-used across multiple `rss()` calls.
+ * @param options Further options.
  *
  * @return The sample mean and residual sum of squares of the sparse vector.
  */
-template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
-RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
+template<std::size_t accumulators_ = 4, typename Input_, typename Output_>
+RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work, const RssOptions<Output_>& options) {
     static_assert(std::is_floating_point<Output_>::value);
 
     RssResult<Output_> output;
     if (num_total == 0) {
-        output.mean = std::numeric_limits<Output_>::quiet_NaN();
+        output.mean = options.mean_placeholder;
         return output;
     }
 
     Output_& mean = output.mean;
-    mean = pairwise_sum<limit_, accumulators_>(num_non_zero, ptr, work.pswork);
+    PairwiseSumOptions psopt;
+    psopt.max_sum_length = options.max_sum_length;
+    mean = pairwise_sum<accumulators_>(num_non_zero, ptr, work.pswork, psopt);
     mean /= num_total;
 
     Output_& ssd = output.rss;
-    ssd = pairwise_sum<limit_, accumulators_>(
+    ssd = pairwise_sum_abstract<accumulators_>(
         num_non_zero,
-        ptr, 
-        [&](std::size_t, const Input_ val) -> Output_ {
-            const auto delta = static_cast<Output_>(val) - mean;
+        [&](const std::size_t i) -> Output_ {
+            const auto delta = static_cast<Output_>(ptr[i]) - mean;
             return delta * delta;
         },
-        work.pswork
+        work.pswork,
+        psopt
     );
 
     assert(num_non_zero <= num_total);
@@ -120,21 +138,20 @@ RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_ze
  * No consideration is given to special values like NaNs in the dense array.
  * If these are to be skipped, consider using `skip_values()` before calling this method.
  *
- * @tparam limit_ Maximum number of elements to sum in sequence, see `pairwise_sum()` for details.
  * @tparam accumulators_ Number of accumulators, see `pairwise_sum()` for details.
  * @tparam Input_ Numeric type of the input values.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  *
  * @param num_total Total number of elements in the array.
  * @param[in] ptr Pointer to an array of length `num_total`.
  * @param work Workspace that can be re-used across multiple `rss()` calls.
+ * @param options Further options.
  *
  * @return The sample mean and residual sum of squares of the array.
  */
-template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
-RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work) {
-    return rss<limit_, accumulators_>(num_total, num_total, ptr, work);
+template<std::size_t accumulators_ = 4, typename Input_, typename Output_>
+RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work, const RssOptions<Output_>& options) {
+    return rss<accumulators_>(num_total, num_total, ptr, work, options);
 }
 
 /**
@@ -164,7 +181,6 @@ void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Count_
  *
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Input_, typename Output_ = double>
 class RssRunningDense {
@@ -204,10 +220,22 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
+     * If no calls to `add()` were performed, all of `means` will be set to NaN (if available for `Output_`) or zero (otherwise).
      */
     void finish() {
-        if (my_count == 0) {
-            std::fill_n(my_mean, my_num_obj, std::numeric_limits<Output_>::quiet_NaN());
+        finish(nan_if_available<Output_>());
+    }
+
+    /**
+     * Finalize the statistics.
+     * This should only be called after all calls to `add()`.
+     *
+     * @param mean_placeholder Placeholder value to use for the mean when no observed vectors were supplied,
+     * i.e., no calls to `add()` were performed.
+     */
+    void finish(const Output_ mean_placeholder) {
+        if (my_count == 0 && mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill if our placeholder is also zero.
+            std::fill_n(my_mean, my_num_obj, mean_placeholder);
         }
     }
 
@@ -237,7 +265,6 @@ private:
  * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningDenseSkip {
@@ -288,14 +315,27 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
+     * For an objective vector with no unskippable elements, its mean will be set to NaN (if available for `Output_`) or zero (otherwise).
      */
     void finish() {
-        if (my_count == 0) {
-            std::fill_n(my_mean, my_num_obj, std::numeric_limits<Output_>::quiet_NaN());
-        } else {
-            for (std::size_t i = 0; i < my_num_obj; ++i) {
-                if (my_num_unskipped[i] == 0) {
-                    my_mean[i] = std::numeric_limits<Output_>::quiet_NaN();
+        finish(nan_if_available<Output_>());
+    }
+
+    /**
+     * Finalize the statistics.
+     * This should only be called after all calls to `add()`.
+     *
+     * @param mean_placeholder Placeholder value to use for the mean of an objective vector with no unskippable elements.
+     */
+    void finish(const Output_ mean_placeholder) {
+        if (mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill if our placeholder is also zero.
+            if (my_count == 0) {
+                std::fill_n(my_mean, my_num_obj, mean_placeholder);
+            } else {
+                for (std::size_t i = 0; i < my_num_obj; ++i) {
+                    if (my_num_unskipped[i] == 0) {
+                        my_mean[i] = mean_placeholder;
+                    }
                 }
             }
         }
@@ -324,6 +364,7 @@ private:
  */
 template<typename Output_ = double, typename Count_>
 void welford_add_zeros(Output_& mean, Output_& sumsq, const Count_ num_total, const Count_ num_non_zero) {
+    assert(num_total > 0);
     const auto ratio = static_cast<Output_>(num_non_zero) / static_cast<Output_>(num_total);
     sumsq += mean * mean * ratio * (num_total - num_non_zero);
     mean *= ratio;
@@ -343,7 +384,6 @@ void welford_add_zeros(Output_& mean, Output_& sumsq, const Count_ num_total, co
  * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparse {
@@ -398,10 +438,24 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
+     * If no calls to `add()` were performed, all of `means` will be set to NaN (if available for `Output_`) or zero (otherwise).
      */
     void finish() {
+        finish(nan_if_available<Output_>());
+    }
+
+    /**
+     * Finalize the statistics.
+     * This should only be called after all calls to `add()`.
+     *
+     * @param mean_placeholder Placeholder value to use for the mean when no observed vectors were supplied,
+     * i.e., no calls to `add()` were performed.
+     */
+    void finish(const Output_ mean_placeholder) {
         if (my_count == 0) {
-            std::fill_n(my_mean, my_num_obj, std::numeric_limits<Output_>::quiet_NaN());
+            if (mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill again if the placeholder is also zero.
+                std::fill_n(my_mean, my_num_obj, mean_placeholder);
+            }
         } else {
             for (std::size_t i = 0; i < my_num_obj; ++i) {
                 welford_add_zeros(my_mean[i], my_rss[i], my_count, my_num_non_zero[i]);
@@ -443,7 +497,6 @@ private:
  * @tparam Count_ Integer type of the number of elements.
  * @tparam Input_ Numeric type of the input data.
  * @tparam Output_ Floating-point type of the output data.
- * This should be capable of storing NaNs.
  */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparseSkip {
@@ -507,18 +560,31 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
+     * For an objective vector with no unskippable elements, its mean will be set to NaN (if available for `Output_`) or zero (otherwise).
      */
     void finish() {
+        finish(nan_if_available<Output_>());
+    }
+
+    /**
+     * Finalize the statistics.
+     * This should only be called after all calls to `add()`.
+     *
+     * @param mean_placeholder Placeholder value to use for the mean of an objective vector with no unskippable elements.
+     */
+    void finish(const Output_ mean_placeholder) {
         for (std::size_t i = 0; i < my_num_obj; ++i) {
             my_num_unskipped[i] = my_count - my_num_unskipped[i];
         }
 
         if (my_count == 0) {
-            std::fill_n(my_mean, my_num_obj, std::numeric_limits<Output_>::quiet_NaN());
+            if (mean_placeholder != 0) { // my_mean should already be zeroed, so no need to do a fill if the placeholder is zero.
+                std::fill_n(my_mean, my_num_obj, mean_placeholder);
+            }
         } else {
             for (std::size_t i = 0; i < my_num_obj; ++i) {
                 if (my_num_unskipped[i] == 0) {
-                    my_mean[i] = std::numeric_limits<Output_>::quiet_NaN();
+                    my_mean[i] = mean_placeholder;
                 } else {
                     welford_add_zeros(my_mean[i], my_rss[i], my_num_unskipped[i], my_num_non_zero[i]);
                 }

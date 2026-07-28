@@ -12,27 +12,28 @@
 TEST(Rss, Dense) {
     std::vector<double> vec { 2.2, 1.1, 4.4, 5.5, 3.3 };
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
 
     {
-        const auto rout = quickstats::rss(vec.size(), vec.data(), work);
+        const auto rout = quickstats::rss(vec.size(), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 3.3);
         EXPECT_FLOAT_EQ(rout.rss, 12.1);
     }
 
     {
-        const auto rout = quickstats::rss(vec.size() - 1, vec.data() + 1, work);
+        const auto rout = quickstats::rss(vec.size() - 1, vec.data() + 1, work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 3.575);
         EXPECT_FLOAT_EQ(rout.rss, 10.5875);
     }
 
     {
-        const auto rout = quickstats::rss(vec.size() - 1, vec.data(), work);
+        const auto rout = quickstats::rss(vec.size() - 1, vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 3.3);
         EXPECT_FLOAT_EQ(rout.rss, 12.1); 
     }
 
     {
-        const auto rout = quickstats::rss(0, static_cast<double*>(NULL), work);
+        const auto rout = quickstats::rss(0, static_cast<double*>(NULL), work, opts);
         EXPECT_TRUE(std::isnan(rout.mean));
         EXPECT_EQ(rout.rss, 0);
     }
@@ -41,15 +42,16 @@ TEST(Rss, Dense) {
 TEST(Rss, Sparse) {
     std::vector<double> vec { 2.2, 1.1, 4.4, 5.5, 3.3 };
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
 
     {
-        const auto rout = quickstats::rss(10, static_cast<int>(vec.size()), vec.data(), work);
+        const auto rout = quickstats::rss(10, static_cast<int>(vec.size()), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 1.65);
         EXPECT_FLOAT_EQ(rout.rss, 39.325);
     }
 
     {
-        const auto rout = quickstats::rss(8, static_cast<int>(vec.size()), vec.data(), work);
+        const auto rout = quickstats::rss(8, static_cast<int>(vec.size()), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 2.0625);
         EXPECT_FLOAT_EQ(rout.rss, 32.51875);
     }
@@ -58,18 +60,23 @@ TEST(Rss, Sparse) {
 TEST(Rss, Integer) {
     std::vector<int> vec { 2, 7, 4, 5, 8 };
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
 
     {
-        const auto rout = quickstats::rss(vec.size(), vec.data(), work);
+        const auto rout = quickstats::rss(vec.size(), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 5.2);
         EXPECT_FLOAT_EQ(rout.rss, 22.8);
     }
 
     {
-        const auto rout = quickstats::rss(10, static_cast<int>(vec.size()), vec.data(), work);
+        const auto rout = quickstats::rss(10, static_cast<int>(vec.size()), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 2.6);
         EXPECT_FLOAT_EQ(rout.rss, 90.4);
     }
+}
+
+TEST(Rss, NoNaN) {
+    EXPECT_EQ(quickstats::RssOptions<int>().mean_placeholder, 0);
 }
 
 /***************************************/
@@ -100,8 +107,9 @@ TEST_P(RssRunningDenseTest, Simple) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
     }
@@ -131,8 +139,9 @@ TEST_P(RssRunningDenseTest, SimpleInteger) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
     }
@@ -173,8 +182,9 @@ TEST_P(RssRunningDenseTest, Skip) {
     running.finish();
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(used[j], collected[j].size());
@@ -217,8 +227,9 @@ TEST_P(RssRunningDenseTest, SkipInteger) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(used[j], collected[j].size());
@@ -273,8 +284,9 @@ TEST_P(RssRunningSparseTest, Simple) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(num_obs, collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(num_obs, collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(collected[j].size(), nnz[j]);
@@ -317,8 +329,9 @@ TEST_P(RssRunningSparseTest, SimpleInteger) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(num_obs, collected[j].size(), collected[j].data(),  work);
+        const auto stats = quickstats::rss(num_obs, collected[j].size(), collected[j].data(),  work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(collected[j].size(), nnz[j]);
@@ -373,8 +386,9 @@ TEST_P(RssRunningSparseTest, Skip) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(num_obs - lost[j], collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(num_obs - lost[j], collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(nnz[j], collected[j].size());
@@ -430,8 +444,9 @@ TEST_P(RssRunningSparseTest, SkipInteger) {
     EXPECT_EQ(running.num_obs(), num_obs);
 
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
     for (std::size_t j = 0; j < num_obj; ++j) {
-        const auto stats = quickstats::rss(num_obs - lost[j], collected[j].size(), collected[j].data(), work);
+        const auto stats = quickstats::rss(num_obs - lost[j], collected[j].size(), collected[j].data(), work, opts);
         almost_equal_floats(stats.mean, mean[j]);
         almost_equal_floats(stats.rss, rss[j]);
         EXPECT_EQ(nnz[j], collected[j].size());
@@ -450,44 +465,109 @@ INSTANTIATE_TEST_SUITE_P(
 
 /***************************************/
 
-TEST(Rss, RunningNone) {
+TEST(Rss, RunningNoneDense) {
     const std::size_t num_obj = 50;
-
-    // Dense.
-    {
+    for (int scenario = 0; scenario < 2; ++scenario) {
         auto mean = sanisizer::create<std::vector<double> >(num_obj);
         auto rss = sanisizer::create<std::vector<double> >(num_obj);
         quickstats::RssRunningDense<int, double> running(num_obj, mean.data(), rss.data());
-        running.finish();
-
-        for (std::size_t i = 0; i < num_obj; ++i) {
-            EXPECT_TRUE(std::isnan(mean[i]));
-            EXPECT_EQ(rss[i], 0);
-        }
-    }
-
-    // Sparse.
-    {
-        auto mean = sanisizer::create<std::vector<double> >(num_obj);
-        auto rss = sanisizer::create<std::vector<double> >(num_obj);
-        auto nnz = sanisizer::create<std::vector<int> >(num_obj);
-        quickstats::RssRunningSparse<int, double> running(num_obj, mean.data(), rss.data(), nnz.data());
-        running.finish();
-
-        for (std::size_t i = 0; i < num_obj; ++i) {
-            EXPECT_TRUE(std::isnan(mean[i]));
-            EXPECT_EQ(rss[i], 0);
-            EXPECT_EQ(nnz[i], 0);
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_TRUE(std::isnan(mean[i]));
+                EXPECT_EQ(rss[i], 0);
+            }
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+            }
         }
     }
 }
 
-TEST(Rss, RunningSkipAll) {
+TEST(Rss, RunningNoneDenseSkip) {
+    const std::size_t num_obj = 50;
+    for (int scenario = 0; scenario < 2; ++scenario) {
+        auto mean = sanisizer::create<std::vector<double> >(num_obj);
+        auto rss = sanisizer::create<std::vector<double> >(num_obj);
+        auto unskipped = sanisizer::create<std::vector<int> >(num_obj);
+        quickstats::RssRunningDenseSkip<int, double> running(num_obj, mean.data(), rss.data(), unskipped.data());
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_TRUE(std::isnan(mean[i]));
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(unskipped[i], 0);
+            }
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(unskipped[i], 0);
+            }
+        }
+    }
+}
+
+TEST(Rss, RunningNoneSparse) {
+    const std::size_t num_obj = 50;
+    for (int scenario = 0; scenario < 2; ++scenario) {
+        auto mean = sanisizer::create<std::vector<double> >(num_obj);
+        auto rss = sanisizer::create<std::vector<double> >(num_obj);
+        auto nnz = sanisizer::create<std::vector<int> >(num_obj);
+        quickstats::RssRunningSparse<int, double> running(num_obj, mean.data(), rss.data(), nnz.data());
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_TRUE(std::isnan(mean[i]));
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
+            }
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
+            }
+        }
+    }
+}
+
+TEST(Rss, RunningNoneSparseSkip) {
+    const std::size_t num_obj = 50;
+    for (int scenario = 0; scenario < 2; ++scenario) {
+        auto mean = sanisizer::create<std::vector<double> >(num_obj);
+        auto rss = sanisizer::create<std::vector<double> >(num_obj);
+        auto nnz = sanisizer::create<std::vector<int> >(num_obj);
+        auto unskipped = sanisizer::create<std::vector<int> >(num_obj);
+        quickstats::RssRunningSparseSkip<int, double> running(num_obj, mean.data(), rss.data(), nnz.data(), unskipped.data());
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_TRUE(std::isnan(mean[i]));
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
+            }
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
+            }
+        }
+    }
+}
+
+TEST(Rss, RunningSkipAllDense) {
     const std::size_t num_obj = 50;
     const std::size_t num_obs = 20;
 
-    // Dense.
-    {
+    for (int scenario = 0; scenario < 2; ++scenario) {
         auto mean = sanisizer::create<std::vector<double> >(num_obj);
         auto rss = sanisizer::create<std::vector<double> >(num_obj);
         auto unskipped = sanisizer::create<std::vector<int> >(num_obj);
@@ -503,22 +583,38 @@ TEST(Rss, RunningSkipAll) {
             );
         }
 
-        running.finish();
-
-        for (std::size_t i = 0; i < num_obj; ++i) {
-            if (i % 2 == 0) {
-                EXPECT_TRUE(std::isnan(mean[i]));
-                EXPECT_EQ(unskipped[i], 0);
-            } else {
-                EXPECT_EQ(mean[i], 0);
-                EXPECT_EQ(unskipped[i], num_obs);
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                if (i % 2 == 0) {
+                    EXPECT_TRUE(std::isnan(mean[i]));
+                    EXPECT_EQ(unskipped[i], 0);
+                } else {
+                    EXPECT_EQ(mean[i], 0);
+                    EXPECT_EQ(unskipped[i], num_obs);
+                }
+                EXPECT_EQ(rss[i], 0);
             }
-            EXPECT_EQ(rss[i], 0);
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                if (i % 2 == 0) {
+                    EXPECT_EQ(unskipped[i], 0);
+                } else {
+                    EXPECT_EQ(unskipped[i], num_obs);
+                }
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+            }
         }
     }
+}
 
-    // Sparse.
-    {
+TEST(Rss, RunningSkipAllSparse) {
+    const std::size_t num_obj = 50;
+    const std::size_t num_obs = 20;
+
+    for (int scenario = 0; scenario < 2; ++scenario) {
         auto mean = sanisizer::create<std::vector<double> >(num_obj);
         auto rss = sanisizer::create<std::vector<double> >(num_obj);
         auto nnz = sanisizer::create<std::vector<int> >(num_obj);
@@ -544,18 +640,31 @@ TEST(Rss, RunningSkipAll) {
             );
         }
 
-        running.finish();
-
-        for (std::size_t i = 0; i < num_obj; ++i) {
-            if (i % 2 == 0) {
-                EXPECT_TRUE(std::isnan(mean[i]));
-                EXPECT_EQ(unskipped[i], 0);
-            } else {
-                EXPECT_EQ(mean[i], 0);
-                EXPECT_EQ(unskipped[i], num_obs);
+        if (scenario == 0) {
+            running.finish();
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                if (i % 2 == 0) {
+                    EXPECT_TRUE(std::isnan(mean[i]));
+                    EXPECT_EQ(unskipped[i], 0);
+                } else {
+                    EXPECT_EQ(mean[i], 0);
+                    EXPECT_EQ(unskipped[i], num_obs);
+                }
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
             }
-            EXPECT_EQ(rss[i], 0);
-            EXPECT_EQ(nnz[i], 0);
+        } else {
+            running.finish(0);
+            for (std::size_t i = 0; i < num_obj; ++i) {
+                if (i % 2 == 0) {
+                    EXPECT_EQ(unskipped[i], 0);
+                } else {
+                    EXPECT_EQ(unskipped[i], num_obs);
+                }
+                EXPECT_EQ(mean[i], 0);
+                EXPECT_EQ(rss[i], 0);
+                EXPECT_EQ(nnz[i], 0);
+            }
         }
     }
 }
@@ -565,14 +674,15 @@ TEST(Rss, RunningSkipAll) {
 TEST(Rss, Recenter) {
     std::mt19937_64 rng(1234);
     quickstats::RssWorkspace<double> work;
+    quickstats::RssOptions<double> opts;
 
     // Into 2.
     {
         auto values = simulate_vector<double>(19, -10.0, 10.0, rng);
-        auto first = quickstats::rss(9, values.data(), work);
-        auto second = quickstats::rss(10, values.data() + 9, work);
+        auto first = quickstats::rss(9, values.data(), work, opts);
+        auto second = quickstats::rss(10, values.data() + 9, work, opts);
 
-        auto all = quickstats::rss(19, values.data(), work);
+        auto all = quickstats::rss(19, values.data(), work, opts);
         auto combined = quickstats::recenter_rss(9, first.rss, first.mean, all.mean)
             + quickstats::recenter_rss(10, second.rss, second.mean, all.mean);
 
@@ -582,13 +692,13 @@ TEST(Rss, Recenter) {
     // Into 5.
     {
         auto values = simulate_vector<double>(31, -10.0, 10.0, rng);
-        auto res1 = quickstats::rss(2, values.data(), work);
-        auto res2 = quickstats::rss(4, values.data() + 2, work);
-        auto res3 = quickstats::rss(8, values.data() + 6, work);
-        auto res4 = quickstats::rss(16, values.data() + 14, work);
-        auto res5 = quickstats::rss(1, values.data() + 30, work);
+        auto res1 = quickstats::rss(2, values.data(), work, opts);
+        auto res2 = quickstats::rss(4, values.data() + 2, work, opts);
+        auto res3 = quickstats::rss(8, values.data() + 6, work, opts);
+        auto res4 = quickstats::rss(16, values.data() + 14, work, opts);
+        auto res5 = quickstats::rss(1, values.data() + 30, work, opts);
 
-        auto all = quickstats::rss(31, values.data(), work);
+        auto all = quickstats::rss(31, values.data(), work, opts);
         auto combined = quickstats::recenter_rss(2, res1.rss, res1.mean, all.mean)
             + quickstats::recenter_rss(4, res2.rss, res2.mean, all.mean)
             + quickstats::recenter_rss(8, res3.rss, res3.mean, all.mean)
@@ -600,7 +710,7 @@ TEST(Rss, Recenter) {
 
     // Ignores an NaN mean.
     {
-        auto res = quickstats::rss(0, static_cast<double*>(NULL), work);
+        auto res = quickstats::rss(0, static_cast<double*>(NULL), work, opts);
         EXPECT_EQ(quickstats::recenter_rss(0, res.rss, res.mean, 50.0), 0);
     }
 }

@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <cmath>
 #include <cstddef>
+#include <limits>
 
 namespace quickstats {
 
@@ -32,6 +33,15 @@ bool check_zeroed(const std::size_t len, const Output_* const ptr) {
         }
     }
     return true;
+}
+
+template<typename Output_>
+constexpr Output_ nan_if_available() {
+    if constexpr(std::numeric_limits<Output_>::has_quiet_NaN) {
+        return std::numeric_limits<Output_>::quiet_NaN();
+    } else {
+        return 0;
+    }
 }
 
 }
