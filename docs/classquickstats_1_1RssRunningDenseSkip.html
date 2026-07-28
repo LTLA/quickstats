@@ -111,13 +111,15 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a680dcce8b648666fca6715114277adc6" id="r_a680dcce8b648666fca6715114277adc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a680dcce8b648666fca6715114277adc6">RssRunningDenseSkip</a> (const std::size_t num_obj, Output_ *mean, Output_ *<a class="el" href="namespacequickstats.html#a0d8876c5cb6c72adc4534d3b16a6543a">rss</a>, Count_ *num_unskipped)</td></tr>
+<tr class="memitem:a680dcce8b648666fca6715114277adc6" id="r_a680dcce8b648666fca6715114277adc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a680dcce8b648666fca6715114277adc6">RssRunningDenseSkip</a> (const std::size_t num_obj, Output_ *mean, Output_ *<a class="el" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>, Count_ *num_unskipped)</td></tr>
 <tr class="separator:a680dcce8b648666fca6715114277adc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78e0564ca83e9f7dc4220ac0d96e2521" id="r_a78e0564ca83e9f7dc4220ac0d96e2521"><td class="memTemplParams" colspan="2">template&lt;class Skip_ &gt; </td></tr>
 <tr class="memitem:a78e0564ca83e9f7dc4220ac0d96e2521"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add</a> (const Input_ *ptr, Skip_ skip)</td></tr>
 <tr class="separator:a78e0564ca83e9f7dc4220ac0d96e2521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3b2033db1c7e38c0e62bc6bdf67f05f" id="r_aa3b2033db1c7e38c0e62bc6bdf67f05f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3b2033db1c7e38c0e62bc6bdf67f05f">finish</a> ()</td></tr>
 <tr class="separator:aa3b2033db1c7e38c0e62bc6bdf67f05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a960c1830ba02ae39b3d5e071d0fb46e4" id="r_a960c1830ba02ae39b3d5e071d0fb46e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a960c1830ba02ae39b3d5e071d0fb46e4">finish</a> (const Output_ empty_mean_placeholder)</td></tr>
+<tr class="separator:a960c1830ba02ae39b3d5e071d0fb46e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe289aa4dc2b508de01a40b44c96a226" id="r_afe289aa4dc2b508de01a40b44c96a226"><td class="memItemLeft" align="right" valign="top">Count_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe289aa4dc2b508de01a40b44c96a226">num_obs</a> () const</td></tr>
 <tr class="separator:afe289aa4dc2b508de01a40b44c96a226"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -129,7 +131,7 @@ class quickstats::RssRunningDenseSkip&lt; Count_, Input_, Output_ &gt;</div><p>R
   <table class="tparams">
     <tr><td class="paramname">Count_</td><td>Integer type of the number of elements. </td></tr>
     <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
-    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. </td></tr>
   </table>
   </dd>
 </dl>
@@ -233,7 +235,7 @@ template&lt;class Skip_ &gt; </div>
 </div>
 </div>
 <a id="aa3b2033db1c7e38c0e62bc6bdf67f05f" name="aa3b2033db1c7e38c0e62bc6bdf67f05f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3b2033db1c7e38c0e62bc6bdf67f05f">&#9670;&#160;</a></span>finish()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3b2033db1c7e38c0e62bc6bdf67f05f">&#9670;&#160;</a></span>finish() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -256,7 +258,41 @@ template&lt;typename Count_ , typename Input_ , typename Output_  = double&gt; <
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add()</a></code>. </p>
+<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add()</a></code>. For an objective vector with no unskippable elements, its mean will be set to NaN (if available for <code>Output_</code>) or zero (otherwise). </p>
+
+</div>
+</div>
+<a id="a960c1830ba02ae39b3d5e071d0fb46e4" name="a960c1830ba02ae39b3d5e071d0fb46e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a960c1830ba02ae39b3d5e071d0fb46e4">&#9670;&#160;</a></span>finish() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Count_ , typename Input_ , typename Output_  = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classquickstats_1_1RssRunningDenseSkip.html">quickstats::RssRunningDenseSkip</a>&lt; Count_, Input_, Output_ &gt;::finish </td>
+          <td>(</td>
+          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>empty_mean_placeholder</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#a78e0564ca83e9f7dc4220ac0d96e2521">add()</a></code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">empty_mean_placeholder</td><td>Placeholder value to use for the mean of an objective vector with no unskippable elements. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

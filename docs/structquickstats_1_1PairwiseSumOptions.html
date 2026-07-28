@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>quickstats: Member List</title>
+<title>quickstats: quickstats::PairwiseSumOptions Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,23 +92,50 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacequickstats.html">quickstats</a></li><li class="navelem"><a class="el" href="classquickstats_1_1RssRunningDense.html">RssRunningDense</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacequickstats.html">quickstats</a></li><li class="navelem"><a class="el" href="structquickstats_1_1PairwiseSumOptions.html">PairwiseSumOptions</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">quickstats::RssRunningDense&lt; Input_, Output_ &gt; Member List</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structquickstats_1_1PairwiseSumOptions-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">quickstats::PairwiseSumOptions Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html#aba8cf27848bbb34173c8c26f7347b87f">add</a>(const Input_ *const ptr)</td><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html#a5da0ea85bc271b3431d39f9a0f29005a">finish</a>()</td><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html#acfba8081b311baeb38fbf25deff931e0">finish</a>(const Output_ empty_mean_placeholder)</td><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html#a515e4234c610bed34bce9da6fc771095">num_obs</a>() const</td><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html#af67351fe4df54e9e2f59300b21c1b801">RssRunningDense</a>(const std::size_t num_obj, Output_ *const mean, Output_ *const rss)</td><td class="entry"><a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense&lt; Input_, Output_ &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-</table></div><!-- contents -->
+<p>Options for <code><a class="el" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">pairwise_sum()</a></code> and <code><a class="el" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="pairwise__sum_8hpp_source.html">pairwise_sum.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a1956f3fab11e685ce274009c6e1341fb" id="r_a1956f3fab11e685ce274009c6e1341fb"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1956f3fab11e685ce274009c6e1341fb">max_sum_length</a> = 128</td></tr>
+<tr class="separator:a1956f3fab11e685ce274009c6e1341fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Options for <code><a class="el" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">pairwise_sum()</a></code> and <code><a class="el" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code>. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a1956f3fab11e685ce274009c6e1341fb" name="a1956f3fab11e685ce274009c6e1341fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1956f3fab11e685ce274009c6e1341fb">&#9670;&#160;</a></span>max_sum_length</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t quickstats::PairwiseSumOptions::max_sum_length = 128</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Maximum number of elements in the subarray to be summed in sequence. This should be positive and no less than <code>2 * accumulators_</code>. Larger values reduce the recursion overhead at the cost of weakening the mitigations from round-off error. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>quickstats/<a class="el" href="pairwise__sum_8hpp_source.html">pairwise_sum.hpp</a></li>
+</ul>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0

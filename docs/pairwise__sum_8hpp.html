@@ -113,7 +113,10 @@ $(function(){ initResizable(false); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace&lt; Output_ &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-usable workspace for <code><a class="el" href="namespacequickstats.html#a8192140d6b03e6f6243acd12721f8dca">pairwise_sum()</a></code>.  <a href="structquickstats_1_1PairwiseSumWorkspace.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-usable workspace for <code><a class="el" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">pairwise_sum()</a></code> and <code><a class="el" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code>.  <a href="structquickstats_1_1PairwiseSumWorkspace.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1PairwiseSumOptions.html">quickstats::PairwiseSumOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">pairwise_sum()</a></code> and <code><a class="el" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code>.  <a href="structquickstats_1_1PairwiseSumOptions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -124,12 +127,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8192140d6b03e6f6243acd12721f8dca" id="r_a8192140d6b03e6f6243acd12721f8dca"><td class="memTemplParams" colspan="2">template&lt;std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_ , class Modifier_ , typename Output_ &gt; </td></tr>
-<tr class="memitem:a8192140d6b03e6f6243acd12721f8dca"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#a8192140d6b03e6f6243acd12721f8dca">quickstats::pairwise_sum</a> (const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work)</td></tr>
-<tr class="separator:a8192140d6b03e6f6243acd12721f8dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a245e5c9d20e2a03c2721f49075a54127" id="r_a245e5c9d20e2a03c2721f49075a54127"><td class="memTemplParams" colspan="2">template&lt;std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_ , typename Output_ &gt; </td></tr>
-<tr class="memitem:a245e5c9d20e2a03c2721f49075a54127"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#a245e5c9d20e2a03c2721f49075a54127">quickstats::pairwise_sum</a> (const std::size_t num_total, const Input_ *const ptr, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work)</td></tr>
-<tr class="separator:a245e5c9d20e2a03c2721f49075a54127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2ec86f47fbbd6fa6e39ff62b957e34" id="r_a1d2ec86f47fbbd6fa6e39ff62b957e34"><td class="memTemplParams" colspan="2">template&lt;std::size_t accumulators_ = 4, class Input_ , typename Output_ &gt; </td></tr>
+<tr class="memitem:a1d2ec86f47fbbd6fa6e39ff62b957e34"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a> (const std::size_t num_total, Input_ input, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work, const <a class="el" href="structquickstats_1_1PairwiseSumOptions.html">PairwiseSumOptions</a> &amp;options)</td></tr>
+<tr class="separator:a1d2ec86f47fbbd6fa6e39ff62b957e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae04364a3ca1c759613d54688f1799adc" id="r_ae04364a3ca1c759613d54688f1799adc"><td class="memTemplParams" colspan="2">template&lt;std::size_t accumulators_ = 4, typename Input_ , typename Output_ &gt; </td></tr>
+<tr class="memitem:ae04364a3ca1c759613d54688f1799adc"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a> (const std::size_t num_total, const Input_ *const ptr, <a class="el" href="structquickstats_1_1PairwiseSumWorkspace.html">PairwiseSumWorkspace</a>&lt; Output_ &gt; &amp;work, const <a class="el" href="structquickstats_1_1PairwiseSumOptions.html">PairwiseSumOptions</a> &amp;options)</td></tr>
+<tr class="separator:ae04364a3ca1c759613d54688f1799adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Pairwise summation. </p>

@@ -25,6 +25,7 @@
     <path>quickstats/</path>
     <filename>pairwise__sum_8hpp.html</filename>
     <class kind="struct">quickstats::PairwiseSumWorkspace</class>
+    <class kind="struct">quickstats::PairwiseSumOptions</class>
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">
@@ -39,6 +40,7 @@
     <filename>rss_8hpp.html</filename>
     <class kind="struct">quickstats::RssResult</class>
     <class kind="struct">quickstats::RssWorkspace</class>
+    <class kind="struct">quickstats::RssOptions</class>
     <class kind="class">quickstats::RssRunningDense</class>
     <class kind="class">quickstats::RssRunningDenseSkip</class>
     <class kind="class">quickstats::RssRunningSparse</class>
@@ -113,9 +115,39 @@
     </member>
   </compound>
   <compound kind="struct">
+    <name>quickstats::PairwiseSumOptions</name>
+    <filename>structquickstats_1_1PairwiseSumOptions.html</filename>
+    <member kind="variable">
+      <type>std::size_t</type>
+      <name>max_sum_length</name>
+      <anchorfile>structquickstats_1_1PairwiseSumOptions.html</anchorfile>
+      <anchor>a1956f3fab11e685ce274009c6e1341fb</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
     <name>quickstats::PairwiseSumWorkspace</name>
     <filename>structquickstats_1_1PairwiseSumWorkspace.html</filename>
     <templarg>typename Output_</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>quickstats::RssOptions</name>
+    <filename>structquickstats_1_1RssOptions.html</filename>
+    <templarg>typename Output_</templarg>
+    <member kind="variable">
+      <type>std::size_t</type>
+      <name>max_sum_length</name>
+      <anchorfile>structquickstats_1_1RssOptions.html</anchorfile>
+      <anchor>a7e2d0ab42f405e31a3bba93a9b03e73a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Output_</type>
+      <name>empty_mean_placeholder</name>
+      <anchorfile>structquickstats_1_1RssOptions.html</anchorfile>
+      <anchor>ac6bc43f0c329cc2158f1aaec10aad999</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>quickstats::RssResult</name>
@@ -163,6 +195,13 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>finish</name>
+      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
+      <anchor>acfba8081b311baeb38fbf25deff931e0</anchor>
+      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+    </member>
+    <member kind="function">
       <type>std::size_t</type>
       <name>num_obs</name>
       <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
@@ -196,6 +235,13 @@
       <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
       <anchor>aa3b2033db1c7e38c0e62bc6bdf67f05f</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>finish</name>
+      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
+      <anchor>a960c1830ba02ae39b3d5e071d0fb46e4</anchor>
+      <arglist>(const Output_ empty_mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>Count_</type>
@@ -233,6 +279,13 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>finish</name>
+      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
+      <anchor>a9db90247a985524e05be2061c50d3471</anchor>
+      <arglist>(const Output_ empty_mean_placeholder)</arglist>
+    </member>
+    <member kind="function">
       <type>Count_</type>
       <name>num_obs</name>
       <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
@@ -266,6 +319,13 @@
       <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
       <anchor>a4318383804b3eebb640724320aee3277</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>finish</name>
+      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
+      <anchor>a59e743432619e7481c679231980d9b25</anchor>
+      <arglist>(const Output_ empty_mean_placeholder)</arglist>
     </member>
     <member kind="function">
       <type>Count_</type>
@@ -337,7 +397,9 @@
     <filename>namespacequickstats.html</filename>
     <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
     <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
+    <class kind="struct">quickstats::PairwiseSumOptions</class>
     <class kind="struct">quickstats::PairwiseSumWorkspace</class>
+    <class kind="struct">quickstats::RssOptions</class>
     <class kind="struct">quickstats::RssResult</class>
     <class kind="class">quickstats::RssRunningDense</class>
     <class kind="class">quickstats::RssRunningDenseSkip</class>
@@ -397,31 +459,31 @@
     </member>
     <member kind="function">
       <type>Output_</type>
-      <name>pairwise_sum</name>
+      <name>pairwise_sum_abstract</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a8192140d6b03e6f6243acd12721f8dca</anchor>
-      <arglist>(const std::size_t num_total, const Input_ *const ptr, Modifier_ mod, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+      <anchor>a1d2ec86f47fbbd6fa6e39ff62b957e34</anchor>
+      <arglist>(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
       <name>pairwise_sum</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a245e5c9d20e2a03c2721f49075a54127</anchor>
-      <arglist>(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+      <anchor>ae04364a3ca1c759613d54688f1799adc</anchor>
+      <arglist>(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a0d8876c5cb6c72adc4534d3b16a6543a</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+      <anchor>a3e10f8d0df934aea3fe37799d5fb1dd4</anchor>
+      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>RssResult&lt; Output_ &gt;</type>
       <name>rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>acd3f9436bce7453e3ba73264b29480a0</anchor>
-      <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work)</arglist>
+      <anchor>afe323ae5e6eca125513c9d72dd795c81</anchor>
+      <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>

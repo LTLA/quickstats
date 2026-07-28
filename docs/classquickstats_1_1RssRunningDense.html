@@ -111,12 +111,14 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af67351fe4df54e9e2f59300b21c1b801" id="r_af67351fe4df54e9e2f59300b21c1b801"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af67351fe4df54e9e2f59300b21c1b801">RssRunningDense</a> (const std::size_t num_obj, Output_ *const mean, Output_ *const <a class="el" href="namespacequickstats.html#a0d8876c5cb6c72adc4534d3b16a6543a">rss</a>)</td></tr>
+<tr class="memitem:af67351fe4df54e9e2f59300b21c1b801" id="r_af67351fe4df54e9e2f59300b21c1b801"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af67351fe4df54e9e2f59300b21c1b801">RssRunningDense</a> (const std::size_t num_obj, Output_ *const mean, Output_ *const <a class="el" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>)</td></tr>
 <tr class="separator:af67351fe4df54e9e2f59300b21c1b801"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba8cf27848bbb34173c8c26f7347b87f" id="r_aba8cf27848bbb34173c8c26f7347b87f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add</a> (const Input_ *const ptr)</td></tr>
 <tr class="separator:aba8cf27848bbb34173c8c26f7347b87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da0ea85bc271b3431d39f9a0f29005a" id="r_a5da0ea85bc271b3431d39f9a0f29005a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5da0ea85bc271b3431d39f9a0f29005a">finish</a> ()</td></tr>
 <tr class="separator:a5da0ea85bc271b3431d39f9a0f29005a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfba8081b311baeb38fbf25deff931e0" id="r_acfba8081b311baeb38fbf25deff931e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfba8081b311baeb38fbf25deff931e0">finish</a> (const Output_ empty_mean_placeholder)</td></tr>
+<tr class="separator:acfba8081b311baeb38fbf25deff931e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a515e4234c610bed34bce9da6fc771095" id="r_a515e4234c610bed34bce9da6fc771095"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a515e4234c610bed34bce9da6fc771095">num_obs</a> () const</td></tr>
 <tr class="separator:a515e4234c610bed34bce9da6fc771095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -129,7 +131,7 @@ class quickstats::RssRunningDense&lt; Input_, Output_ &gt;</div><p>Running resid
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
-    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. This should be capable of storing NaNs. </td></tr>
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output data. </td></tr>
   </table>
   </dd>
 </dl>
@@ -215,7 +217,7 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
 </div>
 </div>
 <a id="a5da0ea85bc271b3431d39f9a0f29005a" name="a5da0ea85bc271b3431d39f9a0f29005a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5da0ea85bc271b3431d39f9a0f29005a">&#9670;&#160;</a></span>finish()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5da0ea85bc271b3431d39f9a0f29005a">&#9670;&#160;</a></span>finish() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +240,41 @@ template&lt;typename Input_ , typename Output_  = double&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>. </p>
+<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>. If no calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code> were performed, all of <code>means</code> will be set to NaN (if available for <code>Output_</code>) or zero (otherwise). </p>
+
+</div>
+</div>
+<a id="acfba8081b311baeb38fbf25deff931e0" name="acfba8081b311baeb38fbf25deff931e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfba8081b311baeb38fbf25deff931e0">&#9670;&#160;</a></span>finish() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Input_ , typename Output_  = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classquickstats_1_1RssRunningDense.html">quickstats::RssRunningDense</a>&lt; Input_, Output_ &gt;::finish </td>
+          <td>(</td>
+          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>empty_mean_placeholder</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Finalize the statistics. This should only be called after all calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">empty_mean_placeholder</td><td>Placeholder value to use for the mean when no observed vectors were supplied, i.e., no calls to <code><a class="el" href="#aba8cf27848bbb34173c8c26f7347b87f">add()</a></code> were performed. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
