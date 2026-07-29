@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['placeholder_0',['placeholder',['../structquickstats_1_1MadOptions.html#a67d07814c94afc0e8804c953249bb367',1,'quickstats::MadOptions::placeholder'],['../structquickstats_1_1MedianOptions.html#ae8a75ffb923f5f67eab1ac9f306fa571',1,'quickstats::MedianOptions::placeholder'],['../structquickstats_1_1MultipleQuantilesVariableNumberOptions.html#a3840820cead7e9d81f481263b80222d5',1,'quickstats::MultipleQuantilesVariableNumberOptions::placeholder'],['../structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2',1,'quickstats::SingleQuantileVariableNumberOptions::placeholder']]]
+  ['max_5fsum_5flength_0',['max_sum_length',['../structquickstats_1_1PairwiseSumOptions.html#a1956f3fab11e685ce274009c6e1341fb',1,'quickstats::PairwiseSumOptions::max_sum_length'],['../structquickstats_1_1RssOptions.html#a7e2d0ab42f405e31a3bba93a9b03e73a',1,'quickstats::RssOptions::max_sum_length']]],
+  ['mean_1',['mean',['../structquickstats_1_1RssResult.html#ab025af92ba44f996d3dc19e074372d2b',1,'quickstats::RssResult']]],
+  ['mean_5fplaceholder_2',['mean_placeholder',['../structquickstats_1_1RssOptions.html#a4a8efeb7c4500556892c059be38720c2',1,'quickstats::RssOptions']]]
 ];

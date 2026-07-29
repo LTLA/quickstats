@@ -82,6 +82,13 @@
       <anchor>a67d07814c94afc0e8804c953249bb367</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable">
+      <type>bool</type>
+      <name>difference_between_infinities_is_zero</name>
+      <anchorfile>structquickstats_1_1MadOptions.html</anchorfile>
+      <anchor>a96520b114948e3486940759400fb3642</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>quickstats::MedianOptions</name>
@@ -490,20 +497,6 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a294a3815731fe4eccb7b4d5fb13228b6</anchor>
       <arglist>(const Float_ x)</arglist>
-    </member>
-    <member kind="function">
-      <type>Output_</type>
-      <name>mad_with_infinities</name>
-      <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a103aef8b7055189bb1d6ff4942a36543</anchor>
-      <arglist>(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
-    </member>
-    <member kind="function">
-      <type>Output_</type>
-      <name>mad_with_infinities</name>
-      <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a8e54a37e6ab5f15e35d311f6f0d04760</anchor>
-      <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
