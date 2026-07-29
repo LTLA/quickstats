@@ -15,16 +15,16 @@
 namespace quickstats {
 
 /**
- * @brief Options for `mad()`.
+ * @brief Options for `mad()` and `mad_with_infinities()`.
  * @tparam Output_ Floating-point type of the output value.
  */
 template<typename Output_ = double>
 struct MadOptions {
     /**
-     * Placeholder value returned by `mad()` when `num_total == 0` or `median` is not finite.
-     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
+     * Placeholder value returned by `mad()` and `mad_with_infinities()` when `num_total == 0`.
+     * This is also returned by `mad()` when `median` is not finite.
      */
-    Output_ placeholder = nan_if_available<Output_>();
+    Output_ placeholder = nan_if_available_else_zero<Output_>();
 };
 
 /**

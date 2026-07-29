@@ -22,10 +22,9 @@ namespace quickstats {
 template<typename Output_ = double>
 struct MedianOptions {
     /**
-     * Placeholder value returned by `mad()` when `num_total == 0`. 
-     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
+     * Placeholder value returned by `median()` when `num_total == 0`. 
      */
-    Output_ placeholder = nan_if_available<Output_>();
+    Output_ placeholder = nan_if_available_else_zero<Output_>();
 };
 
 /**

@@ -68,9 +68,8 @@ struct RssOptions {
 
     /**
      * Placeholder value for `RssResult::mean` when `num_total == 0` in `rss()`. 
-     * This defaults to NaN if supported by `Output_`, otherwise it is set to zero.
      */
-    Output_ mean_placeholder = nan_if_available<Output_>();
+    Output_ mean_placeholder = nan_if_available_else_zero<Output_>();
 };
 
 /**
@@ -256,10 +255,10 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
-     * If no calls to `add()` were performed, all of `means` will be set to NaN (if available for `Output_`) or zero (otherwise).
+     * If no calls to `add()` were performed, all of `means` will be set to `nan_if_available_else_zero()`.
      */
     void finish() {
-        finish(nan_if_available<Output_>());
+        finish(nan_if_available_else_zero<Output_>());
     }
 
     /**
@@ -351,10 +350,10 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
-     * For an objective vector with no unskippable elements, its mean will be set to NaN (if available for `Output_`) or zero (otherwise).
+     * For an objective vector with no unskippable elements, its mean will be set to `nan_if_available_else_zero()`.
      */
     void finish() {
-        finish(nan_if_available<Output_>());
+        finish(nan_if_available_else_zero<Output_>());
     }
 
     /**
@@ -474,10 +473,10 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
-     * If no calls to `add()` were performed, all of `means` will be set to NaN (if available for `Output_`) or zero (otherwise).
+     * If no calls to `add()` were performed, all of `means` will be set to `nan_if_available_else_zero()`.
      */
     void finish() {
-        finish(nan_if_available<Output_>());
+        finish(nan_if_available_else_zero<Output_>());
     }
 
     /**
@@ -596,10 +595,10 @@ public:
     /**
      * Finalize the statistics.
      * This should only be called after all calls to `add()`.
-     * For an objective vector with no unskippable elements, its mean will be set to NaN (if available for `Output_`) or zero (otherwise).
+     * For an objective vector with no unskippable elements, its mean will be set to `nan_if_available_else_zero()`.
      */
     void finish() {
-        finish(nan_if_available<Output_>());
+        finish(nan_if_available_else_zero<Output_>());
     }
 
     /**

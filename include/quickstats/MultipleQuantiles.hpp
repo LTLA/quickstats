@@ -350,7 +350,7 @@ struct MultipleQuantilesVariableNumberOptions {
     /**
      * Placeholder value to return when `num_total == 0` in the `MultipleQuantilesVariableNumber::operator()()` method.
      */
-    Output_ placeholder = nan_if_available<Output_>();
+    Output_ placeholder = nan_if_available_else_zero<Output_>();
 };
 
 /**

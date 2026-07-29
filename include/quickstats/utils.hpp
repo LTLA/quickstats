@@ -6,8 +6,16 @@
 #include <cstddef>
 #include <limits>
 
+/**
+ * @file utils.hpp
+ * @brief Miscellaneous utilities.
+ */
+
 namespace quickstats {
 
+/**
+ * @cond
+ */
 template<typename Value_>
 using I = std::remove_cv_t<std::remove_reference_t<Value_> >;
 
@@ -34,11 +42,18 @@ bool check_zeroed(const std::size_t len, const Output_* const ptr) {
     }
     return true;
 }
+/**
+ * @endcond
+ */
 
-template<typename Output_>
-constexpr Output_ nan_if_available() {
-    if constexpr(std::numeric_limits<Output_>::has_quiet_NaN) {
-        return std::numeric_limits<Output_>::quiet_NaN();
+/**
+ * @tparam Value_ Some numeric type.
+ * @return NaN if supported by `Value_`, otherwise zero. 
+ */
+template<typename Value_>
+constexpr Value_ nan_if_available_else_zero() {
+    if constexpr(std::numeric_limits<Value_>::has_quiet_NaN) {
+        return std::numeric_limits<Value_>::quiet_NaN();
     } else {
         return 0;
     }
