@@ -157,6 +157,42 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
 /**
  * @cond
  */
+// For back-compatibility.
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
+RssResult<Output_> rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_* const ptr, RssWorkspace<Output_>& work) {
+    return rss<accumulators_>(
+        num_total,
+        num_non_zero,
+        ptr,
+        work,
+        [&]{
+            RssOptions<Output_> options;
+            options.max_sum_length = limit_;
+            return options;
+        }()
+    );
+}
+
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
+RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, RssWorkspace<Output_>& work) {
+    return rss<accumulators_>(
+        num_total,
+        ptr,
+        work,
+        [&]{
+            RssOptions<Output_> options;
+            options.max_sum_length = limit_;
+            return options;
+        }()
+    );
+}
+/**
+ * @endcond
+ */
+
+/**
+ * @cond
+ */
 template<typename Output_ = double, typename Value_, typename Count_>
 void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Count_ count) {
     Output_ delta = static_cast<Output_>(value) - mean;

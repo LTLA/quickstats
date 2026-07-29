@@ -248,6 +248,43 @@ Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Pairw
  * I say this because pairwise_sum() somehow manages to be slightly faster than std::accumulate() in our R bindings.
  */
 
+/**
+ * @cond
+ */
+// For back-compatibility.
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, class Input_, class Modifier_, typename Output_>
+Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, Modifier_ mod, PairwiseSumWorkspace<Output_>& work) {
+    return pairwise_sum_abstract<accumulators_>(
+        num_total,
+        [&](const std::size_t i) -> auto { 
+            return mod(i, ptr[i]);
+        },
+        work,
+        [&]{
+            PairwiseSumOptions opt;
+            opt.max_sum_length = limit_;
+            return opt;
+        }()
+    );
+}
+
+template<std::size_t limit_ = 128, std::size_t accumulators_ = 4, typename Input_, typename Output_>
+Output_ pairwise_sum(const std::size_t num_total, const Input_* const ptr, PairwiseSumWorkspace<Output_>& work) {
+    return pairwise_sum<accumulators_>(
+        num_total,
+        ptr,
+        work,
+        [&]{
+            PairwiseSumOptions opt;
+            opt.max_sum_length = limit_;
+            return opt;
+        }()
+    );
+}
+/**
+ * @endcond
+ */
+
 }
 
 #endif

@@ -37,6 +37,13 @@ TEST(Rss, Dense) {
         EXPECT_TRUE(std::isnan(rout.mean));
         EXPECT_EQ(rout.rss, 0);
     }
+
+    // Back-compatibility.
+    {
+        const auto rout = quickstats::rss(vec.size(), vec.data(), work);
+        EXPECT_FLOAT_EQ(rout.mean, 3.3);
+        EXPECT_FLOAT_EQ(rout.rss, 12.1); 
+    }
 }
 
 TEST(Rss, Sparse) {
@@ -54,6 +61,13 @@ TEST(Rss, Sparse) {
         const auto rout = quickstats::rss(8, static_cast<int>(vec.size()), vec.data(), work, opts);
         EXPECT_FLOAT_EQ(rout.mean, 2.0625);
         EXPECT_FLOAT_EQ(rout.rss, 32.51875);
+    }
+
+    // Back-compatibility.
+    {
+        const auto rout = quickstats::rss(10, static_cast<int>(vec.size()), vec.data(), work);
+        EXPECT_FLOAT_EQ(rout.mean, 1.65);
+        EXPECT_FLOAT_EQ(rout.rss, 39.325);
     }
 }
 

@@ -13,25 +13,32 @@ TEST_P(PairwiseSumTest, Basic) {
 
     std::mt19937_64 rng(n * 59 + maxsum);
     auto sim = simulate_vector<double>(n, -10.0, 10.0, rng);
+    auto expected = std::accumulate(sim.begin(), sim.end(), 0.0);
 
     quickstats::PairwiseSumWorkspace<double> wrk;
     quickstats::PairwiseSumOptions opt;
     opt.max_sum_length = maxsum;
 
     almost_equal_floats(
-        std::accumulate(sim.begin(), sim.end(), 0.0),
+        expected,
         quickstats::pairwise_sum<1>(n, sim.data(), wrk, opt)
     );
 
     // Trying with more accumulators.
     almost_equal_floats(
-        std::accumulate(sim.begin(), sim.end(), 0.0),
+        expected,
         quickstats::pairwise_sum<2>(n, sim.data(), wrk, opt)
     );
 
     almost_equal_floats(
-        std::accumulate(sim.begin(), sim.end(), 0.0),
+        expected,
         quickstats::pairwise_sum<4>(n, sim.data(), wrk, opt)
+    );
+
+    // For backwards compatibility.
+    almost_equal_floats(
+        expected,
+        quickstats::pairwise_sum(n, sim.data(), wrk)
     );
 }
 
@@ -46,6 +53,7 @@ TEST_P(PairwiseSumTest, Modified) {
     for (std::size_t i = 0; i < n; ++i) {
         mod[i] = mod[i] * 2 + i;
     }
+    auto expected = std::accumulate(mod.begin(), mod.end(), 0.0);
 
     quickstats::PairwiseSumWorkspace<double> wrk;
     quickstats::PairwiseSumOptions opt;
@@ -59,7 +67,7 @@ TEST_P(PairwiseSumTest, Modified) {
         wrk,
         opt
     );
-    almost_equal_floats(std::accumulate(mod.begin(), mod.end(), 0.0), modsum1);
+    almost_equal_floats(expected, modsum1);
 
     auto modsum4 = quickstats::pairwise_sum_abstract<4>(
         n,
@@ -69,7 +77,18 @@ TEST_P(PairwiseSumTest, Modified) {
         wrk,
         opt
     );
-    almost_equal_floats(std::accumulate(mod.begin(), mod.end(), 0.0), modsum4);
+    almost_equal_floats(expected, modsum4);
+
+    // For backwards compatibility.
+    auto back = quickstats::pairwise_sum(
+        n,
+        sim.data(),
+        [&](const std::size_t i, double val) -> double {
+            return val * 2 + i;
+        },
+        wrk
+    );
+    almost_equal_floats(expected, back);
 }
 
 INSTANTIATE_TEST_SUITE_P(
