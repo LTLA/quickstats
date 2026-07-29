@@ -198,10 +198,21 @@ public:
 };
 
 /**
+ * @brief Options for `SingleQuantileVariableNumber`.
+ * @tparam Output_ Floating-point type of the output quantile.
+ */
+template<typename Output_>
+struct SingleQuantileVariableNumberOptions {
+    /**
+     * Placeholder value to return when `num_total == 0` in the `SingleQuantileVariableNumber::operator()()` method.
+     */
+    Output_ placeholder = nan_if_available<Output_>();
+};
+
+/**
  * @brief Calculate a quantile from a variable number of elements.
  *
  * @tparam Output_ Floating-point type of the output quantile.
- * This should be capable of representing NaNs.
  *
  * This uses the same logic as the `SingleQuantileFixedNumber` class but supports any number of elements, from zero up to a specified maximum.
  */
@@ -212,16 +223,29 @@ public:
      * @param max_num_total Maximum of the total number of elements. 
      * Unlike `SingleQuantileFixedNumber`, this may also be zero.
      * @param quantile Probability of the quantile to compute, in \f$[0, 1]\f$.
+     * @param options Further options.
      */
-    SingleQuantileVariableNumber(const std::size_t max_num_total, const Output_ quantile) : my_quantile(quantile) {
+    SingleQuantileVariableNumber(const std::size_t max_num_total, const Output_ quantile, const SingleQuantileVariableNumberOptions<Output_>& options) :
+        my_quantile(quantile),
+        my_placeholder(options.placeholder)
+    {
         if (max_num_total >= 2) {
             sanisizer::resize(my_choices, max_num_total - 1);
         }
     }
 
+    /**
+     * @cond
+     */
+    SingleQuantileVariableNumber(const std::size_t max_num_total, const Output_ quantile) : SingleQuantileVariableNumber(max_num_total, quantile, {}) {}
+    /**
+     * @endcond
+     */
+
 private:
     std::vector<std::optional<SingleQuantileFixedNumber<Output_> > > my_choices;
     Output_ my_quantile;
+    Output_ my_placeholder;
 
 public:
     /**
@@ -241,12 +265,12 @@ public:
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability. 
-     * If `num_total = 0`, NaN is returned instead.
+     * If `num_total == 0`, `SingleQuantileVariableNumberOptions::placeholder` is returned instead.
      */
     template<typename Input_>
     Output_ operator()(const std::size_t num_total, Input_* ptr) {
         if (num_total == 0) {
-            return std::numeric_limits<Output_>::quiet_NaN();
+            return my_placeholder;
         } else if (num_total == 1) {
             return *ptr;
         } else {
@@ -280,12 +304,12 @@ public:
      * On output, the elements may be reordered.
      *
      * @return Quantile of the specified probability. 
-     * If `num_total = 0`, NaN is returned instead.
+     * If `num_total == 0`, `SingleQuantileVariableNumberOptions::placeholder` is returned instead.
      */
     template<typename Input_>
     Output_ operator()(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values) {
         if (num_total == 0) {
-            return std::numeric_limits<Output_>::quiet_NaN();
+            return my_placeholder;
         } else if (num_total == 1) {
             return (num_non_zero ? *values : 0);
         } else {

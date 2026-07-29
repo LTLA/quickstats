@@ -6,7 +6,6 @@
 #include <cstddef>
 #include <vector>
 #include <optional>
-#include <limits>
 #include <cassert>
 
 #include "sanisizer/sanisizer.hpp"
@@ -343,10 +342,21 @@ public:
 };
 
 /**
+ * @brief Options for `MultipleQuantilesVariableNumber`.
+ * @tparam Output_ Floating-point type of the output quantile.
+ */
+template<typename Output_>
+struct MultipleQuantilesVariableNumberOptions {
+    /**
+     * Placeholder value to return when `num_total == 0` in the `MultipleQuantilesVariableNumber::operator()()` method.
+     */
+    Output_ placeholder = nan_if_available<Output_>();
+};
+
+/**
  * @brief Calculate multiple quantiles from a variable number of elements.
  *
  * @tparam Output_ Floating-point type of the output quantile.
- * This should be capable of representing NaNs.
  * @tparam QuantilesPointer_ Pointer to a container that has a `size()` method and supports access by `[]`.
  * This may or may not be a smart pointer.
  *
@@ -360,16 +370,32 @@ public:
      * Unlike `MultipleQuantilesFixedNumber`, this may also be zero.
      * @param quantiles_ptr Pointer to a container of sorted quantile probabilities.
      * Each probability should be in \f$[0, 1]\f$.
+     * @param options Further options.
      */
-    MultipleQuantilesVariableNumber(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr) : my_quantiles_ptr(std::move(quantiles_ptr)) {
+    MultipleQuantilesVariableNumber(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr, const MultipleQuantilesVariableNumberOptions<Output_>& options) :
+        my_quantiles_ptr(std::move(quantiles_ptr)),
+        my_placeholder(options.placeholder)
+    {
         if (max_num_total >= 2) {
             sanisizer::resize(my_choices, max_num_total - 1);
         }
     }
 
+    /**
+     * @cond
+     */
+    // Back-compatibility.
+    MultipleQuantilesVariableNumber(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr) :
+        MultipleQuantilesVariableNumber(max_num_total, std::move(quantiles_ptr), {})
+    {}
+    /**
+     * @endcond
+     */
+
 private:
     std::vector<std::optional<MultipleQuantilesFixedNumber<Output_> > > my_choices;
     QuantilesPointer_ my_quantiles_ptr;
+    Output_ my_placeholder;
 
     template<class OutputFun_>
     void fill(const Output_ val, OutputFun_ output) {
@@ -398,11 +424,12 @@ public:
      * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
+     * The value of the quantile will be set to `MultipleQuantilesVariableNumberOptions::placeholder` if `num_total == 0`.
      */
     template<typename Input_, class OutputFun_>
     void operator()(const std::size_t num_total, Input_* const ptr, OutputFun_ output) {
         if (num_total == 0) {
-            fill(std::numeric_limits<Output_>::quiet_NaN(), std::move(output));
+            fill(my_placeholder, std::move(output));
         } else if (num_total == 1) {
             fill(*ptr, std::move(output));
         } else {
@@ -438,11 +465,12 @@ public:
      * @param output Function that accepts a `std::size_t`, the index of the probability in `quantiles`;
      * and an `Output_`, the computed value of the quantile.
      * This will be called once for each quantile, in order of increasing index from 0 to `quantiles.size() - 1`.
+     * The value of the quantile will be set to `MultipleQuantilesVariableNumberOptions::placeholder` if `num_total == 0`.
      */
     template<typename Input_, class OutputFun_>
     void operator()(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, OutputFun_ output) {
         if (num_total == 0) {
-            fill(std::numeric_limits<Output_>::quiet_NaN(), std::move(output));
+            fill(my_placeholder, std::move(output));
         } else if (num_total == 1) {
             fill(num_non_zero ? *values : 0, std::move(output));
         } else {
