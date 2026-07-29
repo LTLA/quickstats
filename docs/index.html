@@ -104,62 +104,135 @@ $(function(){ initResizable(false); });
 <h1>Medians</h1>
 <p>Pretty much as it says - works for dense and sparse vectors:</p>
 <div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
-<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(x.size(), x.data());</div>
+<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(x.size(), x.data(), {});</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(10, 3, x.data());</div>
+<div class="line"><span class="keyword">auto</span> med_sparse = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(10, 3, x.data(), {});</div>
 <div class="ttc" id="anamespacequickstats_html_a0c665cf3d1d2e73842221509a6586f9d"><div class="ttname"><a href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median</a></div><div class="ttdeci">Output_ median(const std::size_t num_total, Input_ *const ptr, const MedianOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> median.hpp:47</div></div>
-</div><!-- fragment --><h1>Single quantiles</h1>
+</div><!-- fragment --><p>Note that this will shuffle the input array.</p>
+<h1>Single quantiles</h1>
 <p>The <code>SingleQuantileFixedNumber</code> class will compute a pre-specified quantile from a fixed number of elements:</p>
-<div class="fragment"><div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, 0.2);</div>
+<div class="fragment"><div class="line"><span class="comment">// We compute the 20th percentile from any array of 10 elements.</span></div>
+<div class="line">quickstats::SimpleQuantileFixedNumber&lt;double&gt; qfixed(10, 0.2);</div>
 <div class="line"> </div>
 <div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
 <div class="line"><span class="keyword">auto</span> fq20 = qfixed(x.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> fq20_sparse = qfixed(3, x_nonzero.data());</div>
+<div class="line"><span class="keyword">auto</span> fq20_sparse = qfixed(x_nonzero.size(), x_nonzero.data());</div>
 </div><!-- fragment --><p>The <code>SingleQuantileVariableNumber</code> class will compute a pre-specified quantile from a variable number of elements, up to a maximum:</p>
-<div class="fragment"><div class="line">quickstats::SimpleQuantileVariableNumber&lt;double, int&gt; qvar(10, 0.2);</div>
+<div class="fragment"><div class="line"><span class="comment">// We compute the 20th percentile from any array of &lt;= 10 elements.</span></div>
+<div class="line">quickstats::SimpleQuantileVariableNumber&lt;double&gt; qvar(10, 0.2, {});</div>
 <div class="line"> </div>
 <div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
 <div class="line"><span class="keyword">auto</span> vq20 = qvar(y.size(), y.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
-<div class="line"><span class="keyword">auto</span> vq20_sparse = qvar(6, 3, y_nonzero.data());</div>
+<div class="line"><span class="keyword">auto</span> vq20_sparse = qvar(6, y_nonzero.size(), y_nonzero.data());</div>
 </div><!-- fragment --><h1>Multiple quantiles</h1>
 <p>To compute multiple quantiles at once, we can construct a <code>MultipleQuantilesFixedNumber</code> instance. This is more efficient than creating and invoking multiple <code>SingleQuantileFixedNumber</code> instances.</p>
-<div class="fragment"><div class="line">std::vector&lt;double&gt; quantiles{ 0.1, 0.2, 0.4, 0.8 }; <span class="comment">// probabilities should be sorted.</span></div>
-<div class="line">quickstats::SimpleQuantileFixedNumber&lt;double, int&gt; qfixed(10, quantiles);</div>
+<div class="fragment"><div class="line"><span class="comment">// We want to compute multiple quantiles from an array of 10 elements.</span></div>
+<div class="line">std::vector&lt;double&gt; quantiles{ 0.1, 0.2, 0.4, 0.8 }; <span class="comment">// probabilities should be sorted.</span></div>
+<div class="line"><a class="code hl_class" href="classquickstats_1_1MultipleQuantilesFixedNumber.html">quickstats::MultipleQuantilesFixedNumber&lt;double&gt;</a> qfixed(10, quantiles);</div>
 <div class="line"> </div>
 <div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
 <div class="line">std::vector&lt;double&gt; res(quantiles.size());</div>
-<div class="line">qfixed(x.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line">    res[q] = val;</div>
-<div class="line">});</div>
+<div class="line">qfixed(</div>
+<div class="line">    x.data(),</div>
+<div class="line">    <span class="comment">// Custom storing function.</span></div>
+<div class="line">    [&amp;](std::size_t q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">        res[q] = val;</div>
+<div class="line">    }</div>
+<div class="line">);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; x_nonzero{ 1., 2., 3. };</div>
-<div class="line">qfixed(3, x_nonzero.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line">    res[q] = val;</div>
-<div class="line">});</div>
+<div class="line">qfixed(</div>
+<div class="line">    x_nonzero.size(),</div>
+<div class="line">    x_nonzero.data(),</div>
+<div class="line">    [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">        res[q] = val;</div>
+<div class="line">    }</div>
+<div class="line">);</div>
+<div class="ttc" id="aclassquickstats_1_1MultipleQuantilesFixedNumber_html"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesFixedNumber.html">quickstats::MultipleQuantilesFixedNumber</a></div><div class="ttdoc">Calculate multiple quantiles from a fixed number of elements.</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:32</div></div>
 </div><!-- fragment --><p>Similarly, the <code>MultipleQuantilesVariableNumber</code> class computes multiple quantiles from a variable number of elements, up to a maximum:</p>
-<div class="fragment"><div class="line"><a class="code hl_class" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber&lt;double, int&gt;</a> qvar(10, &amp;quantiles);</div>
+<div class="fragment"><div class="line"><span class="comment">// We want to compute multiple quantiles from an array of 10 elements.</span></div>
+<div class="line"><a class="code hl_class" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt;double, <span class="keyword">decltype</span>(&amp;quantiles)&gt; qvar(10, &amp;quantiles, {});</div>
 <div class="line"> </div>
 <div class="line">std::vector&lt;double&gt; y{ 1., 2., 3., 4., 5., 6. };</div>
-<div class="line">qvar(y.size(), y.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line">    res[q] = val;</div>
-<div class="line">});</div>
+<div class="line">qvar(</div>
+<div class="line">    y.size(),</div>
+<div class="line">    y.data(),</div>
+<div class="line">    [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">        res[q] = val;</div>
+<div class="line">    }</div>
+<div class="line">);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0]</span></div>
 <div class="line">std::vector&lt;double&gt; y_nonzero{ 1., 2., 3. };</div>
-<div class="line">qvar(6, 3, y_nonzero.data(), [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line">    res[q] = val;</div>
-<div class="line">});</div>
+<div class="line">qvar(</div>
+<div class="line">    6,</div>
+<div class="line">    y_nonzero.size(),</div>
+<div class="line">    y_nonzero.data(),</div>
+<div class="line">    [&amp;](<span class="keywordtype">int</span> q, <span class="keywordtype">double</span> val) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line">        res[q] = val;</div>
+<div class="line">    }</div>
+<div class="line">);</div>
 <div class="ttc" id="aclassquickstats_1_1MultipleQuantilesVariableNumber_html"><div class="ttname"><a href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a></div><div class="ttdoc">Calculate multiple quantiles from a variable number of elements.</div><div class="ttdef"><b>Definition</b> MultipleQuantiles.hpp:366</div></div>
-</div><!-- fragment --><h1>Building projects</h1>
+</div><!-- fragment --><h1>Pairwise summation</h1>
+<p>We can perform pairwise summation to, well, compute the sum of an array. This mitigates loss of precision due to floating-point round-off error compared to naive <code>std::accumulate()</code>.</p>
+<div class="fragment"><div class="line"><span class="comment">// No precision is lost in this simple example, but it&#39;s just a demonstration.</span></div>
+<div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line"><a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace&lt;double&gt;</a> work;</div>
+<div class="line"><span class="keyword">auto</span> sum = <a class="code hl_function" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a>(x.size(), x.data(), work, {});</div>
+<div class="ttc" id="anamespacequickstats_html_ae04364a3ca1c759613d54688f1799adc"><div class="ttname"><a href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:215</div></div>
+<div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum() and pairwise_sum_abstract().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:24</div></div>
+</div><!-- fragment --><p>We can also customize the source of the input data to perform accumulations over an abstract array:</p>
+<div class="fragment"><div class="line"><span class="comment">// No precision is lost in this simple example, but it&#39;s just a demonstration.</span></div>
+<div class="line"><span class="keyword">auto</span> mean = sum / x.size();</div>
+<div class="line"><span class="keyword">auto</span> rss = <a class="code hl_function" href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a>(</div>
+<div class="line">    x.size(),</div>
+<div class="line">    [&amp;](<span class="keyword">const</span> std::size_t idx) -&gt; <span class="keyword">auto</span> {</div>
+<div class="line">        const double delta = x[idx] - mean;</div>
+<div class="line">        return delta * delta;</div>
+<div class="line">    }</div>
+<div class="line">    work,</div>
+<div class="line">    {}</div>
+<div class="line">);</div>
+<div class="ttc" id="anamespacequickstats_html_a1d2ec86f47fbbd6fa6e39ff62b957e34"><div class="ttname"><a href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a></div><div class="ttdeci">Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:102</div></div>
+</div><!-- fragment --><h1>Residual sum of squares</h1>
+<p>The <code>rss()</code> function will compute both the mean and the residual sum of squares (RSS) of an array:</p>
+<div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line"><a class="code hl_struct" href="structquickstats_1_1RssWorkspace.html">quickstats::RssWorkspace&lt;double&gt;</a> work;</div>
+<div class="line"><span class="keyword">auto</span> rssout = <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">quickstats::rss</a>(x.size(), x.data(), work, {});</div>
+<div class="line">rssout.mean;</div>
+<div class="line">rssout.rss;</div>
+<div class="ttc" id="anamespacequickstats_html_a3e10f8d0df934aea3fe37799d5fb1dd4"><div class="ttname"><a href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">quickstats::rss</a></div><div class="ttdeci">RssResult&lt; Output_ &gt; rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> rss.hpp:98</div></div>
+<div class="ttc" id="astructquickstats_1_1RssWorkspace_html"><div class="ttname"><a href="structquickstats_1_1RssWorkspace.html">quickstats::RssWorkspace</a></div><div class="ttdoc">Re-usable workspace for rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:47</div></div>
+</div><!-- fragment --><p>We can then convert each RSS into a sample variance with <code>rss_to_variance()</code>. This also works with sparse vectors:</p>
+<div class="fragment"><div class="line"><span class="comment">// Effectively computing the RSS for [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]</span></div>
+<div class="line">std::vector&lt;double&gt; y{ 1., 2., 3. };</div>
+<div class="line"><span class="keyword">auto</span> sprssout = <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">quickstats::rss</a>(10, y.size(), y.data(), work, {});</div>
+<div class="line">sprssout.mean;</div>
+<div class="line">sprssout.rss;</div>
+</div><!-- fragment --><p>We can also use <code>recenter_rss()</code> to adjust the RSS for a different value of the mean. This is typically used to combine RSS values from multiple subarrays into a single RSS value for the entire array.</p>
+<h1>Median absolute deviation</h1>
+<p>Given the median, the <code>mad()</code> function will compute the median absolute deviation. Note that this will replace the input array with the absolute deviations.</p>
+<div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
+<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(x.size(), x.data(), {});</div>
+<div class="line"><span class="keyword">auto</span> mad = <a class="code hl_function" href="namespacequickstats.html#a5f49679389644f302b7bbf897277d49a">quickstats::mad&lt;double&gt;</a>(x.size(), x.data(), med, {});</div>
+<div class="ttc" id="anamespacequickstats_html_a5f49679389644f302b7bbf897277d49a"><div class="ttname"><a href="namespacequickstats.html#a5f49679389644f302b7bbf897277d49a">quickstats::mad</a></div><div class="ttdeci">Output_ mad(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> mad.hpp:87</div></div>
+</div><!-- fragment --><p>For infinite medians, we provide the <code>mad_with_infinities()</code> function that treats infinities of the same sign as equal values. This is occasionally helpful for providing a sane result when infinities are generated by mathematical transformations, e.g., <code>log(0)</code>.</p>
+<div class="fragment"><div class="line"><span class="keyword">constexpr</span> <span class="keyword">auto</span> inf = std::numeric_limits&lt;double&gt;::infinity();</div>
+<div class="line">std::vector&lt;double&gt; x{ inf, 0, inf, inf, 0, inf, 0, 2, inf, inf };</div>
+<div class="line"><span class="keyword">auto</span> med = <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median&lt;double&gt;</a>(x.size(), x.data(), {});</div>
+<div class="line"><span class="keyword">auto</span> mad = <a class="code hl_function" href="namespacequickstats.html#a103aef8b7055189bb1d6ff4942a36543">quickstats::mad_with_infinities&lt;double&gt;</a>(x.size(), x.data(), med, {});</div>
+<div class="ttc" id="anamespacequickstats_html_a103aef8b7055189bb1d6ff4942a36543"><div class="ttname"><a href="namespacequickstats.html#a103aef8b7055189bb1d6ff4942a36543">quickstats::mad_with_infinities</a></div><div class="ttdeci">Output_ mad_with_infinities(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> mad.hpp:167</div></div>
+</div><!-- fragment --><p>As usual, the same functions are also available for sparse vectors.</p>
+<h1>Building projects</h1>
 <h2>CMake with <code>FetchContent</code></h2>
 <p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
