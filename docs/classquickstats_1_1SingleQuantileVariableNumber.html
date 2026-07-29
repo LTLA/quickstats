@@ -111,8 +111,8 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a958107e875e050011600e85cefbd22c9" id="r_a958107e875e050011600e85cefbd22c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a958107e875e050011600e85cefbd22c9">SingleQuantileVariableNumber</a> (const std::size_t max_num_total, const Output_ quantile)</td></tr>
-<tr class="separator:a958107e875e050011600e85cefbd22c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade331f2872a09100339528caa330623f" id="r_ade331f2872a09100339528caa330623f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade331f2872a09100339528caa330623f">SingleQuantileVariableNumber</a> (const std::size_t max_num_total, const Output_ quantile, const <a class="el" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html">SingleQuantileVariableNumberOptions</a>&lt; Output_ &gt; &amp;options)</td></tr>
+<tr class="separator:ade331f2872a09100339528caa330623f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad64ce9931898583f14e16937a88b2e4c" id="r_ad64ce9931898583f14e16937a88b2e4c"><td class="memTemplParams" colspan="2">template&lt;typename Input_ &gt; </td></tr>
 <tr class="memitem:ad64ce9931898583f14e16937a88b2e4c"><td class="memTemplItemLeft" align="right" valign="top">Output_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad64ce9931898583f14e16937a88b2e4c">operator()</a> (const std::size_t num_total, Input_ *ptr)</td></tr>
 <tr class="separator:ad64ce9931898583f14e16937a88b2e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,14 +125,14 @@ Public Member Functions</h2></td></tr>
 class quickstats::SingleQuantileVariableNumber&lt; Output_ &gt;</div><p>Calculate a quantile from a variable number of elements. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile. This should be capable of representing NaNs.</td></tr>
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output quantile.</td></tr>
   </table>
   </dd>
 </dl>
 <p>This uses the same logic as the <code><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html" title="Calculate a single quantile from a fixed number of elements.">SingleQuantileFixedNumber</a></code> class but supports any number of elements, from zero up to a specified maximum. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a958107e875e050011600e85cefbd22c9" name="a958107e875e050011600e85cefbd22c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a958107e875e050011600e85cefbd22c9">&#9670;&#160;</a></span>SingleQuantileVariableNumber()</h2>
+<a id="ade331f2872a09100339528caa330623f" name="ade331f2872a09100339528caa330623f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade331f2872a09100339528caa330623f">&#9670;&#160;</a></span>SingleQuantileVariableNumber()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +150,12 @@ template&lt;typename Output_ &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>quantile</em></span>&#160;)</td>
+          <td class="paramtype">const Output_</td>          <td class="paramname"><span class="paramname"><em>quantile</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html">SingleQuantileVariableNumberOptions</a>&lt; Output_ &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -163,6 +168,7 @@ template&lt;typename Output_ &gt; </div>
   <table class="params">
     <tr><td class="paramname">max_num_total</td><td>Maximum of the total number of elements. Unlike <code><a class="el" href="classquickstats_1_1SingleQuantileFixedNumber.html" title="Calculate a single quantile from a fixed number of elements.">SingleQuantileFixedNumber</a></code>, this may also be zero. </td></tr>
     <tr><td class="paramname">quantile</td><td>Probability of the quantile to compute, in \([0, 1]\). </td></tr>
+    <tr><td class="paramname">options</td><td>Further options. </td></tr>
   </table>
   </dd>
 </dl>
@@ -216,7 +222,7 @@ template&lt;typename Input_ &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Quantile of the specified probability. If <code>num_total = 0</code>, NaN is returned instead. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Quantile of the specified probability. If <code>num_total == 0</code>, <code><a class="el" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">SingleQuantileVariableNumberOptions::placeholder</a></code> is returned instead. </dd></dl>
 
 </div>
 </div>
@@ -272,7 +278,7 @@ template&lt;typename Input_ &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Quantile of the specified probability. If <code>num_total = 0</code>, NaN is returned instead. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Quantile of the specified probability. If <code>num_total == 0</code>, <code><a class="el" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">SingleQuantileVariableNumberOptions::placeholder</a></code> is returned instead. </dd></dl>
 
 </div>
 </div>

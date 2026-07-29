@@ -19,6 +19,7 @@
     <path>quickstats/</path>
     <filename>MultipleQuantiles_8hpp.html</filename>
     <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
+    <class kind="struct">quickstats::MultipleQuantilesVariableNumberOptions</class>
     <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
     <namespace>quickstats</namespace>
   </compound>
@@ -54,6 +55,7 @@
     <path>quickstats/</path>
     <filename>SingleQuantile_8hpp.html</filename>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
+    <class kind="struct">quickstats::SingleQuantileVariableNumberOptions</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
     <namespace>quickstats</namespace>
   </compound>
@@ -122,8 +124,8 @@
       <type></type>
       <name>MultipleQuantilesVariableNumber</name>
       <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
-      <anchor>ac829ac1a51cf26656aa9a927abbfe0da</anchor>
-      <arglist>(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr)</arglist>
+      <anchor>aacbe522c8d0eba2498475126da9f6c09</anchor>
+      <arglist>(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr, const MultipleQuantilesVariableNumberOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -138,6 +140,18 @@
       <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
       <anchor>a109466cd8bfffe33ae837af631228aec</anchor>
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values, OutputFun_ output)</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>quickstats::MultipleQuantilesVariableNumberOptions</name>
+    <filename>structquickstats_1_1MultipleQuantilesVariableNumberOptions.html</filename>
+    <templarg>typename Output_</templarg>
+    <member kind="variable">
+      <type>Output_</type>
+      <name>placeholder</name>
+      <anchorfile>structquickstats_1_1MultipleQuantilesVariableNumberOptions.html</anchorfile>
+      <anchor>a3840820cead7e9d81f481263b80222d5</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -400,8 +414,8 @@
       <type></type>
       <name>SingleQuantileVariableNumber</name>
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
-      <anchor>a958107e875e050011600e85cefbd22c9</anchor>
-      <arglist>(const std::size_t max_num_total, const Output_ quantile)</arglist>
+      <anchor>ade331f2872a09100339528caa330623f</anchor>
+      <arglist>(const std::size_t max_num_total, const Output_ quantile, const SingleQuantileVariableNumberOptions&lt; Output_ &gt; &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>
@@ -418,6 +432,18 @@
       <arglist>(const std::size_t num_total, const std::size_t num_non_zero, Input_ *const values)</arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>quickstats::SingleQuantileVariableNumberOptions</name>
+    <filename>structquickstats_1_1SingleQuantileVariableNumberOptions.html</filename>
+    <templarg>typename Output_</templarg>
+    <member kind="variable">
+      <type>Output_</type>
+      <name>placeholder</name>
+      <anchorfile>structquickstats_1_1SingleQuantileVariableNumberOptions.html</anchorfile>
+      <anchor>a68ed97e32770492b9bde541911a10ca2</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="namespace">
     <name>quickstats</name>
     <filename>namespacequickstats.html</filename>
@@ -425,6 +451,7 @@
     <class kind="struct">quickstats::MedianOptions</class>
     <class kind="class">quickstats::MultipleQuantilesFixedNumber</class>
     <class kind="class">quickstats::MultipleQuantilesVariableNumber</class>
+    <class kind="struct">quickstats::MultipleQuantilesVariableNumberOptions</class>
     <class kind="struct">quickstats::PairwiseSumOptions</class>
     <class kind="struct">quickstats::PairwiseSumWorkspace</class>
     <class kind="struct">quickstats::RssOptions</class>
@@ -436,6 +463,7 @@
     <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
+    <class kind="struct">quickstats::SingleQuantileVariableNumberOptions</class>
     <member kind="function">
       <type>Output_</type>
       <name>mad</name>

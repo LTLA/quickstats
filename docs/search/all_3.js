@@ -12,5 +12,6 @@ var searchData=
   ['medianoptions_9',['MedianOptions',['../structquickstats_1_1MedianOptions.html',1,'quickstats']]],
   ['multiplequantiles_2ehpp_10',['MultipleQuantiles.hpp',['../MultipleQuantiles_8hpp.html',1,'']]],
   ['multiplequantilesfixednumber_11',['MultipleQuantilesFixedNumber',['../classquickstats_1_1MultipleQuantilesFixedNumber.html',1,'quickstats::MultipleQuantilesFixedNumber&lt; Output_ &gt;'],['../classquickstats_1_1MultipleQuantilesFixedNumber.html#afde114e935c5047ea3357e58e6ef6aec',1,'quickstats::MultipleQuantilesFixedNumber::MultipleQuantilesFixedNumber()']]],
-  ['multiplequantilesvariablenumber_12',['MultipleQuantilesVariableNumber',['../classquickstats_1_1MultipleQuantilesVariableNumber.html',1,'quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;'],['../classquickstats_1_1MultipleQuantilesVariableNumber.html#ac829ac1a51cf26656aa9a927abbfe0da',1,'quickstats::MultipleQuantilesVariableNumber::MultipleQuantilesVariableNumber()']]]
+  ['multiplequantilesvariablenumber_12',['MultipleQuantilesVariableNumber',['../classquickstats_1_1MultipleQuantilesVariableNumber.html',1,'quickstats::MultipleQuantilesVariableNumber&lt; Output_, QuantilesPointer_ &gt;'],['../classquickstats_1_1MultipleQuantilesVariableNumber.html#aacbe522c8d0eba2498475126da9f6c09',1,'quickstats::MultipleQuantilesVariableNumber::MultipleQuantilesVariableNumber()']]],
+  ['multiplequantilesvariablenumberoptions_13',['MultipleQuantilesVariableNumberOptions',['../structquickstats_1_1MultipleQuantilesVariableNumberOptions.html',1,'quickstats']]]
 ];
