@@ -65,6 +65,12 @@
     <filename>skip__values_8hpp.html</filename>
     <namespace>quickstats</namespace>
   </compound>
+  <compound kind="file">
+    <name>utils.hpp</name>
+    <path>quickstats/</path>
+    <filename>utils_8hpp.html</filename>
+    <namespace>quickstats</namespace>
+  </compound>
   <compound kind="struct">
     <name>quickstats::MadOptions</name>
     <filename>structquickstats_1_1MadOptions.html</filename>
@@ -582,6 +588,13 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>a20deb047ec36e9fa0bc25dde40a3a8d3</anchor>
       <arglist>(const std::size_t num_total, Input_ *const ptr, Skip_ skip)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr Value_</type>
+      <name>nan_if_available_else_zero</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>addf99f3c0f16a9bb7690e801ab33f84c</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="page">

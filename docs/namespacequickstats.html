@@ -106,7 +106,7 @@ $(function(){ initResizable(false); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1MadOptions.html">MadOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#a5f49679389644f302b7bbf897277d49a">mad()</a></code>.  <a href="structquickstats_1_1MadOptions.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#a5f49679389644f302b7bbf897277d49a">mad()</a></code> and <code><a class="el" href="#a103aef8b7055189bb1d6ff4942a36543">mad_with_infinities()</a></code>.  <a href="structquickstats_1_1MadOptions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structquickstats_1_1MedianOptions.html">MedianOptions</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#a0c665cf3d1d2e73842221509a6586f9d">median()</a></code>.  <a href="structquickstats_1_1MedianOptions.html#details">More...</a><br /></td></tr>
@@ -210,6 +210,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3" id="r_a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class Skip_ &gt; </td></tr>
 <tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values</a> (const std::size_t num_total, Input_ *const ptr, Skip_ skip)</td></tr>
 <tr class="separator:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf99f3c0f16a9bb7690e801ab33f84c" id="r_addf99f3c0f16a9bb7690e801ab33f84c"><td class="memTemplParams" colspan="2">template&lt;typename Value_ &gt; </td></tr>
+<tr class="memitem:addf99f3c0f16a9bb7690e801ab33f84c"><td class="memTemplItemLeft" align="right" valign="top">constexpr Value_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#addf99f3c0f16a9bb7690e801ab33f84c">nan_if_available_else_zero</a> ()</td></tr>
+<tr class="separator:addf99f3c0f16a9bb7690e801ab33f84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Quickly compute simple statistics. </p>
@@ -1047,6 +1050,40 @@ template&lt;typename Input_ , class Skip_ &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of unskipped elements \(n\). </dd></dl>
+
+</div>
+</div>
+<a id="addf99f3c0f16a9bb7690e801ab33f84c" name="addf99f3c0f16a9bb7690e801ab33f84c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addf99f3c0f16a9bb7690e801ab33f84c">&#9670;&#160;</a></span>nan_if_available_else_zero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Value_ &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value_ quickstats::nan_if_available_else_zero </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Value_</td><td>Some numeric type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NaN if supported by <code>Value_</code>, otherwise zero. </dd></dl>
 
 </div>
 </div>

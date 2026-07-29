@@ -114,7 +114,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;sanisizer/sanisizer.hpp&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;utils.hpp&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="utils_8hpp.html">utils.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacequickstats.html">quickstats</a> {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
@@ -255,7 +255,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Output_&gt;</div>
 <div class="foldopen" id="foldopen00205" data-start="{" data-end="};">
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html">  205</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html">SingleQuantileVariableNumberOptions</a> {</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">  209</a></span>    Output_ <a class="code hl_variable" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">placeholder</a> = nan_if_available&lt;Output_&gt;();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">  209</a></span>    Output_ <a class="code hl_variable" href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">placeholder</a> = <a class="code hl_function" href="namespacequickstats.html#addf99f3c0f16a9bb7690e801ab33f84c">nan_if_available_else_zero&lt;Output_&gt;</a>();</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>};</div>
 </div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
@@ -331,8 +331,10 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclassquickstats_1_1SingleQuantileVariableNumber_html_ad64ce9931898583f14e16937a88b2e4c"><div class="ttname"><a href="classquickstats_1_1SingleQuantileVariableNumber.html#ad64ce9931898583f14e16937a88b2e4c">quickstats::SingleQuantileVariableNumber::operator()</a></div><div class="ttdeci">Output_ operator()(const std::size_t num_total, Input_ *ptr)</div><div class="ttdef"><b>Definition</b> SingleQuantile.hpp:271</div></div>
 <div class="ttc" id="aclassquickstats_1_1SingleQuantileVariableNumber_html_ade331f2872a09100339528caa330623f"><div class="ttname"><a href="classquickstats_1_1SingleQuantileVariableNumber.html#ade331f2872a09100339528caa330623f">quickstats::SingleQuantileVariableNumber::SingleQuantileVariableNumber</a></div><div class="ttdeci">SingleQuantileVariableNumber(const std::size_t max_num_total, const Output_ quantile, const SingleQuantileVariableNumberOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> SingleQuantile.hpp:228</div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:15</div></div>
+<div class="ttc" id="anamespacequickstats_html_addf99f3c0f16a9bb7690e801ab33f84c"><div class="ttname"><a href="namespacequickstats.html#addf99f3c0f16a9bb7690e801ab33f84c">quickstats::nan_if_available_else_zero</a></div><div class="ttdeci">constexpr Value_ nan_if_available_else_zero()</div><div class="ttdef"><b>Definition</b> utils.hpp:54</div></div>
 <div class="ttc" id="astructquickstats_1_1SingleQuantileVariableNumberOptions_html"><div class="ttname"><a href="structquickstats_1_1SingleQuantileVariableNumberOptions.html">quickstats::SingleQuantileVariableNumberOptions</a></div><div class="ttdoc">Options for SingleQuantileVariableNumber.</div><div class="ttdef"><b>Definition</b> SingleQuantile.hpp:205</div></div>
 <div class="ttc" id="astructquickstats_1_1SingleQuantileVariableNumberOptions_html_a68ed97e32770492b9bde541911a10ca2"><div class="ttname"><a href="structquickstats_1_1SingleQuantileVariableNumberOptions.html#a68ed97e32770492b9bde541911a10ca2">quickstats::SingleQuantileVariableNumberOptions::placeholder</a></div><div class="ttdeci">Output_ placeholder</div><div class="ttdef"><b>Definition</b> SingleQuantile.hpp:209</div></div>
+<div class="ttc" id="autils_8hpp_html"><div class="ttname"><a href="utils_8hpp.html">utils.hpp</a></div><div class="ttdoc">Miscellaneous utilities.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
