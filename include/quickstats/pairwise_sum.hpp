@@ -20,7 +20,7 @@ namespace quickstats {
  *
  * @tparam Output_ Numeric type of the sum.
  */
-template<typename Output_>
+template<typename Output_ = double>
 struct PairwiseSumWorkspace {
     /**
      * @cond

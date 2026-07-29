@@ -65,7 +65,7 @@ void configure_single_quantile(
  *
  * A `SingleQuantileFixedNumber` instance computes a type 7 quantile, consistent with the default in R's `quantile` function.
  */
-template<typename Output_>
+template<typename Output_ = double>
 class SingleQuantileFixedNumber {
 public:
     /**
@@ -201,7 +201,7 @@ public:
  * @brief Options for `SingleQuantileVariableNumber`.
  * @tparam Output_ Floating-point type of the output quantile.
  */
-template<typename Output_>
+template<typename Output_ = double>
 struct SingleQuantileVariableNumberOptions {
     /**
      * Placeholder value to return when `num_total == 0` in the `SingleQuantileVariableNumber::operator()()` method.

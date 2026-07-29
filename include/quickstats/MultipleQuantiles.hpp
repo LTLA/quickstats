@@ -28,7 +28,7 @@ namespace quickstats {
  * A `MultipleQuantilesFixedNumber` instance computes type 7 quantiles, consistent with the default in R's `quantile` function.
  * It is equivalent to but more efficient than multiple calls to different `SingleQuantileFixedNumber` instances.
  */
-template<class Output_>
+template<class Output_ = double>
 class MultipleQuantilesFixedNumber {
 public:
     /**
@@ -345,7 +345,7 @@ public:
  * @brief Options for `MultipleQuantilesVariableNumber`.
  * @tparam Output_ Floating-point type of the output quantile.
  */
-template<typename Output_>
+template<typename Output_ = double>
 struct MultipleQuantilesVariableNumberOptions {
     /**
      * Placeholder value to return when `num_total == 0` in the `MultipleQuantilesVariableNumber::operator()()` method.
