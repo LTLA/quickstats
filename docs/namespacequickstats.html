@@ -393,6 +393,7 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Variant of <code><a class="el" href="#a5f49679389644f302b7bbf897277d49a">mad()</a></code> to compute the median absolute deviation from an array of elements with an infinite median. Specifically, we assume that all occurrences of infinity of the same sign refer to the same arbitrarily large number, such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic). This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. </td></tr>
@@ -449,6 +450,7 @@ template&lt;typename Output_  = double, typename Input_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Variant of <code><a class="el" href="#a5f49679389644f302b7bbf897277d49a">mad()</a></code> to compute the median absolute deviation from a sparse vector with an infinite median. Specifically, we assume that all occurrences of infinity of the same sign refer to the same arbitrarily large number, such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic). This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.</p>
+<p>No consideration is given to special values like NaNs in the array. If these are to be skipped, consider using <code><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values()</a></code> before calling this function.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output value. </td></tr>
