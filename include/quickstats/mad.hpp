@@ -28,6 +28,40 @@ struct MadOptions {
 };
 
 /**
+ * @cond
+ */
+// Splitting this up for easier re-use in mad() and mad_with_infinities().
+template<typename Output_ = double, typename Input_>
+Output_ mad_with_finite_median(const std::size_t num_total, Input_* const ptr, const Input_ median, const MadOptions<Output_>& options) {
+    for (std::size_t i = 0; i < num_total; ++i) {
+        ptr[i] = std::abs(ptr[i] - median);
+    }
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return ::quickstats::median<Output_>(num_total, ptr, medopt);
+}
+
+template<typename Output_ = double, typename Input_>
+Output_ mad_with_finite_median(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median, const MadOptions<Output_>& options) {
+    // It is also possible to implement the sparse MAD by subtracting 'abs(median)' from the absolute deviations,
+    // computing the sparse median of the difference, and then adding 'abs(median)' back to the result.
+    // We don't do this as the subtraction and addition introduces some numerical error,
+    // which isn't that consequential in practice but interferes with exact comparisons to the dense results in our tests.
+
+    for (std::size_t i = 0; i < num_non_zero; ++i) {
+        values[i] = std::abs(values[i] - median);
+    }
+
+    MedianOptions medopt;
+    medopt.placeholder = options.placeholder;
+    return median_internal<Output_>(num_total, num_non_zero, values, std::abs(median), medopt);
+}
+/**
+ * @endcond
+ */
+
+/**
  * Compute the median absolute deviation (MAD) of an array of elements, given its median.
  *
  * No consideration is given to special values like NaNs in the array.
@@ -55,14 +89,7 @@ Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median,
         // Pre-emptively avoid shenanigans from trying to order NaN deviations.
         return options.placeholder;
     }
-
-    for (std::size_t i = 0; i < num_total; ++i) {
-        ptr[i] = std::abs(ptr[i] - median);
-    }
-
-    MedianOptions medopt;
-    medopt.placeholder = options.placeholder;
-    return ::quickstats::median<Output_>(num_total, ptr, medopt);
+    return mad_with_finite_median(num_total, ptr, median, options);
 }
 
 /**
@@ -97,19 +124,7 @@ Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_*
         // Pre-emptively avoid shenanigans from trying to order NaN deviations.
         return options.placeholder;
     }
-
-    // It is also possible to implement the sparse MAD by subtracting 'abs(median)' from the absolute deviations,
-    // computing the sparse median of the difference, and then adding 'abs(median)' back to the result.
-    // We don't do this as the subtraction and addition introduces some numerical error,
-    // which isn't that consequential in practice but interferes with exact comparisons to the dense results in our tests.
-
-    for (std::size_t i = 0; i < num_non_zero; ++i) {
-        values[i] = std::abs(values[i] - median);
-    }
-
-    MedianOptions medopt;
-    medopt.placeholder = options.placeholder;
-    return median_internal<Output_>(num_total, num_non_zero, values, std::abs(median), medopt);
+    return mad_with_finite_median(num_total, num_non_zero, values, median, options);
 }
 
 /**
@@ -132,6 +147,9 @@ Float_ scale_mad_to_sd(const Float_ x) {
  * such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic).
  * This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.
  *
+ * No consideration is given to special values like NaNs in the array.
+ * If these are to be skipped, consider using `skip_values()` before calling this function.
+ *
  * @tparam Output_ Floating-point type of the output value.
  * @tparam Input_ Floating-point type of the input values and median.
  *
@@ -148,7 +166,7 @@ Float_ scale_mad_to_sd(const Float_ x) {
 template<typename Output_ = double, typename Input_>
 Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, const Input_ median, const MadOptions<Output_>& options) {
     if (!std::isinf(median)) {
-        return mad(num_total, ptr, median, options);
+        return mad_with_finite_median(num_total, ptr, median, options);
     }
 
     for (std::size_t i = 0; i < num_total; ++i) {
@@ -165,6 +183,9 @@ Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, cons
  * Specifically, we assume that all occurrences of infinity of the same sign refer to the same arbitrarily large number,
  * such that the deviation of infinity from a median of infinity is defined as zero (instead of NaN via usual IEEE arithmetic).
  * This ensures that the MAD will be well-defined for a non-empty array, i.e., either 0 or infinity.
+ *
+ * No consideration is given to special values like NaNs in the array.
+ * If these are to be skipped, consider using `skip_values()` before calling this function.
  *
  * @tparam Output_ Floating-point type of the output value.
  * @tparam Input_ Floating-point type of the input values and median.
@@ -185,7 +206,7 @@ Output_ mad_with_infinities(const std::size_t num_total, Input_* const ptr, cons
 template<typename Output_ = double, typename Input_>
 Output_ mad_with_infinities(const std::size_t num_total, const std::size_t num_non_zero, Input_* const values, const Input_ median, const MadOptions<Output_>& options) {
     if (!std::isinf(median)) {
-        return mad(num_total, num_non_zero, values, median, options);
+        return mad_with_finite_median(num_total, num_non_zero, values, median, options);
     }
 
     for (std::size_t i = 0; i < num_non_zero; ++i) {
