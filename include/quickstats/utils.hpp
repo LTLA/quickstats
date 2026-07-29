@@ -42,6 +42,15 @@ bool check_zeroed(const std::size_t len, const Output_* const ptr) {
     }
     return true;
 }
+
+template<typename Value_>
+constexpr Value_ inf_if_available_else_max() {
+    if constexpr(std::numeric_limits<Value_>::has_infinity) {
+        return std::numeric_limits<Value_>::infinity();
+    } else {
+        return std::numeric_limits<Value_>::max();
+    }
+}
 /**
  * @endcond
  */

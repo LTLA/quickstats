@@ -10,10 +10,23 @@
 #include "utils.h"
 
 TEST(Mad, DenseBasic) {
-    std::vector<double> vec { 2, 1, 4, 6, 5, 3 };
-    const auto med = quickstats::median(vec.size(), vec.data());
-    auto mad = quickstats::mad(vec.size(), vec.data(), med);
-    EXPECT_FLOAT_EQ(quickstats::scale_mad_to_sd(mad), 2.2239); // i.e., mad(1:6) in R.
+    {
+        std::vector<double> vec { 2, 1, 4, 6, 5, 3 };
+        const auto med = quickstats::median(vec.size(), vec.data());
+        auto mad = quickstats::mad(vec.size(), vec.data(), med);
+        EXPECT_FLOAT_EQ(quickstats::scale_mad_to_sd(mad), 2.2239); // i.e., mad(1:6) in R.
+    }
+
+    // Works correctly with types that don't have Inf.
+    {
+        std::vector<int> ivec { 2, 1, 4, 5, 3 };
+        std::vector<double> dvec(ivec.begin(), ivec.end());
+        auto imad = quickstats::mad(ivec.size(), ivec.data(), 3);
+        auto dmad = quickstats::mad(dvec.size(), dvec.data(), 3.0);
+        EXPECT_EQ(imad, dmad);
+
+        EXPECT_GT(quickstats::inf_if_available_else_max<int>(), 0); // for some coverage.
+    }
 }
 
 /****************************************/
@@ -49,6 +62,15 @@ TEST(Mad, SparseAllPositive) {
         for (std::size_t total = vec.size(); total <= limit; ++total) {
             EXPECT_EQ(sparse_mad(vec, total), dense_mad(vec, total));
         }
+    }
+
+    // Works correctly with types that don't have Inf.
+    {
+        std::vector<int> ivec { 2, 1, 4, 5, 3 };
+        std::vector<double> dvec(ivec.begin(), ivec.end());
+        auto imad = quickstats::mad(7, ivec.size(), ivec.data(), 2);
+        auto dmad = quickstats::mad(7, dvec.size(), dvec.data(), 2.0);
+        EXPECT_EQ(imad, dmad);
     }
 }
 
