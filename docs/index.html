@@ -218,7 +218,7 @@ $(function(){ initResizable(false); });
 <div class="line">sprssout.rss;</div>
 <div class="ttc" id="anamespacequickstats_html_a3e10f8d0df934aea3fe37799d5fb1dd4"><div class="ttname"><a href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">quickstats::rss</a></div><div class="ttdeci">RssResult&lt; Output_ &gt; rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> rss.hpp:98</div></div>
 <div class="ttc" id="astructquickstats_1_1RssWorkspace_html"><div class="ttname"><a href="structquickstats_1_1RssWorkspace.html">quickstats::RssWorkspace</a></div><div class="ttdoc">Re-usable workspace for rss().</div><div class="ttdef"><b>Definition</b> rss.hpp:47</div></div>
-</div><!-- fragment --><p>We can then convert each RSS into a sample variance with <code>rss_to_variance()</code>.</p>
+</div><!-- fragment --><p>We can trivially convert each RSS into a variance estimate by dividing each variance with the number of observations (minus 1, for the sample variance). Note, some extra care may be required to handle zero denominators at low numbers of observations.</p>
 <p>We can also use <code>recenter_rss()</code> to adjust the RSS for a different value of the mean. This is typically used to combine RSS values from multiple subarrays into a single RSS value for the entire array.</p>
 <h1>Median absolute deviation</h1>
 <p>Given the median, the <code>mad()</code> function will compute the median absolute deviation. Note that this will replace the input array with the absolute deviations.</p>

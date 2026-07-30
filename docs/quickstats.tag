@@ -555,27 +555,6 @@
       <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
     </member>
     <member kind="function">
-      <type>Float_</type>
-      <name>rss_to_variance</name>
-      <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a3e61a8fe9d7c3444a1240efdb320862d</anchor>
-      <arglist>(const std::size_t num_total, const Float_ rss)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>rss_to_variance</name>
-      <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a2cf8d8988bbae1ed00d2fcaf198574f3</anchor>
-      <arglist>(const std::size_t num_obj, const std::size_t num_total, Float_ *const rss)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>rss_to_variance</name>
-      <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>ab66e0ff34f470fb675b04db8d84ecdf5</anchor>
-      <arglist>(const std::size_t num_obj, const Count_ *const num_total, Float_ *const rss)</arglist>
-    </member>
-    <member kind="function">
       <type>std::size_t</type>
       <name>skip_values</name>
       <anchorfile>namespacequickstats.html</anchorfile>
