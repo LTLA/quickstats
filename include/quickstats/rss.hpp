@@ -190,43 +190,78 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
  */
 
 /**
- * @cond
+ * Update the mean and RSS with a new value using Welford's method.
+ *
+ * @param mean On input, the mean of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated mean after including the latest value.
+ * @param rss On input, the RSS of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated RSS after including the latest value.
+ * @param value The latest value to be used to update the mean/RSS.
+ * @param num_total Number of values used to compute the updated mean/RSS.
+ * Note that this should include the latest `value` and as such should always be positive.
  */
-template<typename Output_ = double, typename Value_, typename Count_>
-void welford_add(Output_& mean, Output_& sumsq, const Value_ value, const Count_ count) {
+template<typename Output_ = double, typename Input_, typename Count_>
+void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ num_total) {
+    assert(num_total > 0);
     Output_ delta = static_cast<Output_>(value) - mean;
-    mean += delta / count;
-    sumsq += delta * (static_cast<Output_>(value) - mean);
+    mean += delta / num_total;
+    rss += delta * (static_cast<Output_>(value) - mean);
 }
-/**
- * @endcond
- */
 
 /**
- * @brief Running residual sum of squares from dense data.
+ * Update the mean and RSS with any number of zeros using Welford's method.
+ * This assumes that `num_total > 0`; if this cannot be guaranteed, use `update_rss_with_zeros()` instead.
  *
- * Compute running means and residual sum of squares (RSS) from dense data using Welford's method.
+ * @param mean On input, the mean of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated mean after including the zeros.
+ * @param rss On input, the RSS of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated RSS after including the zeros.
+ * @param num_total Number of values used to compute the updated mean/RSS, including all of the newly added zeros.
+ * This should be positive and no less than `num_non_zero`.
+ * @param num_non_zero Number of zeros to be added.
+ * This may be zero.
+ */
+template<typename Output_ = double, typename Count_>
+void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_total, const Count_ num_non_zero) {
+    assert(num_total > 0);
+    assert(num_total >= num_non_zero);
+    const auto ratio = static_cast<Output_>(num_non_zero) / static_cast<Output_>(num_total);
+    rss += mean * mean * ratio * (num_total - num_non_zero);
+    mean *= ratio;
+}
+
+/**
+ * Update the mean and RSS with any number of zeros using Welford's method.
+ * This is a slightly slower version of `update_rss_with_zeros_unsafe()` that avoids problems if `num_total == 0`.
  *
- * Consider a scenario with a set of equilength "objective" vectors \f$[v_1, v_2, v_3, ..., v_n]\f$.
- * We wish to compute the RSS for each objective vector but our data is organized into "observed" vectors \f$[p_1, p_2, p_3, ..., p_m]\f$,
- * where the \f$j\f$-th element of \f$p_i\f$ is the \f$i\f$-th element of \f$v_j\f$, i.e., the layout is transposed.
- *
- * The idea is to repeatedly call `add()` on each observed vector from 1 to \f$m\f$, followed by a call to `finish()`.
- * `mean[i]` and `rss[i]` will subsequently be filled with the mean and RSS, respectively, for the objective vector `i`.
- *
- * @tparam Input_ Numeric type of the input data.
- * @tparam Output_ Floating-point type of the output data.
+ * @param mean On input, the mean of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated mean after including the zeros.
+ * @param rss On input, the RSS of previous values.
+ * If no previous values were provided, this should be set to zero. 
+ * On output, the updated RSS after including the zeros.
+ * @param num_total Number of values used to compute the updated mean/RSS, including all of the newly added zeros.
+ * This may be zero but should be no less than `num_non_zero`.
+ * @param num_non_zero Number of zeros to be added.
+ * This may be zero.
+ */
+template<typename Output_ = double, typename Count_>
+void update_rss_with_zeros(Output_& mean, Output_& rss, const Count_ num_total, const Count_ num_non_zero) {
+    if (num_total) { 
+        update_rss_with_zeros_unsafe(mean, rss, num_total, num_non_zero);
+    }
+}
+
+/**
+ * @cond
  */
 template<typename Input_, typename Output_ = double>
 class RssRunningDense {
 public:
-    /**
-     * @param num_obj Number of objective vectors, i.e., \f$n\f$.
-     * @param[out] mean Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] rss Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     */
     RssRunningDense(const std::size_t num_obj, Output_* const mean, Output_* const rss) :
         my_num_obj(num_obj),
         my_mean(mean),
@@ -237,46 +272,23 @@ public:
     }
 
 public:
-    /**
-     * Add the next observed vector to the variance calculation.
-     *
-     * No consideration is given to special values like NaNs in the vector.
-     * If these are to be skipped, consider using `RssRunningDenseSkip` instead.
-     *
-     * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
-     */
     void add(const Input_* const ptr) {
         my_count = sanisizer::sum<std::size_t>(my_count, 1);
         for (std::size_t i = 0; i < my_num_obj; ++i) {
-            welford_add(my_mean[i], my_rss[i], ptr[i], my_count);
+            update_rss(my_mean[i], my_rss[i], ptr[i], my_count);
         }
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     * If no calls to `add()` were performed, all of `means` will be set to `nan_if_available_else_zero()`.
-     */
     void finish() {
         finish(nan_if_available_else_zero<Output_>());
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     *
-     * @param mean_placeholder Placeholder value to use for the mean when no observed vectors were supplied,
-     * i.e., no calls to `add()` were performed.
-     */
     void finish(const Output_ mean_placeholder) {
         if (my_count == 0 && mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill if our placeholder is also zero.
             std::fill_n(my_mean, my_num_obj, mean_placeholder);
         }
     }
 
-    /**
-     * @return Number of observed vectors that have been added by `add()`.
-     */
     std::size_t num_obs() const {
         return my_count;
     }
@@ -290,29 +302,9 @@ private:
     static_assert(std::is_floating_point<Output_>::value);
 };
 
-/**
- * @brief Running residual sum of squares from dense data, with skipping.
- *
- * This is a variant of `RssRunningDense` that provides an option to skip elements of each observed vector, e.g., NaNs.
- * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for the unskipped elements of objective vector `i`,
- * while `num_unskipped[i]` will contain the number of unskipped elements. 
- *
- * @tparam Count_ Integer type of the number of elements.
- * @tparam Input_ Numeric type of the input data.
- * @tparam Output_ Floating-point type of the output data.
- */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningDenseSkip {
 public:
-    /**
-     * @param num_obj Number of objective vectors, i.e., \f$n\f$.
-     * @param[out] mean Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] rss Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] num_unskipped Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     */
     RssRunningDenseSkip(const std::size_t num_obj, Output_* mean, Output_* rss, Count_* num_unskipped) :
         my_num_obj(num_obj),
         my_mean(mean),
@@ -325,15 +317,6 @@ public:
     }
 
 public:
-    /**
-     * Add the next observed vector to the variance calculation.
-     *
-     * @tparam Skip_ Function that indicates whether to skip a particular element. 
-     *
-     * @param[in] ptr Pointer to an array of values of length `num_obj`, corresponding to an observed vector.
-     * @param skip Function that accepts the index of an objective vector `i` (as a `std::size_t`) and its value `ptr[i]` (as a `Input_`),
-     * and returns a boolean indicating whether to skip this element.
-     */
     template<class Skip_>
     void add(const Input_* ptr, Skip_ skip) {
         // my_count is the upper bound of all my_num_unskipped, so we check it once here to avoid having to check it in the loop.
@@ -342,26 +325,15 @@ public:
         for (std::size_t i = 0; i < my_num_obj; ++i) {
             const auto val = ptr[i];
             if (!skip(i, val)) {
-                welford_add(my_mean[i], my_rss[i], val, ++(my_num_unskipped[i]));
+                update_rss(my_mean[i], my_rss[i], val, ++(my_num_unskipped[i]));
             }
         }
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     * For an objective vector with no unskippable elements, its mean will be set to `nan_if_available_else_zero()`.
-     */
     void finish() {
         finish(nan_if_available_else_zero<Output_>());
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     *
-     * @param mean_placeholder Placeholder value to use for the mean of an objective vector with no unskippable elements.
-     */
     void finish(const Output_ mean_placeholder) {
         if (mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill if our placeholder is also zero.
             if (my_count == 0) {
@@ -376,9 +348,6 @@ public:
         }
     }
 
-    /**
-     * @return Number of observed vectors that have been added by `add()`.
-     */
     Count_ num_obs() const {
         return my_count;
     }
@@ -394,44 +363,9 @@ private:
     static_assert(std::is_floating_point<Output_>::value);
 };
 
-/**
- * @cond
- */
-template<typename Output_ = double, typename Count_>
-void welford_add_zeros(Output_& mean, Output_& sumsq, const Count_ num_total, const Count_ num_non_zero) {
-    assert(num_total > 0);
-    const auto ratio = static_cast<Output_>(num_non_zero) / static_cast<Output_>(num_total);
-    sumsq += mean * mean * ratio * (num_total - num_non_zero);
-    mean *= ratio;
-}
-/**
- * @endcond
- */
-
-/** 
- * @brief Running residual sum of squares from sparse data.
- *
- * Compute running means and residual sum of squares (RSS) from sparse data using Welford's method.
- * This does the same as `RssRunningDense` but for sparse observed vectors, i.e., each vector only has the values/indices of the structural non-zero elements.
- * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for objective vector `i`.
- * while `num_non_zero[i]` will contain the number of structural non-zero elements. 
- *
- * @tparam Count_ Integer type of the number of elements.
- * @tparam Input_ Numeric type of the input data.
- * @tparam Output_ Floating-point type of the output data.
- */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparse {
 public:
-    /**
-     * @param num_obj Number of objective vectors, i.e., \f$n\f$.
-     * @param[out] mean Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] rss Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] num_non_zero Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     */
     RssRunningSparse(const std::size_t num_obj, Output_* const mean, Output_* const rss, Count_* const num_non_zero) : 
         my_num_obj(num_obj),
         my_mean(mean),
@@ -443,20 +377,6 @@ public:
         assert(check_zeroed(num_obj, num_non_zero));
     }
 
-    /**
-     * Add the next observed sparse vector to the variance calculation.
-     *
-     * No consideration is given to special values like NaNs in the structural non-zeros.
-     * If these are to be skipped, consider using `RssRunningDenseSkip` instead.
-     *
-     * @tparam Index_ Integer type of the indices of the structural non-zeros.
-     *
-     * @param num_non_zero_obs Number of non-zero elements in the observed vector, i.e., the length of the `value` and `index` arrays.
-     * @param[in] value Pointer to an array containing the values of the structural non-zero elements.
-     * @param[in] index Pointer to an array containing the indices of the structural non-zero elements.
-     * Elements should be unique and less than `num_obj` in the constructor.
-     * Each element should correspond to an element in `value`.
-     */
     template<typename Index_>
     void add(const std::size_t num_non_zero_obs, const Input_* const value, const Index_* const index) {
         static_assert(std::is_integral<Index_>::value);
@@ -466,26 +386,14 @@ public:
 
         for (std::size_t i = 0; i < num_non_zero_obs; ++i) {
             const auto ri = index[i]; 
-            welford_add(my_mean[ri], my_rss[ri], value[i], ++(my_num_non_zero[ri]));
+            update_rss(my_mean[ri], my_rss[ri], value[i], ++(my_num_non_zero[ri]));
         }
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     * If no calls to `add()` were performed, all of `means` will be set to `nan_if_available_else_zero()`.
-     */
     void finish() {
         finish(nan_if_available_else_zero<Output_>());
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     *
-     * @param mean_placeholder Placeholder value to use for the mean when no observed vectors were supplied,
-     * i.e., no calls to `add()` were performed.
-     */
     void finish(const Output_ mean_placeholder) {
         if (my_count == 0) {
             if (mean_placeholder != 0) { // my_mean should already be zeroed, so no need to fill again if the placeholder is also zero.
@@ -493,14 +401,11 @@ public:
             }
         } else {
             for (std::size_t i = 0; i < my_num_obj; ++i) {
-                welford_add_zeros(my_mean[i], my_rss[i], my_count, my_num_non_zero[i]);
+                update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], my_count, my_num_non_zero[i]);
             }
         }
     }
 
-    /**
-     * @return Number of observed vectors that have been added by `add()`.
-     */
     Count_ num_obs() const {
         return my_count;
     }
@@ -516,37 +421,9 @@ private:
     static_assert(std::is_floating_point<Output_>::value);
 };
 
-/** 
- * @brief Running residual sum of squares from sparse data, with skipping.
- *
- * This is a variant of `RssRunningSparse` that provides an option to skip elements of each observed vector, e.g., NaNs.
- * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for the unskipped elements of objective vector `i`;
- * `num_non_zero[i]` will contain the number of structural non-zero elements;
- * and `num_unskipped[i]` will contain the number of unskipped elements. 
- *
- * Compute running means and residual sum of squares (RSS) from sparse data using Welford's method.
- * This does the same as `RssRunningDense` but for sparse observed vectors, i.e., each vector only has the values/indices of the structural non-zero elements.
- * After the `finish()` call, `mean[i]` and `rss[i]` will contain the mean and RSS for objective vector `i`.
- * while `num_non_zero[i]` will contain the number of structural non-zero elements. 
- *
- * @tparam Count_ Integer type of the number of elements.
- * @tparam Input_ Numeric type of the input data.
- * @tparam Output_ Floating-point type of the output data.
- */
 template<typename Count_, typename Input_, typename Output_ = double>
 class RssRunningSparseSkip {
 public:
-    /**
-     * @param num_obj Number of objective vectors, i.e., \f$n\f$.
-     * @param[out] mean Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] rss Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] num_non_zero Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     * @param[out] num_unskipped Pointer to an output array of length `num_obj`.
-     * This should be zeroed on input.
-     */
     RssRunningSparseSkip(const std::size_t num_obj, Output_* const mean, Output_* const rss, Count_* const num_non_zero, Count_* const num_unskipped) : 
         my_num_obj(num_obj),
         my_mean(mean),
@@ -560,20 +437,6 @@ public:
         assert(check_zeroed(num_obj, num_unskipped));
     }
 
-    /**
-     * Add the next observed sparse vector to the variance calculation.
-     *
-     * @tparam Skip_ Function that indicates whether to skip a particular element. 
-     * @tparam Index_ Integer type of the indices of the structural non-zeros.
-     *
-     * @param num_non_zero_obs Number of non-zero elements in the observed vector, i.e., the length of the `value` and `index` arrays.
-     * @param[in] value Pointer to an array containing the values of the structural non-zero elements.
-     * @param[in] index Pointer to an array containing the indices of the structural non-zero elements.
-     * Elements should be unique and less than `num_obj` in the constructor.
-     * Each element should correspond to an element in `value`.
-     * @param skip Function that accepts the index of an objective vector `index[i]` (as an `Index_`) and its value `value[i]` (as an `Input_`) for some `i < num_non_zero_obs`,
-     * and returns a boolean indicating whether to skip this element.
-     */
     template<typename Index_, class Skip_>
     void add(const std::size_t num_non_zero_obs, const Input_* value, const Index_* index, Skip_ skip) {
         static_assert(std::is_integral<Index_>::value);
@@ -587,26 +450,15 @@ public:
             if (skip(ri, val)) {
                 ++my_num_unskipped[ri]; // storing the number that was skipped so we don't have to add the zeros later.
             } else {
-                welford_add(my_mean[ri], my_rss[ri], val, ++(my_num_non_zero[ri]));
+                update_rss(my_mean[ri], my_rss[ri], val, ++(my_num_non_zero[ri]));
             }
         }
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     * For an objective vector with no unskippable elements, its mean will be set to `nan_if_available_else_zero()`.
-     */
     void finish() {
         finish(nan_if_available_else_zero<Output_>());
     }
 
-    /**
-     * Finalize the statistics.
-     * This should only be called after all calls to `add()`.
-     *
-     * @param mean_placeholder Placeholder value to use for the mean of an objective vector with no unskippable elements.
-     */
     void finish(const Output_ mean_placeholder) {
         for (std::size_t i = 0; i < my_num_obj; ++i) {
             my_num_unskipped[i] = my_count - my_num_unskipped[i];
@@ -621,15 +473,12 @@ public:
                 if (my_num_unskipped[i] == 0) {
                     my_mean[i] = mean_placeholder;
                 } else {
-                    welford_add_zeros(my_mean[i], my_rss[i], my_num_unskipped[i], my_num_non_zero[i]);
+                    update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], my_num_unskipped[i], my_num_non_zero[i]);
                 }
             }
         }
     }
 
-    /**
-     * @return Number of observed vectors that have been added by `add()`.
-     */
     Count_ num_obs() const {
         return my_count;
     }
@@ -645,6 +494,9 @@ private:
     static_assert(std::is_integral<Count_>::value);
     static_assert(std::is_floating_point<Output_>::value);
 };
+/**
+ * @endcond
+ */
 
 /**
  * Recenter the residual sum of squares, i.e., sum of squares from a different mean.

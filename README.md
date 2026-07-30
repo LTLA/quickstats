@@ -162,6 +162,25 @@ sprssout.mean;
 sprssout.rss;
 ```
 
+In some situations, we might want to update the RSS as new values become available.
+This can be done using the `update_rss()` function:
+
+```cpp
+double curmean = 0, currss = 0;
+for (std::size_t i = 0; i < 5; ++i) {
+    quickstats::update_rss(curmean, currss, x[i], i + 1);
+}
+// Do something with the mean/RSS of the first 5 elements.
+
+for (std::size_t i = 5; i < 10; ++i) {
+    quickstats::update_rss(curmean, currss, x[i], i + 1);
+}
+// Do something with the mean/RSS of the full 'x' array.
+
+// Works with sparse vectors as well.
+quickstats::update_rss_with_zeros(curmean, currss, 5, x.size() + 5);
+```
+
 We can trivially convert each RSS into a variance estimate by dividing each variance with the number of observations (minus 1, for the sample variance).
 Note, some extra care may be required to handle zero denominators at low numbers of observations.
 
