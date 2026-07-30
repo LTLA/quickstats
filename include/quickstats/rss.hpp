@@ -505,20 +505,22 @@ private:
  * and the sum of the recentered RSS values will be the RSS of the entire dataset.
  * (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)
  *
+ * This function is considered "unsafe" as it assumes that `old_mean` is zero when `num_total == 0`.
+ * In many cases, `old_mean` will be NaN when `num_total == 0` due to division by zero.
+ * If `num_total > 0` or `old_mean == 0` cannot be guaranteed, consider using `recenter_rss()` instead.
+ *
  * @param num_total Total number of elements used to compute the RSS.
- * This must be positive.
- * For scenarios where `num_total` might be zero, use `recenter_rss()` instead.
  * @param old_rss The old value of the RSS.
  * @param old_mean The old mean used to compute the RSS.
  * @param new_mean The new mean. 
  *
  * @tparam Float_ Floating-point type of the various statistics.
  *
- * @return The recentered RSS, or `old_rss` (which should be zero) if `num_total == 0`.
+ * @return The recentered RSS.
  */
 template<typename Float_>
 Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
-    assert(num_total > 0);
+    assert(num_total > 0 || old_mean == 0);
     const Float_ delta = old_mean - new_mean;
     return old_rss + num_total * delta * delta;
 }
