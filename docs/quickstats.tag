@@ -44,10 +44,6 @@
     <class kind="struct">quickstats::RssResult</class>
     <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="struct">quickstats::RssOptions</class>
-    <class kind="class">quickstats::RssRunningDense</class>
-    <class kind="class">quickstats::RssRunningDenseSkip</class>
-    <class kind="class">quickstats::RssRunningSparse</class>
-    <class kind="class">quickstats::RssRunningSparseSkip</class>
     <namespace>quickstats</namespace>
   </compound>
   <compound kind="file">
@@ -221,173 +217,6 @@
       <arglist></arglist>
     </member>
   </compound>
-  <compound kind="class">
-    <name>quickstats::RssRunningDense</name>
-    <filename>classquickstats_1_1RssRunningDense.html</filename>
-    <templarg>typename Input_</templarg>
-    <templarg>typename Output_</templarg>
-    <member kind="function">
-      <type></type>
-      <name>RssRunningDense</name>
-      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>af67351fe4df54e9e2f59300b21c1b801</anchor>
-      <arglist>(const std::size_t num_obj, Output_ *const mean, Output_ *const rss)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>add</name>
-      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>aba8cf27848bbb34173c8c26f7347b87f</anchor>
-      <arglist>(const Input_ *const ptr)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>a5da0ea85bc271b3431d39f9a0f29005a</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>a6ae2f8b2baa39b53ffa7ba922730d6e1</anchor>
-      <arglist>(const Output_ mean_placeholder)</arglist>
-    </member>
-    <member kind="function">
-      <type>std::size_t</type>
-      <name>num_obs</name>
-      <anchorfile>classquickstats_1_1RssRunningDense.html</anchorfile>
-      <anchor>a515e4234c610bed34bce9da6fc771095</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>quickstats::RssRunningDenseSkip</name>
-    <filename>classquickstats_1_1RssRunningDenseSkip.html</filename>
-    <templarg>typename Count_</templarg>
-    <templarg>typename Input_</templarg>
-    <templarg>typename Output_</templarg>
-    <member kind="function">
-      <type></type>
-      <name>RssRunningDenseSkip</name>
-      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>a680dcce8b648666fca6715114277adc6</anchor>
-      <arglist>(const std::size_t num_obj, Output_ *mean, Output_ *rss, Count_ *num_unskipped)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>add</name>
-      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>a78e0564ca83e9f7dc4220ac0d96e2521</anchor>
-      <arglist>(const Input_ *ptr, Skip_ skip)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>aa3b2033db1c7e38c0e62bc6bdf67f05f</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>ada109f7ed9534e9e4fa9dba3672b5c65</anchor>
-      <arglist>(const Output_ mean_placeholder)</arglist>
-    </member>
-    <member kind="function">
-      <type>Count_</type>
-      <name>num_obs</name>
-      <anchorfile>classquickstats_1_1RssRunningDenseSkip.html</anchorfile>
-      <anchor>afe289aa4dc2b508de01a40b44c96a226</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>quickstats::RssRunningSparse</name>
-    <filename>classquickstats_1_1RssRunningSparse.html</filename>
-    <templarg>typename Count_</templarg>
-    <templarg>typename Input_</templarg>
-    <templarg>typename Output_</templarg>
-    <member kind="function">
-      <type></type>
-      <name>RssRunningSparse</name>
-      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>aee3ab861047492f1ac4b2caf27160b72</anchor>
-      <arglist>(const std::size_t num_obj, Output_ *const mean, Output_ *const rss, Count_ *const num_non_zero)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>add</name>
-      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>a558089cf538150e15c233016509f9f5c</anchor>
-      <arglist>(const std::size_t num_non_zero_obs, const Input_ *const value, const Index_ *const index)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>aefdcce4422dc638fa18b23fd0db3296f</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>a76411caeeca8bf8d93e68f9962b4298a</anchor>
-      <arglist>(const Output_ mean_placeholder)</arglist>
-    </member>
-    <member kind="function">
-      <type>Count_</type>
-      <name>num_obs</name>
-      <anchorfile>classquickstats_1_1RssRunningSparse.html</anchorfile>
-      <anchor>a685fa72db8ac4ed475e4ea689b779190</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>quickstats::RssRunningSparseSkip</name>
-    <filename>classquickstats_1_1RssRunningSparseSkip.html</filename>
-    <templarg>typename Count_</templarg>
-    <templarg>typename Input_</templarg>
-    <templarg>typename Output_</templarg>
-    <member kind="function">
-      <type></type>
-      <name>RssRunningSparseSkip</name>
-      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>aadc49b939d0d88dd8de34c47bbb66e03</anchor>
-      <arglist>(const std::size_t num_obj, Output_ *const mean, Output_ *const rss, Count_ *const num_non_zero, Count_ *const num_unskipped)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>add</name>
-      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>a8fe3f95a1aa52ccf19258c552ad3daf2</anchor>
-      <arglist>(const std::size_t num_non_zero_obs, const Input_ *value, const Index_ *index, Skip_ skip)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>a4318383804b3eebb640724320aee3277</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>finish</name>
-      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>a3550274548b1c963286c42d06532e841</anchor>
-      <arglist>(const Output_ mean_placeholder)</arglist>
-    </member>
-    <member kind="function">
-      <type>Count_</type>
-      <name>num_obs</name>
-      <anchorfile>classquickstats_1_1RssRunningSparseSkip.html</anchorfile>
-      <anchor>ad4ef8541e52dffe1dd19a2e2383292f7</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
   <compound kind="struct">
     <name>quickstats::RssWorkspace</name>
     <filename>structquickstats_1_1RssWorkspace.html</filename>
@@ -469,10 +298,6 @@
     <class kind="struct">quickstats::PairwiseSumWorkspace</class>
     <class kind="struct">quickstats::RssOptions</class>
     <class kind="struct">quickstats::RssResult</class>
-    <class kind="class">quickstats::RssRunningDense</class>
-    <class kind="class">quickstats::RssRunningDenseSkip</class>
-    <class kind="class">quickstats::RssRunningSparse</class>
-    <class kind="class">quickstats::RssRunningSparseSkip</class>
     <class kind="struct">quickstats::RssWorkspace</class>
     <class kind="class">quickstats::SingleQuantileFixedNumber</class>
     <class kind="class">quickstats::SingleQuantileVariableNumber</class>
@@ -539,6 +364,27 @@
       <anchorfile>namespacequickstats.html</anchorfile>
       <anchor>afe323ae5e6eca125513c9d72dd795c81</anchor>
       <arglist>(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update_rss</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>aeec4c4524e73f23911b5a4430c184286</anchor>
+      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Input_ value, const Count_ num_total)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update_rss_with_zeros_unsafe</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>a1e2075537fa57a347b2e1e90b2b14fe5</anchor>
+      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_total, const Count_ num_non_zero)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update_rss_with_zeros</name>
+      <anchorfile>namespacequickstats.html</anchorfile>
+      <anchor>aa741e55b244c138cebd3496247f9ad27</anchor>
+      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_total, const Count_ num_non_zero)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
