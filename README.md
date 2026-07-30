@@ -162,7 +162,8 @@ sprssout.mean;
 sprssout.rss;
 ```
 
-We can then convert each RSS into a sample variance with `rss_to_variance()`.
+We can trivially convert each RSS into a variance estimate by dividing each variance with the number of observations (minus 1, for the sample variance).
+Note, some extra care may be required to handle zero denominators at low numbers of observations.
 
 We can also use `recenter_rss()` to adjust the RSS for a different value of the mean.
 This is typically used to combine RSS values from multiple subarrays into a single RSS value for the entire array.
