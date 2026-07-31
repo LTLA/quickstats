@@ -190,7 +190,7 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
  */
 
 /**
- * Update the mean and RSS with a new value using Welford's method.
+ * Update the mean and RSS by adding a new value using Welford's method.
  *
  * @param mean On input, the mean of previous values.
  * If no previous values were provided, this should be set to zero. 
@@ -198,9 +198,9 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
  * @param rss On input, the RSS of previous values.
  * If no previous values were provided, this should be set to zero. 
  * On output, the updated RSS after including the latest value.
- * @param value The latest value to be used to update the mean/RSS.
- * @param num_total Number of values used to compute the updated mean/RSS.
- * Note that this should include the latest `value` and as such should always be positive.
+ * @param value New value to update the mean/RSS.
+ * @param num_after Number of values used to compute the updated mean/RSS, after adding the latest `value`.
+ * This should always be positive.
  */
 template<typename Output_ = double, typename Input_, typename Count_>
 void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ num_total) {
@@ -211,7 +211,7 @@ void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ nu
 }
 
 /**
- * Update the mean and RSS with any number of zeros using Welford's method.
+ * Update the mean and RSS by adding any number of zeros using Welford's method.
  * This assumes that `num_total > 0`; if this cannot be guaranteed, use `update_rss_with_zeros()` instead.
  *
  * @param mean On input, the mean of previous values.
@@ -220,17 +220,17 @@ void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ nu
  * @param rss On input, the RSS of previous values.
  * If no previous values were provided, this should be set to zero. 
  * On output, the updated RSS after including the zeros.
- * @param num_total Number of values used to compute the updated mean/RSS, including all of the newly added zeros.
- * This should be positive and no less than `num_non_zero`.
- * @param num_non_zero Number of zeros to be added.
+ * @param num_zeros Number of zeros to be added.
  * This may be zero.
+ * @param num_total Number of values used to compute the updated mean/RSS, after adding any number of zeros.
+ * This should be positive and no less than `num_total`.
  */
 template<typename Output_ = double, typename Count_>
-void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_total, const Count_ num_non_zero) {
+void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_zeros, const Count_ num_total) {
     assert(num_total > 0);
-    assert(num_total >= num_non_zero);
-    const auto ratio = static_cast<Output_>(num_non_zero) / static_cast<Output_>(num_total);
-    rss += mean * mean * ratio * (num_total - num_non_zero);
+    assert(num_total >= num_zeros);
+    const auto ratio = static_cast<Output_>(num_total - num_zeros) / static_cast<Output_>(num_total);
+    rss += mean * mean * ratio * num_zeros;
     mean *= ratio;
 }
 
@@ -244,15 +244,15 @@ void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_
  * @param rss On input, the RSS of previous values.
  * If no previous values were provided, this should be set to zero. 
  * On output, the updated RSS after including the zeros.
- * @param num_total Number of values used to compute the updated mean/RSS, including all of the newly added zeros.
- * This may be zero but should be no less than `num_non_zero`.
- * @param num_non_zero Number of zeros to be added.
+ * @param num_before Number of values used to compute the input values of `mean` and `rss`. 
  * This may be zero.
+ * @param num_total Number of values used to compute the updated mean/RSS, after adding any number of zeros.
+ * This may be zero but should be no less than `num_total`.
  */
 template<typename Output_ = double, typename Count_>
-void update_rss_with_zeros(Output_& mean, Output_& rss, const Count_ num_total, const Count_ num_non_zero) {
+void update_rss_with_zeros(Output_& mean, Output_& rss, const Count_ num_zeros, const Count_ num_total) {
     if (num_total) { 
-        update_rss_with_zeros_unsafe(mean, rss, num_total, num_non_zero);
+        update_rss_with_zeros_unsafe(mean, rss, num_zeros, num_total);
     }
 }
 
@@ -401,7 +401,7 @@ public:
             }
         } else {
             for (std::size_t i = 0; i < my_num_obj; ++i) {
-                update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], my_count, my_num_non_zero[i]);
+                update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], static_cast<Count_>(my_count - my_num_non_zero[i]), my_count);
             }
         }
     }
@@ -473,7 +473,8 @@ public:
                 if (my_num_unskipped[i] == 0) {
                     my_mean[i] = mean_placeholder;
                 } else {
-                    update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], my_num_unskipped[i], my_num_non_zero[i]);
+                    const auto num_unskipped = my_num_unskipped[i];
+                    update_rss_with_zeros_unsafe(my_mean[i], my_rss[i], static_cast<Count_>(num_unskipped - my_num_non_zero[i]), num_unskipped);
                 }
             }
         }
