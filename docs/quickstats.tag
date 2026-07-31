@@ -376,15 +376,15 @@
       <type>void</type>
       <name>update_rss_with_zeros_unsafe</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a1e2075537fa57a347b2e1e90b2b14fe5</anchor>
-      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_total, const Count_ num_non_zero)</arglist>
+      <anchor>a7a1f48b44e913f31abcc368e96b19a57</anchor>
+      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_zeros, const Count_ num_total)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>update_rss_with_zeros</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>aa741e55b244c138cebd3496247f9ad27</anchor>
-      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_total, const Count_ num_non_zero)</arglist>
+      <anchor>ae0771a2a6576095f4e40e8b12fbd7fea</anchor>
+      <arglist>(Output_ &amp;mean, Output_ &amp;rss, const Count_ num_zeros, const Count_ num_total)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
