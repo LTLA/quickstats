@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(quickstats
-    VERSION 0.1.2
+project(
+    quickstats
+    VERSION 0.2.0
     DESCRIPTION "Quickly compute simple statistics"
-    LANGUAGES CXX)
+    LANGUAGES CXX
+)
 
 add_library(quickstats INTERFACE)
 add_library(ltla::quickstats ALIAS quickstats)
