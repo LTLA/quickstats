@@ -53,22 +53,22 @@ struct PairwiseSumOptions {
  */
 // Mathematically equivalent to std::accumulate but reorders summations for greater instruction-level parallelism.
 // See performance tests in https://github.com/tatami-inc/test-multiplication/tree/master/other/accumulators.
-template<std::size_t width_>
-double recursive_sum(std::array<double, width_>& dots) {
+template<typename Output_, std::size_t width_>
+Output_ recursive_sum(std::array<Output_, width_>& dots) {
     if constexpr(width_ == 1) {
         return dots[0];
     } else if constexpr(width_ == 2) {
         return dots[0] + dots[1];
     } else {
         constexpr auto half_width = width_ / 2;
-        std::array<double, half_width> tmp;
+        std::array<Output_, half_width> tmp;
         for (std::size_t s = 0; s < half_width; ++s) { // Increase potential for vectorization.
             tmp[s] = dots[s] + dots[s + half_width];
         }
         if constexpr(width_ % 2 == 1) {
-            return recursive_sum<width_ / 2>(tmp) + dots[width_ - 1];
+            return recursive_sum(tmp) + dots[width_ - 1];
         } else {
-            return recursive_sum<width_ / 2>(tmp);
+            return recursive_sum(tmp);
         }
     }
 }
