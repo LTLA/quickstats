@@ -78,7 +78,7 @@ Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median,
         }
     }
 
-    MedianOptions medopt;
+    MedianOptions<Output_> medopt;
     medopt.placeholder = options.placeholder;
     return ::quickstats::median<Output_>(num_total, ptr, medopt);
 }
@@ -136,7 +136,7 @@ Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_*
     // We don't do this as the subtraction and addition introduces some numerical error,
     // which isn't that consequential in practice but interferes with exact comparisons to the dense results in our tests.
 
-    MedianOptions medopt;
+    MedianOptions<Output_> medopt;
     medopt.placeholder = options.placeholder;
     return median_internal<Output_>(num_total, num_non_zero, values, std::abs(median), medopt);
 }
