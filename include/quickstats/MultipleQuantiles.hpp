@@ -7,6 +7,7 @@
 #include <vector>
 #include <optional>
 #include <cassert>
+#include <limits>
 
 #include "sanisizer/sanisizer.hpp"
 
@@ -77,6 +78,13 @@ private:
 
     std::vector<Configuration> my_stacks;
 
+    // We initialize the upper/lower boundaries of each quantile calculation to avoid GCC complaining about uninitialized values.
+    // All boundaries should always be initialized before use but it seems that GCC can't figure that out.
+    // For safety's sake, we use a very low number to force a nonsensical result if our initialization assumption is wrong.
+    static constexpr Output_ mock_init() {
+        return std::numeric_limits<Output_>::lowest();
+    }
+
 public:
     /**
      * Compute multiple quantiles from a dense array of length equal to `num_total`.
@@ -100,7 +108,7 @@ public:
 
         std::size_t last_index = 0;
         std::size_t last_index_p1 = 0; // yes, this is a deliberate starting value for 'last_index + 1'.
-        Output_ lower_val, upper_val;
+        Output_ lower_val = mock_init(), upper_val = mock_init(); 
 
         for (I<decltype(num_quantiles)> q = 0; q < num_quantiles; ++q) {
             const auto& curstack = my_stacks[q];
@@ -185,7 +193,7 @@ public:
 
         // Processing all quantiles where both upper and lower values are negative.
         { 
-            Output_ lower_val, upper_val;
+            Output_ lower_val = mock_init(), upper_val = mock_init();
             for (; q < num_quantiles; ++q) {
                 const auto& curstack = my_stacks[q];
                 const auto curindex = curstack.upper_index;
@@ -221,7 +229,7 @@ public:
         // Processing all quantiles where lower value is negative and upper value is zero.
         if (num_negative) {
             bool computed = false;
-            Output_ lower_val;
+            Output_ lower_val = mock_init();
             for (; q < num_quantiles; ++q) {
                 const auto& curstack = my_stacks[q];
                 const auto curindex = curstack.upper_index;
@@ -272,7 +280,7 @@ public:
         // Processing all quantiles where the lower value is zero and the upper value is positive.
         {
             bool computed = false;
-            Output_ upper_val; 
+            Output_ upper_val = mock_init(); 
             for (; q < num_quantiles; ++q) {
                 const auto& curstack = my_stacks[q];
                 if (curstack.upper_index > num_not_positive) {
@@ -303,7 +311,7 @@ public:
 
         // Processing all quantiles where the upper and lower values are positive.
         {
-            Output_ upper_val, lower_val;
+            Output_ lower_val = mock_init(), upper_val = mock_init();
             for (; q < num_quantiles; ++q) {
                 const auto& curstack = my_stacks[q];
 
