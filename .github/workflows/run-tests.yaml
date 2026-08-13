@@ -20,9 +20,18 @@ jobs:
             cov: true
           }
         - {
-            name: "macOS Latest Clang", 
+            name: "Ubuntu Latest GCC, release", 
+            os: ubuntu-latest,
+            release: true
+          }
+        - {
+            name: "macOS Latest Clang, debug", 
+            os: macos-latest
+          }
+        - {
+            name: "macOS Latest Clang, release", 
             os: macos-latest,
-            cov: false
+            release: true
           }
 
     steps:
@@ -31,13 +40,17 @@ jobs:
     - name: Get latest CMake
       uses: lukka/get-cmake@latest
 
-    - name: Configure the build for Mac
-      if: ${{ ! matrix.config.cov }}
-      run: cmake -S . -B build
+    - name: Configure release build
+      if: ${{ matrix.config.release }}
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
-    - name: Configure the build with coverage
+    - name: Configure debug Mac build
+      if: ${{ ! matrix.config.release && matrix.config.os == 'macos-latest' }}
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Configure debug Linux build with coverage
       if: ${{ matrix.config.cov }}
-      run: cmake -S . -B build -DCODE_COVERAGE=ON 
+      run: cmake -S . -B build -DCODE_COVERAGE=ON -DCMake_BUILD_TYPE=Debug
 
     - name: Run the build
       run: cmake --build build
