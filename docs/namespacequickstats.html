@@ -484,7 +484,7 @@ template&lt;std::size_t accumulators_ = 4, class Input_ , typename Output_ &gt; 
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num_total</td><td>Total number of observations. </td></tr>
-    <tr><td class="paramname">input</td><td>Function that accesses an abstract array of length <code>num_total</code>. Specifically, it accepts an integer index in <code>[0, num_total)</code> and returns an input value to be summed. This will be called exacly once for each integer in <code>[0, num_total)</code>. </td></tr>
+    <tr><td class="paramname">input</td><td>Function that accesses an abstract array of length <code>num_total</code>. Specifically, it accepts an integer index in <code>[0, num_total)</code> and returns an input value to be summed. Calls to <code>input()</code> may be reordered or executed in parallel, so it is assumed that there are no dependencies between calls. </td></tr>
     <tr><td class="paramname">work</td><td>Workspace that can be re-used across multiple <code><a class="el" href="#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code> calls. </td></tr>
     <tr><td class="paramname">options</td><td>Further options.</td></tr>
   </table>
