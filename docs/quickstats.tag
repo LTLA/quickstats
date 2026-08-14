@@ -419,6 +419,6 @@
     <name>index</name>
     <title>Quickly compute simple statistics</title>
     <filename>index.html</filename>
-    <docanchor file="index.html" title="Quickly compute simple statistics">md__2github_2workspace_2README</docanchor>
+    <docanchor file="index.html">md__2github_2workspace_2README</docanchor>
   </compound>
 </tagfile>

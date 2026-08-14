@@ -110,7 +110,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;array&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;auveh/auveh.hpp&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="codeRef" href="https://ltla.github.io/auveh/auveh_8hpp.html">auveh/auveh.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacequickstats.html">quickstats</a> {</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
@@ -143,7 +143,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> half_width = width_ / 2;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        std::array&lt;Output_, half_width&gt; tmp;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        AUVEH_NODEP</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">for</span> (std::size_t s = 0; s &lt; half_width; ++s) { <span class="comment">// Increase potential for vectorization.</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            tmp[s] = dots[s] + dots[s + half_width];</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
@@ -211,7 +211,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="comment">// This accumulator logic was originally implemented in https://github.com/tatami-inc/tatami_mult.</span></div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="comment">// We added peeling as we can guarantee that we have enough observations and thus can omit the conditional.</span></div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            std::array&lt;Output_, accumulators_&gt; partials; </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            AUVEH_NODEP</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <span class="keywordflow">for</span> (std::size_t a = 0; a &lt; accumulators_; ++a) { <span class="comment">// peeling the first loop as we know that start + accumulators_ &lt;= end.</span></div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                partials[a] = input(start + a);</div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            }</div>
@@ -219,7 +219,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <span class="keyword">const</span> std::size_t num_cycles = len / accumulators_;</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            <span class="keyword">const</span> std::size_t remainder = len % accumulators_;</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <span class="keywordflow">for</span> (std::size_t c = 1; c &lt; num_cycles; ++c) {</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                AUVEH_NODEP</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                <span class="keywordflow">for</span> (std::size_t a = 0; a &lt; accumulators_; ++a) {</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                    <span class="keyword">const</span> std::size_t idx = start + c * accumulators_ + a;</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                    partials[a] += input(idx);</div>
@@ -329,9 +329,11 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>}</div>
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aauveh_8hpp_html"><div class="ttname"><a href="https://ltla.github.io/auveh/auveh_8hpp.html">auveh.hpp</a></div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:17</div></div>
 <div class="ttc" id="anamespacequickstats_html_a1d2ec86f47fbbd6fa6e39ff62b957e34"><div class="ttname"><a href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a></div><div class="ttdeci">Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:105</div></div>
 <div class="ttc" id="anamespacequickstats_html_ae04364a3ca1c759613d54688f1799adc"><div class="ttname"><a href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:220</div></div>
+<div class="ttc" id="anodep_8hpp_html_a34f69c2215857302d2a919539f0c670e"><div class="ttname"><a href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div><div class="ttdeci">#define AUVEH_NODEP</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumOptions_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumOptions.html">quickstats::PairwiseSumOptions</a></div><div class="ttdoc">Options for pairwise_sum() and pairwise_sum_abstract().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:44</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumOptions_html_a1956f3fab11e685ce274009c6e1341fb"><div class="ttname"><a href="structquickstats_1_1PairwiseSumOptions.html#a1956f3fab11e685ce274009c6e1341fb">quickstats::PairwiseSumOptions::max_sum_length</a></div><div class="ttdeci">std::size_t max_sum_length</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:50</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum() and pairwise_sum_abstract().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:26</div></div>

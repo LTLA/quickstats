@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quickstats_2ehpp_0',['quickstats.hpp',['../quickstats_8hpp.html',1,'']]]
+  ['nodep_2ehpp_0',['nodep.hpp',['https://ltla.github.io/auveh/nodep_8hpp.html',1,'']]]
 ];

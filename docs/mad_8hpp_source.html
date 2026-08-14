@@ -107,7 +107,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;auveh/auveh.hpp&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="codeRef" href="https://ltla.github.io/auveh/auveh_8hpp.html">auveh/auveh.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="median_8hpp.html">median.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
@@ -135,13 +135,13 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="comment">// We use inf_if_available_else_max() just to get it to compile if Input_ doesn&#39;t have infs.</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="comment">// At this point, Input_ must support median otherwise we wouldn&#39;t have gotten here.</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        AUVEH_NODEP</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_total; ++i) {</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            ptr[i] = (<a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">median</a> == ptr[i] ? 0 : inf_if_available_else_max&lt;Input_&gt;());</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        AUVEH_NODEP</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_total; ++i) {</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            ptr[i] = std::abs(ptr[i] - <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">median</a>);</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        }</div>
@@ -165,13 +165,13 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="comment">// We use inf_if_available_else_max() just to get it to compile if Input_ doesn&#39;t have infs.</span></div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="comment">// At this point, Input_ must support median otherwise we wouldn&#39;t have gotten here.</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        AUVEH_NODEP</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_non_zero; ++i) {</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            values[i] = (<a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">median</a> == values[i] ? 0 : inf_if_available_else_max&lt;Input_&gt;());</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        }</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        AUVEH_NODEP</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <a class="code hl_defineRef" href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_non_zero; ++i) {</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            values[i] = std::abs(values[i] - <a class="code hl_function" href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">median</a>);</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        }</div>
@@ -223,12 +223,14 @@ $(function(){ initResizable(false); });
 </div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aauveh_8hpp_html"><div class="ttname"><a href="https://ltla.github.io/auveh/auveh_8hpp.html">auveh.hpp</a></div></div>
 <div class="ttc" id="amedian_8hpp_html"><div class="ttname"><a href="median_8hpp.html">median.hpp</a></div><div class="ttdoc">Compute a median.</div></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:17</div></div>
 <div class="ttc" id="anamespacequickstats_html_a0c665cf3d1d2e73842221509a6586f9d"><div class="ttname"><a href="namespacequickstats.html#a0c665cf3d1d2e73842221509a6586f9d">quickstats::median</a></div><div class="ttdeci">Output_ median(const std::size_t num_total, Input_ *const ptr, const MedianOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> median.hpp:47</div></div>
 <div class="ttc" id="anamespacequickstats_html_a294a3815731fe4eccb7b4d5fb13228b6"><div class="ttname"><a href="namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6">quickstats::scale_mad_to_sd</a></div><div class="ttdeci">Float_ scale_mad_to_sd(const Float_ x)</div><div class="ttdef"><b>Definition</b> mad.hpp:160</div></div>
 <div class="ttc" id="anamespacequickstats_html_a5f49679389644f302b7bbf897277d49a"><div class="ttname"><a href="namespacequickstats.html#a5f49679389644f302b7bbf897277d49a">quickstats::mad</a></div><div class="ttdeci">Output_ mad(const std::size_t num_total, Input_ *const ptr, const Input_ median, const MadOptions&lt; Output_ &gt; &amp;options)</div><div class="ttdef"><b>Definition</b> mad.hpp:63</div></div>
 <div class="ttc" id="anamespacequickstats_html_addf99f3c0f16a9bb7690e801ab33f84c"><div class="ttname"><a href="namespacequickstats.html#addf99f3c0f16a9bb7690e801ab33f84c">quickstats::nan_if_available_else_zero</a></div><div class="ttdeci">constexpr Value_ nan_if_available_else_zero()</div><div class="ttdef"><b>Definition</b> utils.hpp:63</div></div>
+<div class="ttc" id="anodep_8hpp_html_a34f69c2215857302d2a919539f0c670e"><div class="ttname"><a href="https://ltla.github.io/auveh/nodep_8hpp.html#a34f69c2215857302d2a919539f0c670e">AUVEH_NODEP</a></div><div class="ttdeci">#define AUVEH_NODEP</div></div>
 <div class="ttc" id="astructquickstats_1_1MadOptions_html"><div class="ttname"><a href="structquickstats_1_1MadOptions.html">quickstats::MadOptions</a></div><div class="ttdoc">Options for mad() and mad_with_infinities().</div><div class="ttdef"><b>Definition</b> mad.hpp:24</div></div>
 <div class="ttc" id="astructquickstats_1_1MadOptions_html_a67d07814c94afc0e8804c953249bb367"><div class="ttname"><a href="structquickstats_1_1MadOptions.html#a67d07814c94afc0e8804c953249bb367">quickstats::MadOptions::placeholder</a></div><div class="ttdeci">Output_ placeholder</div><div class="ttdef"><b>Definition</b> mad.hpp:29</div></div>
 <div class="ttc" id="astructquickstats_1_1MadOptions_html_a96520b114948e3486940759400fb3642"><div class="ttname"><a href="structquickstats_1_1MadOptions.html#a96520b114948e3486940759400fb3642">quickstats::MadOptions::difference_between_infinities_is_zero</a></div><div class="ttdeci">bool difference_between_infinities_is_zero</div><div class="ttdef"><b>Definition</b> mad.hpp:36</div></div>
