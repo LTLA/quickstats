@@ -188,7 +188,7 @@ $(function(){ initResizable(false); });
 <div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
 <div class="line"><a class="code hl_struct" href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace&lt;double&gt;</a> work;</div>
 <div class="line"><span class="keyword">auto</span> sum = <a class="code hl_function" href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a>(x.size(), x.data(), work, {});</div>
-<div class="ttc" id="anamespacequickstats_html_ae04364a3ca1c759613d54688f1799adc"><div class="ttname"><a href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:217</div></div>
+<div class="ttc" id="anamespacequickstats_html_ae04364a3ca1c759613d54688f1799adc"><div class="ttname"><a href="namespacequickstats.html#ae04364a3ca1c759613d54688f1799adc">quickstats::pairwise_sum</a></div><div class="ttdeci">Output_ pairwise_sum(const std::size_t num_total, const Input_ *const ptr, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:220</div></div>
 <div class="ttc" id="astructquickstats_1_1PairwiseSumWorkspace_html"><div class="ttname"><a href="structquickstats_1_1PairwiseSumWorkspace.html">quickstats::PairwiseSumWorkspace</a></div><div class="ttdoc">Re-usable workspace for pairwise_sum() and pairwise_sum_abstract().</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:26</div></div>
 </div><!-- fragment --><p>We can also customize the source of the input data to perform accumulations over an abstract array:</p>
 <div class="fragment"><div class="line"><span class="comment">// No precision is lost in this simple example, but it&#39;s just a demonstration.</span></div>
@@ -202,7 +202,7 @@ $(function(){ initResizable(false); });
 <div class="line">    work,</div>
 <div class="line">    {}</div>
 <div class="line">);</div>
-<div class="ttc" id="anamespacequickstats_html_a1d2ec86f47fbbd6fa6e39ff62b957e34"><div class="ttname"><a href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a></div><div class="ttdeci">Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:104</div></div>
+<div class="ttc" id="anamespacequickstats_html_a1d2ec86f47fbbd6fa6e39ff62b957e34"><div class="ttname"><a href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a></div><div class="ttdeci">Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:105</div></div>
 </div><!-- fragment --><h1>Residual sum of squares</h1>
 <p>The <code>rss()</code> function will compute both the mean and the residual sum of squares (RSS) of an array:</p>
 <div class="fragment"><div class="line">std::vector&lt;double&gt; x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };</div>
