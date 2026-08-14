@@ -257,9 +257,18 @@ void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_
  */
 template<typename Output_ = double, typename Count_>
 void update_rss_with_zeros(Output_& mean, Output_& rss, const Count_ num_zeros, const Count_ num_total) {
-    if (num_total) { 
-        update_rss_with_zeros_unsafe(mean, rss, num_zeros, num_total);
-    }
+    assert(num_total >= 0);
+    assert(num_total >= num_zeros);
+
+    // We add '1' to both the numerator and denomiator if it's empty,  which ensures we get a ratio of 1 and a no-op to the mean and rss.
+    // This is guaranteed to not overflow Count_ as the sum will just be 1 if empty == 1.
+    // We use this approach to avoid introducing a 'if (num_total == 0)' conditional that interferes with autovectorization,
+    // at the cost of doing unnecessary work if there are many 'num_total == 0' cases.
+    const Count_ empty = (num_total == 0);
+    const auto ratio = static_cast<Output_>(num_total - num_zeros + empty) / static_cast<Output_>(num_total + empty);
+
+    rss += mean * mean * ratio * num_zeros;
+    mean *= ratio;
 }
 
 /**
@@ -536,7 +545,7 @@ Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, co
 
 /**
  * Recenter the residual sum of squares, i.e., sum of squares from a different mean.
- * This is a safer version of `recenter_rss_unsafe()` that correctly handles `num_total == 0`, at the cost of some performance.
+ * This is a safer version of `recenter_rss_unsafe()` that correctly handles `num_total == 0` and an `old_mean` of NaN, at the cost of some performance.
  *
  * This function has no side effects and can be safely used in a loop body with `AUVEH_NODEP`.
  *
