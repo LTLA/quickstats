@@ -19,11 +19,11 @@ Pretty much as it says - works for dense and sparse vectors:
 
 ```cpp
 std::vector<double> x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };
-auto med = quickstats::median<double>(x.size(), x.data(), {});
+auto med = quickstats::median(x.size(), x.data(), {});
 
 // Also works for sparse data - in this case, [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
 std::vector<double> x_nonzero{ 1., 2., 3. };
-auto med_sparse = quickstats::median<double>(10, 3, x.data(), {});
+auto med_sparse = quickstats::median(10, 3, x.data(), {});
 ```
 
 Note that this will shuffle the input array.
@@ -34,7 +34,7 @@ The `SingleQuantileFixedNumber` class will compute a pre-specified quantile from
 
 ```cpp
 // We compute the 20th percentile from any array of 10 elements.
-quickstats::SimpleQuantileFixedNumber<double> qfixed(10, 0.2);
+quickstats::SingleQuantileFixedNumber<double> qfixed(10, 0.2);
 
 std::vector<double> x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };
 auto fq20 = qfixed(x.data());
@@ -48,7 +48,7 @@ The `SingleQuantileVariableNumber` class will compute a pre-specified quantile f
 
 ```cpp
 // We compute the 20th percentile from any array of <= 10 elements.
-quickstats::SimpleQuantileVariableNumber<double> qvar(10, 0.2, {});
+quickstats::SingleQuantileVariableNumber<double> qvar(10, 0.2, {});
 
 std::vector<double> y{ 1., 2., 3., 4., 5., 6. };
 auto vq20 = qvar(y.size(), y.data());
@@ -194,8 +194,8 @@ Note that this will replace the input array with the absolute deviations.
 
 ```cpp
 std::vector<double> x{ 1., 2., 3., 4., 5., 6., 7., 8., 9., 10. };
-auto med = quickstats::median<double>(x.size(), x.data(), {});
-auto mad = quickstats::mad<double>(x.size(), x.data(), med, {});
+auto med = quickstats::median(x.size(), x.data(), {});
+auto mad = quickstats::mad(x.size(), x.data(), med, {});
 ```
 
 For infinite medians, we can optionally define the difference between infinities of the same sign as zero.
@@ -204,11 +204,11 @@ This is occasionally helpful for providing a sane result when infinities are gen
 ```cpp
 constexpr auto inf = std::numeric_limits<double>::infinity();
 std::vector<double> x{ inf, 0, inf, inf, 0, inf, 0, 2, inf, inf };
-auto med = quickstats::median<double>(x.size(), x.data(), {});
+auto med = quickstats::median(x.size(), x.data(), {});
 
 quickstats::MadOptions<double> opt;
 opt.difference_between_infinities_is_zero = true;
-auto mad = quickstats::mad<double>(x.size(), x.data(), med, opt);
+auto mad = quickstats::mad(x.size(), x.data(), med, opt);
 ```
 
 As usual, the same functions are also available for sparse vectors.
