@@ -64,7 +64,8 @@ Output_ recursive_sum(std::array<Output_, width_>& dots) {
     } else {
         constexpr auto half_width = width_ / 2;
         std::array<Output_, half_width> tmp;
-        AUVEH_NODEP for (std::size_t s = 0; s < half_width; ++s) { // Increase potential for vectorization.
+        AUVEH_NODEP
+        for (std::size_t s = 0; s < half_width; ++s) { // Increase potential for vectorization.
             tmp[s] = dots[s] + dots[s + half_width];
         }
         if constexpr(width_ % 2 == 1) {
@@ -156,14 +157,16 @@ Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, Pairwis
             // This accumulator logic was originally implemented in https://github.com/tatami-inc/tatami_mult.
             // We added peeling as we can guarantee that we have enough observations and thus can omit the conditional.
             std::array<Output_, accumulators_> partials; 
-            AUVEH_NODEP for (std::size_t a = 0; a < accumulators_; ++a) { // peeling the first loop as we know that start + accumulators_ <= end.
+            AUVEH_NODEP
+            for (std::size_t a = 0; a < accumulators_; ++a) { // peeling the first loop as we know that start + accumulators_ <= end.
                 partials[a] = input(start + a);
             }
 
             const std::size_t num_cycles = len / accumulators_;
             const std::size_t remainder = len % accumulators_;
             for (std::size_t c = 1; c < num_cycles; ++c) {
-                AUVEH_NODEP for (std::size_t a = 0; a < accumulators_; ++a) {
+                AUVEH_NODEP
+                for (std::size_t a = 0; a < accumulators_; ++a) {
                     const std::size_t idx = start + c * accumulators_ + a;
                     partials[a] += input(idx);
                 }
