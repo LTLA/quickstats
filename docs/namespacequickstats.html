@@ -689,12 +689,13 @@ template&lt;typename Output_  = double, typename Input_ , typename Count_ &gt; <
       </table>
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding a new value using Welford's method.</p>
+<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the latest value. </td></tr>
     <tr><td class="paramname">rss</td><td>On input, the RSS of previous values. If no previous values were provided, this should be set to zero. On output, the updated RSS after including the latest value. </td></tr>
     <tr><td class="paramname">value</td><td>New value to update the mean/RSS. </td></tr>
-    <tr><td class="paramname">num_after</td><td>Number of values used to compute the updated mean/RSS, after adding the latest <code>value</code>. This should always be positive. </td></tr>
+    <tr><td class="paramname">num_total</td><td>Number of values used to compute the updated mean/RSS, after adding the latest <code>value</code>. This should always be positive. </td></tr>
   </table>
   </dd>
 </dl>
@@ -732,12 +733,13 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding any number of zeros using Welford's method. This assumes that <code>num_total &gt; 0</code>; if this cannot be guaranteed, use <code><a class="el" href="#ae0771a2a6576095f4e40e8b12fbd7fea">update_rss_with_zeros()</a></code> instead.</p>
+<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the zeros. </td></tr>
     <tr><td class="paramname">rss</td><td>On input, the RSS of previous values. If no previous values were provided, this should be set to zero. On output, the updated RSS after including the zeros. </td></tr>
     <tr><td class="paramname">num_zeros</td><td>Number of zeros to be added. This may be zero. </td></tr>
-    <tr><td class="paramname">num_total</td><td>Number of values used to compute the updated mean/RSS, after adding any number of zeros. This should be positive and no less than <code>num_total</code>. </td></tr>
+    <tr><td class="paramname">num_total</td><td>Number of values used to compute the updated mean/RSS, after adding the specified number of zeros. This should be positive and no less than <code>num_total</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -774,12 +776,13 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Update the mean and RSS with any number of zeros using Welford's method. This is a slightly slower version of <code><a class="el" href="#a7a1f48b44e913f31abcc368e96b19a57">update_rss_with_zeros_unsafe()</a></code> that avoids problems if <code>num_total == 0</code>.</p>
+<p>Update the mean and RSS with any number of zeros using Welford's method. This is a slightly slower version of <code><a class="el" href="#a7a1f48b44e913f31abcc368e96b19a57">update_rss_with_zeros_unsafe()</a></code> that handles <code>num_total == 0</code>.</p>
+<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the zeros. </td></tr>
     <tr><td class="paramname">rss</td><td>On input, the RSS of previous values. If no previous values were provided, this should be set to zero. On output, the updated RSS after including the zeros. </td></tr>
-    <tr><td class="paramname">num_before</td><td>Number of values used to compute the input values of <code>mean</code> and <code>rss</code>. This may be zero. </td></tr>
+    <tr><td class="paramname">num_zeros</td><td>Number of zero values to be added. This may be zero. </td></tr>
     <tr><td class="paramname">num_total</td><td>Number of values used to compute the updated mean/RSS, after adding any number of zeros. This may be zero but should be no less than <code>num_total</code>. </td></tr>
   </table>
   </dd>
@@ -819,6 +822,7 @@ template&lt;typename Float_ &gt; </div>
 </div><div class="memdoc">
 <p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is typically used to combine RSS values from different subsets of the data, e.g., when splitting calculations across cores. In such cases, the global mean across the entire dataset should be used as the new mean, and the sum of the recentered RSS values will be the RSS of the entire dataset. (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)</p>
 <p>This function is considered "unsafe" as it assumes that <code>old_mean</code> is zero when <code>num_total == 0</code>. In many cases, <code>old_mean</code> will be NaN when <code>num_total == 0</code> due to division by zero. If <code>num_total &gt; 0</code> or <code>old_mean == 0</code> cannot be guaranteed, consider using <code><a class="el" href="#a18014e9467233e456a3b77b682d9a020">recenter_rss()</a></code> instead.</p>
+<p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num_total</td><td>Total number of elements used to compute the RSS. </td></tr>
@@ -869,6 +873,7 @@ template&lt;typename Float_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is a safer version of <code><a class="el" href="#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe()</a></code> that correctly handles <code>num_total == 0</code>, at the cost of some performance.</p>
+<p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num_total</td><td>Total number of elements used to compute the RSS. This should be non-negative. </td></tr>
