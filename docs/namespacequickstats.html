@@ -183,12 +183,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ae0771a2a6576095f4e40e8b12fbd7fea" id="r_ae0771a2a6576095f4e40e8b12fbd7fea"><td class="memTemplParams" colspan="2">template&lt;typename Output_  = double, typename Count_ &gt; </td></tr>
 <tr class="memitem:ae0771a2a6576095f4e40e8b12fbd7fea"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae0771a2a6576095f4e40e8b12fbd7fea">update_rss_with_zeros</a> (Output_ &amp;mean, Output_ &amp;<a class="el" href="#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>, const Count_ num_zeros, const Count_ num_total)</td></tr>
 <tr class="separator:ae0771a2a6576095f4e40e8b12fbd7fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa331b28266495a53d45ea326b5a8b4" id="r_aafa331b28266495a53d45ea326b5a8b4"><td class="memTemplParams" colspan="2">template&lt;typename Float_ &gt; </td></tr>
-<tr class="memitem:aafa331b28266495a53d45ea326b5a8b4"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe</a> (const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</td></tr>
-<tr class="separator:aafa331b28266495a53d45ea326b5a8b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18014e9467233e456a3b77b682d9a020" id="r_a18014e9467233e456a3b77b682d9a020"><td class="memTemplParams" colspan="2">template&lt;typename Float_ &gt; </td></tr>
-<tr class="memitem:a18014e9467233e456a3b77b682d9a020"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a18014e9467233e456a3b77b682d9a020">recenter_rss</a> (const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</td></tr>
-<tr class="separator:a18014e9467233e456a3b77b682d9a020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a91f2b10a73a7f42d8e603a9edc9690" id="r_a4a91f2b10a73a7f42d8e603a9edc9690"><td class="memTemplParams" colspan="2">template&lt;typename Count_ , typename Float_ &gt; </td></tr>
+<tr class="memitem:a4a91f2b10a73a7f42d8e603a9edc9690"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4a91f2b10a73a7f42d8e603a9edc9690">recenter_rss_unsafe</a> (const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</td></tr>
+<tr class="separator:a4a91f2b10a73a7f42d8e603a9edc9690"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ec3230924c4786e9176f7634c844d97" id="r_a4ec3230924c4786e9176f7634c844d97"><td class="memTemplParams" colspan="2">template&lt;typename Count_ , typename Float_ &gt; </td></tr>
+<tr class="memitem:a4ec3230924c4786e9176f7634c844d97"><td class="memTemplItemLeft" align="right" valign="top">Float_&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4ec3230924c4786e9176f7634c844d97">recenter_rss</a> (const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</td></tr>
+<tr class="separator:a4ec3230924c4786e9176f7634c844d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3" id="r_a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class Skip_ &gt; </td></tr>
 <tr class="memitem:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a20deb047ec36e9fa0bc25dde40a3a8d3">skip_values</a> (const std::size_t num_total, Input_ *const ptr, Skip_ skip)</td></tr>
 <tr class="separator:a20deb047ec36e9fa0bc25dde40a3a8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -690,6 +690,14 @@ template&lt;typename Output_  = double, typename Input_ , typename Count_ &gt; <
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding a new value using Welford's method.</p>
 <p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the inut value. </td></tr>
+    <tr><td class="paramname">Count_</td><td>Integer type of the number of values.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the latest value. </td></tr>
@@ -734,6 +742,13 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding any number of zeros using Welford's method. This assumes that <code>num_total &gt; 0</code>; if this cannot be guaranteed, use <code><a class="el" href="#ae0771a2a6576095f4e40e8b12fbd7fea">update_rss_with_zeros()</a></code> instead.</p>
 <p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
+    <tr><td class="paramname">Count_</td><td>Integer type of the number of values.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the zeros. </td></tr>
@@ -778,6 +793,13 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
 </div><div class="memdoc">
 <p>Update the mean and RSS with any number of zeros using Welford's method. This is a slightly slower version of <code><a class="el" href="#a7a1f48b44e913f31abcc368e96b19a57">update_rss_with_zeros_unsafe()</a></code> that handles <code>num_total == 0</code>.</p>
 <p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
+    <tr><td class="paramname">Count_</td><td>Integer type of the number of values.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mean</td><td>On input, the mean of previous values. If no previous values were provided, this should be set to zero. On output, the updated mean after including the zeros. </td></tr>
@@ -790,18 +812,18 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
 
 </div>
 </div>
-<a id="aafa331b28266495a53d45ea326b5a8b4" name="aafa331b28266495a53d45ea326b5a8b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafa331b28266495a53d45ea326b5a8b4">&#9670;&#160;</a></span>recenter_rss_unsafe()</h2>
+<a id="a4a91f2b10a73a7f42d8e603a9edc9690" name="a4a91f2b10a73a7f42d8e603a9edc9690"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a91f2b10a73a7f42d8e603a9edc9690">&#9670;&#160;</a></span>recenter_rss_unsafe()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Float_ &gt; </div>
+template&lt;typename Count_ , typename Float_ &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">Float_ quickstats::recenter_rss_unsafe </td>
           <td>(</td>
-          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+          <td class="paramtype">const Count_</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -821,20 +843,21 @@ template&lt;typename Float_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is typically used to combine RSS values from different subsets of the data, e.g., when splitting calculations across cores. In such cases, the global mean across the entire dataset should be used as the new mean, and the sum of the recentered RSS values will be the RSS of the entire dataset. (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)</p>
-<p>This function is considered "unsafe" as it assumes that <code>old_mean</code> is zero when <code>num_total == 0</code>. In many cases, <code>old_mean</code> will be NaN when <code>num_total == 0</code> due to division by zero. If <code>num_total &gt; 0</code> or <code>old_mean == 0</code> cannot be guaranteed, consider using <code><a class="el" href="#a18014e9467233e456a3b77b682d9a020">recenter_rss()</a></code> instead.</p>
+<p>This function is considered "unsafe" as it assumes that <code>old_mean</code> is zero when <code>num_total == 0</code>. In many cases, <code>old_mean</code> will be NaN when <code>num_total == 0</code> due to division by zero. If <code>num_total &gt; 0</code> or <code>old_mean == 0</code> cannot be guaranteed, consider using <code><a class="el" href="#a4ec3230924c4786e9176f7634c844d97">recenter_rss()</a></code> instead.</p>
 <p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">num_total</td><td>Total number of elements used to compute the RSS. </td></tr>
-    <tr><td class="paramname">old_rss</td><td>The old value of the RSS. </td></tr>
-    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. </td></tr>
-    <tr><td class="paramname">new_mean</td><td>The new mean.</td></tr>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Count_</td><td>Integer type of the number of values. </td></tr>
+    <tr><td class="paramname">Float_</td><td>Floating-point type of the various statistics.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Float_</td><td>Floating-point type of the various statistics.</td></tr>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num_total</td><td>Total number of values used to compute the RSS. </td></tr>
+    <tr><td class="paramname">old_rss</td><td>The old value of the RSS. </td></tr>
+    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. </td></tr>
+    <tr><td class="paramname">new_mean</td><td>The new mean.</td></tr>
   </table>
   </dd>
 </dl>
@@ -842,18 +865,18 @@ template&lt;typename Float_ &gt; </div>
 
 </div>
 </div>
-<a id="a18014e9467233e456a3b77b682d9a020" name="a18014e9467233e456a3b77b682d9a020"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18014e9467233e456a3b77b682d9a020">&#9670;&#160;</a></span>recenter_rss()</h2>
+<a id="a4ec3230924c4786e9176f7634c844d97" name="a4ec3230924c4786e9176f7634c844d97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ec3230924c4786e9176f7634c844d97">&#9670;&#160;</a></span>recenter_rss()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Float_ &gt; </div>
+template&lt;typename Count_ , typename Float_ &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">Float_ quickstats::recenter_rss </td>
           <td>(</td>
-          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
+          <td class="paramtype">const Count_</td>          <td class="paramname"><span class="paramname"><em>num_total</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -872,20 +895,21 @@ template&lt;typename Float_ &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is a safer version of <code><a class="el" href="#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe()</a></code> that correctly handles <code>num_total == 0</code> and an <code>old_mean</code> of NaN, at the cost of some performance.</p>
+<p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is a safer version of <code><a class="el" href="#a4a91f2b10a73a7f42d8e603a9edc9690">recenter_rss_unsafe()</a></code> that correctly handles <code>num_total == 0</code> and an <code>old_mean</code> of NaN, at the cost of some performance.</p>
 <p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">num_total</td><td>Total number of elements used to compute the RSS. This should be non-negative. </td></tr>
-    <tr><td class="paramname">old_rss</td><td>The old value of the RSS. </td></tr>
-    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. This is ignored if <code>num_total == 0</code>. </td></tr>
-    <tr><td class="paramname">new_mean</td><td>The new mean.</td></tr>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Count_</td><td>Integer type of the number of values. </td></tr>
+    <tr><td class="paramname">Float_</td><td>Floating-point type of the various statistics.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">Float_</td><td>Floating-point type of the various statistics.</td></tr>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num_total</td><td>Total number of values used to compute the RSS. This should be non-negative. </td></tr>
+    <tr><td class="paramname">old_rss</td><td>The old value of the RSS. </td></tr>
+    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. This is ignored if <code>num_total == 0</code>. </td></tr>
+    <tr><td class="paramname">new_mean</td><td>The new mean.</td></tr>
   </table>
   </dd>
 </dl>

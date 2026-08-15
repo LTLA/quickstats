@@ -390,15 +390,15 @@
       <type>Float_</type>
       <name>recenter_rss_unsafe</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>aafa331b28266495a53d45ea326b5a8b4</anchor>
-      <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
+      <anchor>a4a91f2b10a73a7f42d8e603a9edc9690</anchor>
+      <arglist>(const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
     </member>
     <member kind="function">
       <type>Float_</type>
       <name>recenter_rss</name>
       <anchorfile>namespacequickstats.html</anchorfile>
-      <anchor>a18014e9467233e456a3b77b682d9a020</anchor>
-      <arglist>(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
+      <anchor>a4ec3230924c4786e9176f7634c844d97</anchor>
+      <arglist>(const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</arglist>
     </member>
     <member kind="function">
       <type>std::size_t</type>
