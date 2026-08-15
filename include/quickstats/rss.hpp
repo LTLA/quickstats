@@ -194,6 +194,10 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
  *
  * This function has no side effects beyond modifying `mean` and `rss`, and can be safely used in a loop body with `AUVEH_NODEP`.
  *
+ * @tparam Output_ Floating-point type of the output statistics.
+ * @tparam Input_ Numeric type of the inut value.
+ * @tparam Count_ Integer type of the number of values.
+ *
  * @param mean On input, the mean of previous values.
  * If no previous values were provided, this should be set to zero. 
  * On output, the updated mean after including the latest value.
@@ -217,6 +221,9 @@ void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ nu
  * This assumes that `num_total > 0`; if this cannot be guaranteed, use `update_rss_with_zeros()` instead.
  *
  * This function has no side effects beyond modifying `mean` and `rss`, and can be safely used in a loop body with `AUVEH_NODEP`.
+ *
+ * @tparam Output_ Floating-point type of the output statistics.
+ * @tparam Count_ Integer type of the number of values.
  *
  * @param mean On input, the mean of previous values.
  * If no previous values were provided, this should be set to zero. 
@@ -243,6 +250,9 @@ void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_
  * This is a slightly slower version of `update_rss_with_zeros_unsafe()` that handles `num_total == 0`.
  *
  * This function has no side effects beyond modifying `mean` and `rss`, and can be safely used in a loop body with `AUVEH_NODEP`.
+ *
+ * @tparam Output_ Floating-point type of the output statistics.
+ * @tparam Count_ Integer type of the number of values.
  *
  * @param mean On input, the mean of previous values.
  * If no previous values were provided, this should be set to zero. 
