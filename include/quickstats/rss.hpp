@@ -527,17 +527,18 @@ private:
  *
  * This function has no side effects and can be safely used in a loop body with `AUVEH_NODEP`.
  *
- * @param num_total Total number of elements used to compute the RSS.
+ * @tparam Count_ Integer type of the number of values.
+ * @tparam Float_ Floating-point type of the various statistics.
+ *
+ * @param num_total Total number of values used to compute the RSS.
  * @param old_rss The old value of the RSS.
  * @param old_mean The old mean used to compute the RSS.
  * @param new_mean The new mean. 
  *
- * @tparam Float_ Floating-point type of the various statistics.
- *
  * @return The recentered RSS.
  */
-template<typename Float_>
-Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
+template<typename Count_, typename Float_>
+Float_ recenter_rss_unsafe(const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
     assert(num_total > 0 || old_mean == 0);
     const Float_ delta = old_mean - new_mean;
     return old_rss + num_total * delta * delta;
@@ -549,24 +550,24 @@ Float_ recenter_rss_unsafe(const std::size_t num_total, const Float_ old_rss, co
  *
  * This function has no side effects and can be safely used in a loop body with `AUVEH_NODEP`.
  *
- * @param num_total Total number of elements used to compute the RSS.
+ * @tparam Count_ Integer type of the number of values.
+ * @tparam Float_ Floating-point type of the various statistics.
+ *
+ * @param num_total Total number of values used to compute the RSS.
  * This should be non-negative.
  * @param old_rss The old value of the RSS.
  * @param old_mean The old mean used to compute the RSS.
  * This is ignored if `num_total == 0`.
  * @param new_mean The new mean. 
  *
- * @tparam Float_ Floating-point type of the various statistics.
- *
  * @return The recentered RSS, or `old_rss` (which should be zero) if `num_total == 0`.
  */
-template<typename Float_>
-Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
-    if (num_total == 0) {
-        return old_rss;
-    } else {
-        return recenter_rss_unsafe(num_total, old_rss, old_mean, new_mean);
-    }
+template<typename Count_, typename Float_>
+Float_ recenter_rss(const Count_ num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean) {
+    // If num_total == 0, we avoid the old_mean of NaN and just return old_rss by setting delta == 0.
+    // We minimize the scope of the conditional to make it easier to auto-vectorize, based on Godbolt experiments with GCC and clang.
+    const Float_ delta = (num_total ? old_mean : new_mean) - new_mean;
+    return old_rss + num_total * delta * delta;
 }
 
 /**
