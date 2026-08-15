@@ -500,45 +500,44 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
 <div class="foldopen" id="foldopen00564" data-start="{" data-end="}">
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno"><a class="line" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">  564</a></span>Float_ <a class="code hl_function" href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">recenter_rss</a>(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ old_rss, <span class="keyword">const</span> Float_ old_mean, <span class="keyword">const</span> Float_ new_mean) {</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>    <span class="keywordflow">if</span> (num_total == 0) {</div>
-<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>        <span class="keywordflow">return</span> old_rss;</div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#aafa331b28266495a53d45ea326b5a8b4">recenter_rss_unsafe</a>(num_total, old_rss, old_mean, new_mean);</div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>    }</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>}</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>    <span class="comment">// If num_total == 0, we avoid the old_mean of NaN and just return old_rss by setting delta == 0.</span></div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>    <span class="comment">// We minimize the scope of the conditional to make it easier to auto-vectorize, based on Godbolt experiments with GCC and clang.</span></div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>    <span class="keyword">const</span> Float_ delta = (num_total ? old_mean : new_mean) - new_mean;</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>    <span class="keywordflow">return</span> old_rss + num_total * delta * delta;</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>}</div>
 </div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span> </div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>Float_ rss_to_variance(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>    <span class="keywordflow">if</span> (num_total &lt;= 1) {</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Float_&gt;::quiet_NaN();</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a> / (num_total - 1);</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>    }</div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>}</div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span> </div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span><span class="keywordtype">void</span> rss_to_variance(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> std::size_t num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>    <span class="keywordflow">if</span> (num_total &lt;= 1) {</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>        std::fill_n(<a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>, num_obj, std::numeric_limits&lt;Float_&gt;::quiet_NaN());</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>        <span class="comment">// For consistency with the other overloads, we won&#39;t do the &#39;* (1/denom)&#39; trick.</span></div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>        <span class="comment">// It shouldn&#39;t have much effect on throughput anyway as the bottleneck should be reading from memory.</span></div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>            <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i] /= num_total - 1;</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>        }</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>    }</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>}</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span> </div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Count_, <span class="keyword">typename</span> Float_&gt;</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span><span class="keywordtype">void</span> rss_to_variance(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> Count_* <span class="keyword">const</span> num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i] = rss_to_variance(num_total[i], <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i]);</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    }</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>}</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>}</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span> </div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span> </div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>Float_ rss_to_variance(<span class="keyword">const</span> std::size_t num_total, <span class="keyword">const</span> Float_ <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>    <span class="keywordflow">if</span> (num_total &lt;= 1) {</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>        <span class="keywordflow">return</span> std::numeric_limits&lt;Float_&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a> / (num_total - 1);</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>    }</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>}</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span> </div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Float_&gt;</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span><span class="keywordtype">void</span> rss_to_variance(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> std::size_t num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>    <span class="keywordflow">if</span> (num_total &lt;= 1) {</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>        std::fill_n(<a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>, num_obj, std::numeric_limits&lt;Float_&gt;::quiet_NaN());</div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>        <span class="comment">// For consistency with the other overloads, we won&#39;t do the &#39;* (1/denom)&#39; trick.</span></div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>        <span class="comment">// It shouldn&#39;t have much effect on throughput anyway as the bottleneck should be reading from memory.</span></div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>        <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>            <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i] /= num_total - 1;</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        }</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>    }</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>}</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span> </div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Count_, <span class="keyword">typename</span> Float_&gt;</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span><span class="keywordtype">void</span> rss_to_variance(<span class="keyword">const</span> std::size_t num_obj, <span class="keyword">const</span> Count_* <span class="keyword">const</span> num_total, Float_* <span class="keyword">const</span> <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>) {</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; num_obj; ++i) {</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i] = rss_to_variance(num_total[i], <a class="code hl_function" href="namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4">rss</a>[i]);</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>    }</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>}</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>}</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span> </div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacequickstats_html"><div class="ttname"><a href="namespacequickstats.html">quickstats</a></div><div class="ttdoc">Quickly compute simple statistics.</div><div class="ttdef"><b>Definition</b> mad.hpp:17</div></div>
 <div class="ttc" id="anamespacequickstats_html_a18014e9467233e456a3b77b682d9a020"><div class="ttname"><a href="namespacequickstats.html#a18014e9467233e456a3b77b682d9a020">quickstats::recenter_rss</a></div><div class="ttdeci">Float_ recenter_rss(const std::size_t num_total, const Float_ old_rss, const Float_ old_mean, const Float_ new_mean)</div><div class="ttdef"><b>Definition</b> rss.hpp:564</div></div>
 <div class="ttc" id="anamespacequickstats_html_a1d2ec86f47fbbd6fa6e39ff62b957e34"><div class="ttname"><a href="namespacequickstats.html#a1d2ec86f47fbbd6fa6e39ff62b957e34">quickstats::pairwise_sum_abstract</a></div><div class="ttdeci">Output_ pairwise_sum_abstract(const std::size_t num_total, Input_ input, PairwiseSumWorkspace&lt; Output_ &gt; &amp;work, const PairwiseSumOptions &amp;options)</div><div class="ttdef"><b>Definition</b> pairwise_sum.hpp:105</div></div>
