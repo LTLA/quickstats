@@ -113,6 +113,8 @@ $(function(){ initResizable(false); });
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aacbe522c8d0eba2498475126da9f6c09" id="r_aacbe522c8d0eba2498475126da9f6c09"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacbe522c8d0eba2498475126da9f6c09">MultipleQuantilesVariableNumber</a> (const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr, const <a class="el" href="structquickstats_1_1MultipleQuantilesVariableNumberOptions.html">MultipleQuantilesVariableNumberOptions</a>&lt; Output_ &gt; &amp;options)</td></tr>
 <tr class="separator:aacbe522c8d0eba2498475126da9f6c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a90ede39168baf508060d518b02faeb" id="r_a7a90ede39168baf508060d518b02faeb"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a90ede39168baf508060d518b02faeb">get_max_num_total</a> () const</td></tr>
+<tr class="separator:a7a90ede39168baf508060d518b02faeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43d12ab28f44695591eaaa368a1b5c97" id="r_a43d12ab28f44695591eaaa368a1b5c97"><td class="memTemplParams" colspan="2">template&lt;typename Input_ , class OutputFun_ &gt; </td></tr>
 <tr class="memitem:a43d12ab28f44695591eaaa368a1b5c97"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a43d12ab28f44695591eaaa368a1b5c97">operator()</a> (const std::size_t num_total, Input_ *const ptr, OutputFun_ output)</td></tr>
 <tr class="separator:a43d12ab28f44695591eaaa368a1b5c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,6 +179,34 @@ template&lt;typename Output_ , class QuantilesPointer_ &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7a90ede39168baf508060d518b02faeb" name="a7a90ede39168baf508060d518b02faeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a90ede39168baf508060d518b02faeb">&#9670;&#160;</a></span>get_max_num_total()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Output_ , class QuantilesPointer_ &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classquickstats_1_1MultipleQuantilesVariableNumber.html">quickstats::MultipleQuantilesVariableNumber</a>&lt; Output_, QuantilesPointer_ &gt;::get_max_num_total </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Maximum number of elements, as specified in the <code>max_num_total</code> argument of the constructor. </dd></dl>
+
+</div>
+</div>
 <a id="a43d12ab28f44695591eaaa368a1b5c97" name="a43d12ab28f44695591eaaa368a1b5c97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43d12ab28f44695591eaaa368a1b5c97">&#9670;&#160;</a></span>operator()() <span class="overload">[1/2]</span></h2>
 

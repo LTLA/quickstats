@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['scale_5fmad_5fto_5fsd_0',['scale_mad_to_sd',['../namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6',1,'quickstats']]],
-  ['singlequantilefixednumber_1',['SingleQuantileFixedNumber',['../classquickstats_1_1SingleQuantileFixedNumber.html#ad449cd259f6ec320afcaa00f013bb388',1,'quickstats::SingleQuantileFixedNumber']]],
-  ['singlequantilevariablenumber_2',['SingleQuantileVariableNumber',['../classquickstats_1_1SingleQuantileVariableNumber.html#ade331f2872a09100339528caa330623f',1,'quickstats::SingleQuantileVariableNumber']]],
-  ['skip_5fvalues_3',['skip_values',['../namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3',1,'quickstats']]]
+  ['recenter_5frss_0',['recenter_rss',['../namespacequickstats.html#a4ec3230924c4786e9176f7634c844d97',1,'quickstats']]],
+  ['recenter_5frss_5funsafe_1',['recenter_rss_unsafe',['../namespacequickstats.html#a4a91f2b10a73a7f42d8e603a9edc9690',1,'quickstats']]],
+  ['rss_2',['rss',['../namespacequickstats.html#a3e10f8d0df934aea3fe37799d5fb1dd4',1,'quickstats::rss(const std::size_t num_total, const std::size_t num_non_zero, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)'],['../namespacequickstats.html#afe323ae5e6eca125513c9d72dd795c81',1,'quickstats::rss(const std::size_t num_total, const Input_ *const ptr, RssWorkspace&lt; Output_ &gt; &amp;work, const RssOptions&lt; Output_ &gt; &amp;options)']]]
 ];

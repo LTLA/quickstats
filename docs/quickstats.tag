@@ -110,6 +110,13 @@
       <arglist>(const std::size_t num_total, const Quantiles_ &amp;quantiles)</arglist>
     </member>
     <member kind="function">
+      <type>std::size_t</type>
+      <name>get_num_total</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesFixedNumber.html</anchorfile>
+      <anchor>ad01b05672a3d116277d3507c4c20c217</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1MultipleQuantilesFixedNumber.html</anchorfile>
@@ -135,6 +142,13 @@
       <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
       <anchor>aacbe522c8d0eba2498475126da9f6c09</anchor>
       <arglist>(const std::size_t max_num_total, QuantilesPointer_ quantiles_ptr, const MultipleQuantilesVariableNumberOptions&lt; Output_ &gt; &amp;options)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::size_t</type>
+      <name>get_max_num_total</name>
+      <anchorfile>classquickstats_1_1MultipleQuantilesVariableNumber.html</anchorfile>
+      <anchor>a7a90ede39168baf508060d518b02faeb</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -234,6 +248,13 @@
       <arglist>(const std::size_t num_total, const Output_ quantile)</arglist>
     </member>
     <member kind="function">
+      <type>std::size_t</type>
+      <name>get_num_total</name>
+      <anchorfile>classquickstats_1_1SingleQuantileFixedNumber.html</anchorfile>
+      <anchor>a22f4c02655f8d766d863b66530f2a878</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
       <type>Output_</type>
       <name>operator()</name>
       <anchorfile>classquickstats_1_1SingleQuantileFixedNumber.html</anchorfile>
@@ -258,6 +279,13 @@
       <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
       <anchor>ade331f2872a09100339528caa330623f</anchor>
       <arglist>(const std::size_t max_num_total, const Output_ quantile, const SingleQuantileVariableNumberOptions&lt; Output_ &gt; &amp;options)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::size_t</type>
+      <name>get_max_num_total</name>
+      <anchorfile>classquickstats_1_1SingleQuantileVariableNumber.html</anchorfile>
+      <anchor>a635b58f9b65c828c9c47268a8574059d</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function">
       <type>Output_</type>

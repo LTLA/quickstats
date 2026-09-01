@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['update_5frss_0',['update_rss',['../namespacequickstats.html#aeec4c4524e73f23911b5a4430c184286',1,'quickstats']]],
-  ['update_5frss_5fwith_5fzeros_1',['update_rss_with_zeros',['../namespacequickstats.html#ae0771a2a6576095f4e40e8b12fbd7fea',1,'quickstats']]],
-  ['update_5frss_5fwith_5fzeros_5funsafe_2',['update_rss_with_zeros_unsafe',['../namespacequickstats.html#a7a1f48b44e913f31abcc368e96b19a57',1,'quickstats']]]
+  ['scale_5fmad_5fto_5fsd_0',['scale_mad_to_sd',['../namespacequickstats.html#a294a3815731fe4eccb7b4d5fb13228b6',1,'quickstats']]],
+  ['singlequantilefixednumber_1',['SingleQuantileFixedNumber',['../classquickstats_1_1SingleQuantileFixedNumber.html#ad449cd259f6ec320afcaa00f013bb388',1,'quickstats::SingleQuantileFixedNumber']]],
+  ['singlequantilevariablenumber_2',['SingleQuantileVariableNumber',['../classquickstats_1_1SingleQuantileVariableNumber.html#ade331f2872a09100339528caa330623f',1,'quickstats::SingleQuantileVariableNumber']]],
+  ['skip_5fvalues_3',['skip_values',['../namespacequickstats.html#a20deb047ec36e9fa0bc25dde40a3a8d3',1,'quickstats']]]
 ];
