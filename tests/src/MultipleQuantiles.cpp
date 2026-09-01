@@ -22,6 +22,8 @@ TEST_P(MultipleQuantilesRealisticTest, Dense) {
     auto sim = simulate_vector<double>(num, range.first, range.second, rng);
 
     quickstats::MultipleQuantilesFixedNumber<double> mult(num, probs);
+    EXPECT_EQ(mult.get_num_total(), num);
+
     std::vector<double> res(nprobs);
     auto copy = sim;
     mult(copy.data(), [&](std::size_t i, double val) -> void {
@@ -46,6 +48,7 @@ TEST_P(MultipleQuantilesRealisticTest, Sparse) {
     auto sim = simulate_vector<double>(num, range.first, range.second, rng);
 
     quickstats::MultipleQuantilesFixedNumber<double> mult(num, probs);
+    EXPECT_EQ(mult.get_num_total(), num);
 
     for (int z = 0; z <= num; ++z) {
         std::vector<double> res(nprobs);
@@ -182,6 +185,7 @@ TEST(MultipleQuantilesVariable, Dense) {
     std::vector<double> original { 5, 4, 3, 2, 1 };
     std::vector<double> probs { 0., 0.5, 1. };
     quickstats::MultipleQuantilesVariableNumber<double, std::vector<double>*> calc(original.size(), &probs);
+    EXPECT_EQ(calc.get_max_num_total(), original.size());
 
     {
         auto values = original;
@@ -236,6 +240,7 @@ TEST(MultipleQuantilesVariable, Sparse) {
     std::vector<double> original { 10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10 };
     std::vector<double> probs { 0., 0.5, 1. };
     quickstats::MultipleQuantilesVariableNumber<double, std::vector<double>*> calc(11, &probs);
+    EXPECT_EQ(calc.get_max_num_total(), 11);
 
     {
         auto values = original;

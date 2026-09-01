@@ -87,6 +87,14 @@ private:
 
 public:
     /**
+     * @return Total number of elements, as specified in the `num_total` argument of the constructor.
+     */
+    std::size_t get_num_total() const {
+        return my_len;
+    }
+
+public:
+    /**
      * Compute multiple quantiles from a dense array of length equal to `num_total`.
      * 
      * No consideration is given to special values like NaNs in the array.
@@ -411,6 +419,14 @@ private:
         for (I<decltype(num_quantiles)> q = 0; q < num_quantiles; ++q) {
             output(q, val);
         }
+    }
+
+public:
+    /**
+     * @return Maximum number of elements, as specified in the `max_num_total` argument of the constructor.
+     */
+    std::size_t get_max_num_total() const {
+        return sanisizer::sum_unsafe<std::size_t>(my_choices.size(), 1);
     }
 
 public:

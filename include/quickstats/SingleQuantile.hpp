@@ -91,6 +91,14 @@ private:
 
 public:
     /**
+     * @return Total number of elements, as specified in the `num_total` argument of the constructor.
+     */
+    std::size_t get_num_total() const {
+        return my_num_total;
+    }
+
+public:
+    /**
      * Compute the quantile of interest from a dense array.
      *
      * No consideration is given to special values like NaNs in the dense array.
@@ -246,6 +254,14 @@ private:
     std::vector<std::optional<SingleQuantileFixedNumber<Output_> > > my_choices;
     Output_ my_quantile;
     Output_ my_placeholder;
+
+public:
+    /**
+     * @return Maximum number of elements, as specified in the `max_num_total` argument of the constructor.
+     */
+    std::size_t get_max_num_total() const {
+        return sanisizer::sum_unsafe<std::size_t>(my_choices.size(), 1);
+    }
 
 public:
     /**

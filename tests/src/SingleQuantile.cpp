@@ -83,6 +83,7 @@ TEST_P(SingleQuantileSparseTest, Mixed) {
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
     quickstats::SingleQuantileFixedNumber<double> qcalcs(original.size(), GetParam());
+    EXPECT_EQ(qcalcs.get_num_total(), original.size());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -101,6 +102,7 @@ TEST_P(SingleQuantileSparseTest, Positive) {
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
     quickstats::SingleQuantileFixedNumber<double> qcalcs(original.size(), GetParam());
+    EXPECT_EQ(qcalcs.get_num_total(), original.size());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -118,6 +120,7 @@ TEST_P(SingleQuantileSparseTest, Negative) {
     ASSERT_EQ(original.size(), 11); // make sure that num - 1 = 10 for exact quantile calculations. 
 
     quickstats::SingleQuantileFixedNumber<double> qcalcs(original.size(), GetParam());
+    EXPECT_EQ(qcalcs.get_num_total(), original.size());
 
     std::vector<double> expected(original.size());
     std::vector<double> copy(original.size());
@@ -309,6 +312,7 @@ TEST(SingleQuantile, Infinities) {
 TEST(SingleQuantileVariable, Dense) {
     std::vector<double> original { 0, 1, 2, 3, 4, 5 };
     quickstats::SingleQuantileVariableNumber<double> calc(original.size(), 0.5);
+    EXPECT_EQ(calc.get_max_num_total(), original.size());
 
     {
         auto values = original;
@@ -345,6 +349,7 @@ TEST(SingleQuantileVariable, Dense) {
 TEST(SingleQuantileVariable, Sparse) {
     std::vector<double> original { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     quickstats::SingleQuantileVariableNumber<double> calc(11, 0.5);
+    EXPECT_EQ(calc.get_max_num_total(), original.size());
 
     {
         auto values = original;
