@@ -270,7 +270,7 @@ void update_rss_with_zeros(Output_& mean, Output_& rss, const Count_ num_zeros, 
     assert(num_total >= 0);
     assert(num_total >= num_zeros);
 
-    // We add '1' to both the numerator and denomiator if it's empty,  which ensures we get a ratio of 1 and a no-op to the mean and rss.
+    // We add '1' to both the numerator and denominator if it's empty,  which ensures we get a ratio of 1 and a no-op to the mean and rss.
     // This is guaranteed to not overflow Count_ as the sum will just be 1 if empty == 1.
     // We use this approach to avoid introducing a 'if (num_total == 0)' conditional that interferes with autovectorization,
     // at the cost of doing unnecessary work if there are many 'num_total == 0' cases.
@@ -567,8 +567,8 @@ Float_ recenter_rss_unsafe(const Count_ num_total, const Float_ old_rss, const F
  * This should be non-negative.
  * @param old_rss The old value of the RSS.
  * @param old_mean The old mean used to compute the RSS.
- * This is ignored if `num_total == 0`.
- * @param new_mean The new mean. 
+ * If `num_total == 0`, this is ignored and may be set to NaN; this NaN will not propagate to the output.
+ * @param new_mean The new mean.
  *
  * @return The recentered RSS, or `old_rss` (which should be zero) if `num_total == 0`.
  */
