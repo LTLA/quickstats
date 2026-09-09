@@ -240,7 +240,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    assert(num_total &gt;= 0);</div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    assert(num_total &gt;= num_zeros);</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="comment">// We add &#39;1&#39; to both the numerator and denomiator if it&#39;s empty,  which ensures we get a ratio of 1 and a no-op to the mean and rss.</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="comment">// We add &#39;1&#39; to both the numerator and denominator if it&#39;s empty,  which ensures we get a ratio of 1 and a no-op to the mean and rss.</span></div>
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="comment">// This is guaranteed to not overflow Count_ as the sum will just be 1 if empty == 1.</span></div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="comment">// We use this approach to avoid introducing a &#39;if (num_total == 0)&#39; conditional that interferes with autovectorization,</span></div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="comment">// at the cost of doing unnecessary work if there are many &#39;num_total == 0&#39; cases.</span></div>

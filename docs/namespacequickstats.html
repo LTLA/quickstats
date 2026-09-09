@@ -908,7 +908,7 @@ template&lt;typename Count_ , typename Float_ &gt; </div>
   <table class="params">
     <tr><td class="paramname">num_total</td><td>Total number of values used to compute the RSS. This should be non-negative. </td></tr>
     <tr><td class="paramname">old_rss</td><td>The old value of the RSS. </td></tr>
-    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. This is ignored if <code>num_total == 0</code>. </td></tr>
+    <tr><td class="paramname">old_mean</td><td>The old mean used to compute the RSS. If <code>num_total == 0</code>, this is ignored and may be set to NaN; this NaN will not propagate to the output. </td></tr>
     <tr><td class="paramname">new_mean</td><td>The new mean.</td></tr>
   </table>
   </dd>
