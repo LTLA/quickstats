@@ -484,7 +484,7 @@ template&lt;std::size_t accumulators_ = 4, class Input_ , typename Output_ &gt; 
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num_total</td><td>Total number of observations. </td></tr>
-    <tr><td class="paramname">input</td><td>Function that accesses an abstract array of length <code>num_total</code>. Specifically, it accepts an integer index in <code>[0, num_total)</code> and returns an input value to be summed. Calls to <code>input()</code> may be reordered or executed in parallel, so it is assumed that there are no dependencies between calls. </td></tr>
+    <tr><td class="paramname">input</td><td>Function that accesses an abstract array of length <code>num_total</code>. Specifically, it accepts an integer index in <code>[0, num_total)</code> and returns an input value to be summed. Calls to <code>input()</code> may be vectorized so it is assumed that (i) there are no dependencies between calls and (ii) no exceptions are thrown. </td></tr>
     <tr><td class="paramname">work</td><td>Workspace that can be re-used across multiple <code><a class="el" href="#a1d2ec86f47fbbd6fa6e39ff62b957e34">pairwise_sum_abstract()</a></code> calls. </td></tr>
     <tr><td class="paramname">options</td><td>Further options.</td></tr>
   </table>
@@ -689,7 +689,7 @@ template&lt;typename Output_  = double, typename Input_ , typename Count_ &gt; <
       </table>
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding a new value using Welford's method.</p>
-<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<p>This function does not throw exceptions and has no side effects beyond modifying <code>mean</code> and <code>rss</code>, so it can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
@@ -741,7 +741,7 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Update the mean and RSS by adding any number of zeros using Welford's method. This assumes that <code>num_total &gt; 0</code>; if this cannot be guaranteed, use <code><a class="el" href="#ae0771a2a6576095f4e40e8b12fbd7fea">update_rss_with_zeros()</a></code> instead.</p>
-<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<p>This function does not throw exceptions has no side effects beyond modifying <code>mean</code> and <code>rss</code>, so it can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
@@ -792,7 +792,7 @@ template&lt;typename Output_  = double, typename Count_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Update the mean and RSS with any number of zeros using Welford's method. This is a slightly slower version of <code><a class="el" href="#a7a1f48b44e913f31abcc368e96b19a57">update_rss_with_zeros_unsafe()</a></code> that handles <code>num_total == 0</code>.</p>
-<p>This function has no side effects beyond modifying <code>mean</code> and <code>rss</code>, and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<p>This function does not throw exceptions and has no side effects beyond modifying <code>mean</code> and <code>rss</code>, so it can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Output_</td><td>Floating-point type of the output statistics. </td></tr>
@@ -844,7 +844,7 @@ template&lt;typename Count_ , typename Float_ &gt; </div>
 </div><div class="memdoc">
 <p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is typically used to combine RSS values from different subsets of the data, e.g., when splitting calculations across cores. In such cases, the global mean across the entire dataset should be used as the new mean, and the sum of the recentered RSS values will be the RSS of the entire dataset. (This approach is more numerically stable than computing the sum of squared observations and then computing the difference with the squared mean.)</p>
 <p>This function is considered "unsafe" as it assumes that <code>old_mean</code> is zero when <code>num_total == 0</code>. In many cases, <code>old_mean</code> will be NaN when <code>num_total == 0</code> due to division by zero. If <code>num_total &gt; 0</code> or <code>old_mean == 0</code> cannot be guaranteed, consider using <code><a class="el" href="#a4ec3230924c4786e9176f7634c844d97">recenter_rss()</a></code> instead.</p>
-<p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<p>This function does not throw exceptions and has no side effects, so it can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Count_</td><td>Integer type of the number of values. </td></tr>
@@ -896,7 +896,7 @@ template&lt;typename Count_ , typename Float_ &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Recenter the residual sum of squares, i.e., sum of squares from a different mean. This is a safer version of <code><a class="el" href="#a4a91f2b10a73a7f42d8e603a9edc9690">recenter_rss_unsafe()</a></code> that correctly handles <code>num_total == 0</code> and an <code>old_mean</code> of NaN, at the cost of some performance.</p>
-<p>This function has no side effects and can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
+<p>This function does not throw exceptions and has no side effects, so it can be safely used in a loop body with <code>AUVEH_NODEP</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Count_</td><td>Integer type of the number of values. </td></tr>
