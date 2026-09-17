@@ -69,7 +69,7 @@ Output_ mad(const std::size_t num_total, Input_* const ptr, const Input_ median,
         } 
 
         // We use inf_if_available_else_max() just to get it to compile if Input_ doesn't have infs.
-        // At this point, Input_ must support median otherwise we wouldn't have gotten here.
+        // At this point, Input_ must support infinities otherwise we wouldn't have gotten here.
         AUVEH_NODEP
         for (std::size_t i = 0; i < num_total; ++i) {
             ptr[i] = (median == ptr[i] ? 0 : inf_if_available_else_max<Input_>());
@@ -124,7 +124,7 @@ Output_ mad(const std::size_t num_total, const std::size_t num_non_zero, Input_*
         }
 
         // We use inf_if_available_else_max() just to get it to compile if Input_ doesn't have infs.
-        // At this point, Input_ must support median otherwise we wouldn't have gotten here.
+        // At this point, Input_ must support infinities otherwise we wouldn't have gotten here.
         AUVEH_NODEP
         for (std::size_t i = 0; i < num_non_zero; ++i) {
             values[i] = (median == values[i] ? 0 : inf_if_available_else_max<Input_>());

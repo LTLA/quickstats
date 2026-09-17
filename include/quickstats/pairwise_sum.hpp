@@ -95,7 +95,7 @@ Output_ recursive_sum(std::array<Output_, width_>& dots) {
  * @param num_total Total number of observations.
  * @param input Function that accesses an abstract array of length `num_total`.
  * Specifically, it accepts an integer index in `[0, num_total)` and returns an input value to be summed.
- * Calls to `input()` may be reordered or executed in parallel, so it is assumed that there are no dependencies between calls.
+ * Calls to `input()` may be vectorized so it is assumed that (i) there are no dependencies between calls and (ii) no exceptions are thrown.
  * @param work Workspace that can be re-used across multiple `pairwise_sum_abstract()` calls.
  * @param options Further options.
  *
