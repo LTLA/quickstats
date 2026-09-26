@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['compute_20simple_20statistics_0',['Quickly compute simple statistics',['../index.html',1,'']]]
+  ['difference_5fbetween_5finfinities_5fis_5fzero_0',['difference_between_infinities_is_zero',['../structquickstats_1_1MadOptions.html#a96520b114948e3486940759400fb3642',1,'quickstats::MadOptions']]]
 ];

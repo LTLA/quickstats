@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pairwise_5fsum_2ehpp_0',['pairwise_sum.hpp',['../pairwise__sum_8hpp.html',1,'']]]
+  ['rss_2ehpp_0',['rss.hpp',['../rss_8hpp.html',1,'']]]
 ];
