@@ -192,8 +192,6 @@ RssResult<Output_> rss(const std::size_t num_total, const Input_* const ptr, Rss
 /**
  * Update the mean and RSS by adding a new value using Welford's method.
  *
- * This function does not throw exceptions and has no side effects beyond modifying `mean` and `rss`, so it can be safely used in a loop body with `AUVEH_NODEP`.
- *
  * @tparam Output_ Floating-point type of the output statistics.
  * @tparam Input_ Numeric type of the inut value.
  * @tparam Count_ Integer type of the number of values.
@@ -219,8 +217,6 @@ void update_rss(Output_& mean, Output_& rss, const Input_ value, const Count_ nu
 /**
  * Update the mean and RSS by adding any number of zeros using Welford's method.
  * This assumes that `num_total > 0`; if this cannot be guaranteed, use `update_rss_with_zeros()` instead.
- *
- * This function does not throw exceptions has no side effects beyond modifying `mean` and `rss`, so it can be safely used in a loop body with `AUVEH_NODEP`.
  *
  * @tparam Output_ Floating-point type of the output statistics.
  * @tparam Count_ Integer type of the number of values.
@@ -248,8 +244,6 @@ void update_rss_with_zeros_unsafe(Output_& mean, Output_& rss, const Count_ num_
 /**
  * Update the mean and RSS with any number of zeros using Welford's method.
  * This is a slightly slower version of `update_rss_with_zeros_unsafe()` that handles `num_total == 0`.
- *
- * This function does not throw exceptions and has no side effects beyond modifying `mean` and `rss`, so it can be safely used in a loop body with `AUVEH_NODEP`.
  *
  * @tparam Output_ Floating-point type of the output statistics.
  * @tparam Count_ Integer type of the number of values.
@@ -535,8 +529,6 @@ private:
  * In many cases, `old_mean` will be NaN when `num_total == 0` due to division by zero.
  * If `num_total > 0` or `old_mean == 0` cannot be guaranteed, consider using `recenter_rss()` instead.
  *
- * This function does not throw exceptions and has no side effects, so it can be safely used in a loop body with `AUVEH_NODEP`.
- *
  * @tparam Count_ Integer type of the number of values.
  * @tparam Float_ Floating-point type of the various statistics.
  *
@@ -557,8 +549,6 @@ Float_ recenter_rss_unsafe(const Count_ num_total, const Float_ old_rss, const F
 /**
  * Recenter the residual sum of squares, i.e., sum of squares from a different mean.
  * This is a safer version of `recenter_rss_unsafe()` that correctly handles `num_total == 0` and an `old_mean` of NaN, at the cost of some performance.
- *
- * This function does not throw exceptions and has no side effects, so it can be safely used in a loop body with `AUVEH_NODEP`.
  *
  * @tparam Count_ Integer type of the number of values.
  * @tparam Float_ Floating-point type of the various statistics.
