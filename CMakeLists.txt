@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 
 project(
     quickstats
-    VERSION 0.2.1
+    VERSION 0.2.2
     DESCRIPTION "Quickly compute simple statistics"
     LANGUAGES CXX
 )
@@ -16,7 +16,7 @@ option(QUICKSTATS_FETCH_EXTERN "Automatically fetch quickstats's external depend
 if(QUICKSTATS_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
-    find_package(ltla_sanisizer 0.2.0 CONFIG REQUIRED)
+    find_package(ltla_sanisizer 0.3.0 CONFIG REQUIRED)
 endif()
 
 target_link_libraries(quickstats INTERFACE ltla::sanisizer)
